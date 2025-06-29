@@ -4,146 +4,149 @@ app = Flask(__name__)
 
 # 首页路由
 @app.route('/')
+def index123():
+    return render_template('index.html')
+@app.route('/index.html')
 def index():
     return render_template('index.html')
 
 # 备用首页路由
-@app.route('/index-2')
+@app.route('/index-2.html')
 def index2():
     return render_template('index-2.html')
 
-@app.route('/index-3')
+@app.route('/index-3.html')
 def index3():
     return render_template('index-3.html')
 
 # 关于我们
-@app.route('/about-us')
+@app.route('/about-us.html')
 def about_us():
     return render_template('about-us.html')
 
 # 工作提醒
-@app.route('/alert-jobs')
+@app.route('/alert-jobs.html')
 def alert_jobs():
     return render_template('alert-jobs.html')
 
 # 已申请工作
-@app.route('/applied-jobs')
+@app.route('/applied-jobs.html')
 def applied_jobs():
     return render_template('applied-jobs.html')
 
 # 博客相关
-@app.route('/blog')
+@app.route('/blog.html')
 def blog():
     return render_template('blog.html')
 
-@app.route('/blog-details')
+@app.route('/blog-details.html')
 def blog_details():
     return render_template('blog-details.html')
 
 # 书签
-@app.route('/bookmarks')
+@app.route('/bookmarks.html')
 def bookmarks():
     return render_template('bookmarks.html')
 
 # 候选人相关
-@app.route('/candidates-listing')
+@app.route('/candidates-listing.html')
 def candidates_listing():
     return render_template('candidates-listing.html')
 
-@app.route('/candidates-details')
+@app.route('/candidates-details.html')
 def candidates_details():
     return render_template('candidates-details.html')
 
 # 更改密码
-@app.route('/change-password')
+@app.route('/change-password.html')
 def change_password():
     return render_template('change-password.html')
 
 # 即将上线
-@app.route('/coming-soon')
+@app.route('/coming-soon.html')
 def coming_soon():
     return render_template('coming-soon.html')
 
 # 联系我们
-@app.route('/contact-us')
+@app.route('/contact-us.html')
 def contact_us():
     return render_template('contact-us.html')
 
 # 仪表盘
-@app.route('/dashboard')
+@app.route('/dashboard.html')
 def dashboard():
     return render_template('dashboard.html')
 
 # 雇主相关
-@app.route('/employers-listing')
+@app.route('/employers-listing.html')
 def employers_listing():
     return render_template('employers-listing.html')
 
-@app.route('/employers-details')
+@app.route('/employers-details.html')
 def employers_details():
     return render_template('employers-details.html')
 
 # 常见问题
-@app.route('/faq')
+@app.route('/faq.html')
 def faq():
     return render_template('faq.html')
 
 # 自由职业者
-@app.route('/freelancer')
+@app.route('/freelancer.html')
 def freelancer():
     return render_template('freelancer.html')
 
 # 工作相关
-@app.route('/job-listing')
+@app.route('/job-listing.html')
 def job_listing():
     return render_template('job-listing.html')
 
-@app.route('/job-details')
+@app.route('/job-details.html')
 def job_details():
     return render_template('job-details.html')
 
 # 登录注册
-@app.route('/log-in-register')
+@app.route('/log-in-register.html')
 def login_register():
     return render_template('log-in-register.html')
 
 # 消息
-@app.route('/message')
+@app.route('/message.html')
 def message():
     return render_template('message.html')
 
 # 发布工作
-@app.route('/post-job')
+@app.route('/post-job.html')
 def post_job():
     return render_template('post-job.html')
 
 # 价格
-@app.route('/pricing')
+@app.route('/pricing.html')
 def pricing():
     return render_template('pricing.html')
 
 # 隐私政策
-@app.route('/privacy-policy')
+@app.route('/privacy-policy.html')
 def privacy_policy():
     return render_template('privacy-policy.html')
 
 # 个人资料
-@app.route('/profile')
+@app.route('/profile.html')
 def profile():
     return render_template('profile.html')
 
 # 简历
-@app.route('/resume')
+@app.route('/resume.html')
 def resume():
     return render_template('resume.html')
 
 # 条款条件
-@app.route('/terms-conditions')
+@app.route('/terms-conditions.html')
 def terms_conditions():
     return render_template('terms-conditions.html')
 
 # 推荐
-@app.route('/testimonials')
+@app.route('/testimonials.html')
 def testimonials():
     return render_template('testimonials.html')
 

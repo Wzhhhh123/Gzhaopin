@@ -8,31 +8,31 @@
 		<!-- Bootstrap Min CSS --> 
 		<link rel="stylesheet" href="http://www.sucai8.cn/jquery/bootstrap-4.2.1.css">
 		<!-- Owl Theme Default Min CSS --> 
-		<link rel="stylesheet" href="assets/css/owl.theme.default.min.css">
+		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/owl.theme.default.min.css') }}">
 		<!-- Owl Carousel Min CSS --> 
-		<link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/owl.carousel.min.css') }}">
 		<!-- Animate Min CSS --> 
-		<link rel="stylesheet" href="assets/css/animate.min.css">
+		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/animate.min.css') }}">
 		<!-- Boxicons Min CSS --> 
-		<link rel="stylesheet" href="assets/css/boxicons.min.css"> 
+		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/boxicons.min.css') }}"> 
 		<!-- Magnific Popup Min CSS --> 
-		<link rel="stylesheet" href="assets/css/magnific-popup.min.css"> 
+		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/magnific-popup.min.css') }}"> 
 		<!-- Flaticon CSS --> 
-		<link rel="stylesheet" href="assets/css/flaticon.css">
+		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/flaticon.css') }}">
 		<!-- Meanmenu Min CSS -->
-		<link rel="stylesheet" href="assets/css/meanmenu.min.css">
+		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/meanmenu.min.css') }}">
 		<!-- Nice Select Min CSS -->
-		<link rel="stylesheet" href="assets/css/nice-select.min.css">
+		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/nice-select.min.css') }}">
 		<!-- Odometer Min CSS-->
-		<link rel="stylesheet" href="assets/css/odometer.min.css">
+		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/odometer.min.css') }}">
 		<!-- Date Picker CSS-->
-		<link rel="stylesheet" href="assets/css/date-picker.min.css">
+		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/date-picker.min.css') }}">
 		<!-- Muli Fonts Min CSS-->
-		<link rel="stylesheet" href="assets/css/muli-fonts.css">
+		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/muli-fonts.css') }}">
 		<!-- Style CSS -->
-		<link rel="stylesheet" href="assets/css/style.css">
+		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/style.css') }}">
 		<!-- Responsive CSS -->
-		<link rel="stylesheet" href="assets/css/responsive.css">
+		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/responsive.css') }}">
 		
 		<!-- Favicon -->
 		<link rel="icon" type="image/png" href="assets/images/favicon.png">
@@ -79,27 +79,27 @@
 		
 											<div class="dropdown-menu">
 												<a href="#" class="dropdown-item">
-													<img src="assets/images/language/english.png" alt="Flag">
+													<img src="{{ url_for('static', filename='assets/images/language/english.png') }}" alt="Flag">
 													<span>English</span>
 												</a>
 
 												<a href="#" class="dropdown-item">
-													<img src="assets/images/language/arab.png" alt="Flag">
+													<img src="{{ url_for('static', filename='assets/images/language/arab.png') }}" alt="Flag">
 													<span>العربيّة</span>
 												</a>
 
 												<a href="#" class="dropdown-item">
-													<img src="assets/images/language/germany.png" alt="Flag">
+													<img src="{{ url_for('static', filename='assets/images/language/germany.png') }}" alt="Flag">
 													<span>Germany</span>
 												</a>
 
 												<a href="#" class="dropdown-item">
-													<img src="assets/images/language/portugues.png" alt="Flag">
+													<img src="{{ url_for('static', filename='assets/images/language/portugues.png') }}" alt="Flag">
 													<span>Português</span>
 												</a>
 	
 												<a href="#" class="dropdown-item">
-													<img src="assets/images/language/china.png" alt="Flag">
+													<img src="{{ url_for('static', filename='assets/images/language/china.png') }}" alt="Flag">
 													<span>简体中文</span>
 												</a>
 											</div>
@@ -136,7 +136,7 @@
 						<div class="mobile-menu">
 							<div class="logo">
 								<a href="index.html">
-									<img src="assets/images/logo.png" alt="logo">
+									<img src="{{ url_for('static', filename='assets/images/logo.png') }}" alt="logo">
 								</a>
 							</div>
 						</div>
@@ -147,7 +147,7 @@
 					<div class="container">
 						<nav class="navbar navbar-expand-md navbar-light">
 							<a class="navbar-brand" href="index.html">
-								<img src="assets/images/logo.png" alt="logo">
+								<img src="{{ url_for('static', filename='assets/images/logo.png') }}" alt="logo">
 							</a>
 	
 							<div class="collapse navbar-collapse mean-menu">
@@ -381,7 +381,7 @@
 				<div class="row align-items-center">
 					<div class="col-lg-6">
 						<div class="who-we-are-img">
-							<img src="assets/images/who-we-are-img.png" alt="Image">
+							<img src="{{ url_for('static', filename='assets/images/who-we-are-img.png') }}" alt="Image">
 						</div>
 					</div>
 
@@ -559,7 +559,7 @@
 				<div class="row">
 					<div class="col-lg-3 col-sm-6">
 						<div class="single-freelancer">
-							<img src="assets/images/freelancer/freelancer-1.jpg" alt="Image">
+							<img src="{{ url_for('static', filename='assets/images/freelancer/freelancer-1.jpg') }}" alt="Image">
 							<h3>James Hendrix</h3>
 							<span class="profession">UX/UI Designer</span>
 
@@ -585,7 +585,7 @@
 
 					<div class="col-lg-3 col-sm-6">
 						<div class="single-freelancer">
-							<img src="assets/images/freelancer/freelancer-2.jpg" alt="Image">
+							<img src="{{ url_for('static', filename='assets/images/freelancer/freelancer-2.jpg') }}" alt="Image">
 							<h3>Jean Burke</h3>
 							<span class="profession">Software Engineer</span>
 
@@ -611,7 +611,7 @@
 
 					<div class="col-lg-3 col-sm-6">
 						<div class="single-freelancer">
-							<img src="assets/images/freelancer/freelancer-3.jpg" alt="Image">
+							<img src="{{ url_for('static', filename='assets/images/freelancer/freelancer-3.jpg') }}" alt="Image">
 							<h3>David Guzman</h3>
 							<span class="profession">Web Developer</span>
 
@@ -637,7 +637,7 @@
 
 					<div class="col-lg-3 col-sm-6">
 						<div class="single-freelancer">
-							<img src="assets/images/freelancer/freelancer-4.jpg" alt="Image">
+							<img src="{{ url_for('static', filename='assets/images/freelancer/freelancer-4.jpg') }}" alt="Image">
 							<h3>Clarence Hart</h3>
 							<span class="profession">Senior Executive</span>
 
@@ -678,7 +678,7 @@
 						<p>“Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan facilisis.”</p>
 						
 						<div class="testimonials-content">
-							<img src="assets/images/testimonials/testimonials-5.jpg" alt="Image">
+							<img src="{{ url_for('static', filename='assets/images/testimonials/testimonials-5.jpg') }}" alt="Image">
 							<h3>Allan Norris</h3>
 							<span>Software Engineer</span>
 						</div>
@@ -690,7 +690,7 @@
 						<p>“Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan facilisis.”</p>
 
 						<div class="testimonials-content">
-							<img src="assets/images/testimonials/testimonials-6.jpg" alt="Image">
+							<img src="{{ url_for('static', filename='assets/images/testimonials/testimonials-6.jpg') }}" alt="Image">
 							<h3>Steven Smith</h3>
 							<span>Manager</span>
 						</div>
@@ -702,7 +702,7 @@
 						<p>“Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan facilisis.”</p>
 
 						<div class="testimonials-content">
-							<img src="assets/images/testimonials/testimonials-7.jpg" alt="Image">
+							<img src="{{ url_for('static', filename='assets/images/testimonials/testimonials-7.jpg') }}" alt="Image">
 							<h3>Jasica Allan</h3>
 							<span>Founder</span>
 						</div>
@@ -714,7 +714,7 @@
 						<p>“Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan facilisis.”</p>
 
 						<div class="testimonials-content">
-							<img src="assets/images/testimonials/testimonials-8.jpg" alt="Image">
+							<img src="{{ url_for('static', filename='assets/images/testimonials/testimonials-8.jpg') }}" alt="Image">
 							<h3>Juhon Dew</h3>
 							<span>Software Developer</span>
 						</div>
@@ -762,7 +762,7 @@
 					<div class="col-lg-3 col-md-6">
 						<div class="single-footer-widget single-bg">
 							<a href="index.html" class="logo">
-								<img src="assets/images/logo.png" alt="Image">
+								<img src="{{ url_for('static', filename='assets/images/logo.png') }}" alt="Image">
 							</a>
 
 							<p>Lorem ipsum dolor sit amet, consec tetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua consec tetur.</p>
@@ -896,36 +896,36 @@
         <!-- Jquery Min JS -->
         <script src="http://www.sucai8.cn/jquery/jquery-1.10.2.js"></script>
         <!-- Popper Min JS -->
-        <script src="assets/js/popper.min.js"></script>
+        <script src="{{ url_for('static', filename='assets/js/popper.min.js') }}"></script>
         <!-- Bootstrap Min JS -->
         <script src="http://www.sucai8.cn/jquery/bootstrap-4.2.1.js"></script>
         <!-- Meanmenu Min JS -->
-		<script src="assets/js/meanmenu.min.js"></script>
+		<script src="{{ url_for('static', filename='assets/js/meanmenu.min.js') }}"></script>
 		<!-- Wow Min JS -->
-        <script src="assets/js/wow.min.js"></script>
+        <script src="{{ url_for('static', filename='assets/js/wow.min.js') }}"></script>
         <!-- Owl Carousel Min JS -->
-		<script src="assets/js/owl.carousel.min.js"></script>
+		<script src="{{ url_for('static', filename='assets/js/owl.carousel.min.js') }}"></script>
         <!-- Nice Select Min JS -->
-		<script src="assets/js/nice-select.min.js"></script>
+		<script src="{{ url_for('static', filename='assets/js/nice-select.min.js') }}"></script>
         <!-- Magnific Popup Min JS -->
-		<script src="assets/js/magnific-popup.min.js"></script>
+		<script src="{{ url_for('static', filename='assets/js/magnific-popup.min.js') }}"></script>
 		<!-- Mixitup JS --> 
-		<script src="assets/js/jquery.mixitup.min.js"></script>
+		<script src="{{ url_for('static', filename='assets/js/jquery.mixitup.min.js') }}"></script>
 		<!-- Appear Min JS --> 
-        <script src="assets/js/appear.min.js"></script>
+        <script src="{{ url_for('static', filename='assets/js/appear.min.js') }}"></script>
 		<!-- Odometer Min JS --> 
-		<script src="assets/js/odometer.min.js"></script>
+		<script src="{{ url_for('static', filename='assets/js/odometer.min.js') }}"></script>
 		<!-- Range Slider Min JS --> 
-		<script src="assets/js/range-slider.min.js"></script>
+		<script src="{{ url_for('static', filename='assets/js/range-slider.min.js') }}"></script>
 		<!-- Datepicker Min JS --> 
-		<script src="assets/js/bootstrap-datepicker.min.js"></script>
+		<script src="{{ url_for('static', filename='assets/js/bootstrap-datepicker.min.js') }}"></script>
 		<!-- Form Validator Min JS -->
-		<script src="assets/js/form-validator.min.js"></script>
+		<script src="{{ url_for('static', filename='assets/js/form-validator.min.js') }}"></script>
 		<!-- Contact JS -->
-		<script src="assets/js/contact-form-script.js"></script>
+		<script src="{{ url_for('static', filename='assets/js/contact-form-script.js') }}"></script>
 		<!-- Ajaxchimp Min JS -->
-		<script src="assets/js/ajaxchimp.min.js"></script>
+		<script src="{{ url_for('static', filename='assets/js/ajaxchimp.min.js') }}"></script>
         <!-- Custom JS -->
-		<script src="assets/js/custom.js"></script>
+		<script src="{{ url_for('static', filename='assets/js/custom.js') }}"></script>
     </body>
 </html>

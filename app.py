@@ -1,15 +1,46 @@
 from flask import Flask, render_template
-
+from flask import Flask, request, session, redirect, url_for
+from flask_babel import Babel, _
 app = Flask(__name__)
+app.secret_key = 'asdasdasdasd'
 
+# 配置Babel
+app.config['BABEL_DEFAULT_LOCALE'] = 'en'
+app.config['LANGUAGES'] = {
+    'en': 'English',
+    'zh': '中文'
+}
+
+babel = Babel(app)
+@babel.localeselector
+def get_locale():
+    # 如果用户选择了语言并保存在session中，使用该语言
+    if 'language' in session:
+        return session['language']
+    # 否则使用浏览器默认语言
+    return request.accept_languages.best_match(app.config['LANGUAGES'].keys())
+@app.route('/set_language/<language>')
+def set_language(language):
+    session['language'] = language
+    return redirect(request.referrer or url_for('index'))
+@app.before_request
+def set_language():
+    if 'language' not in session:
+        session['language'] = 'en'  # 默认英文
 # 首页路由
 @app.route('/')
 def index123():
-    return render_template('index.html')
+    if session['language']=="en":
+        return render_template('index.html')
+    if session['language']=="zh":
+        return render_template('index-zh.html')
+
 @app.route('/index.html')
 def index():
-    return render_template('index.html')
-
+    if session['language']=="en":
+        return render_template('index.html')
+    if session['language']=="zh":
+        return render_template('index-zh.html')
 # 备用首页路由
 @app.route('/index-2.html')
 def index2():

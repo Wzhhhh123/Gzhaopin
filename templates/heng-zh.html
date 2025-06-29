@@ -1,0 +1,283 @@
+<header class="header-area">
+    <!-- 开始顶部头部 -->
+    <div class="top-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-6">
+                    <ul class="header-left-content">
+                        <li>
+                            <span>热线电话</span>
+                            <a href="tel:+86-(010)-123-5678">+86 (010) 123-5678</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-6 col-md-6">
+                    <div class="header-right-content">
+                        <ul class="language">
+                            <li>
+                                <div class="dropdown language-btn">
+                                    <button class="dropdown-toggle" type="button" data-toggle="dropdown">
+												<span>
+													语言
+													<i class="bx bx-chevron-down"></i>
+												</span>
+                                    </button>
+
+                                    <div class="dropdown-menu">
+                                        <a href="{{ url_for('set_language', language='en') }}" class="dropdown-item">
+                                            <img src="{{ url_for('static', filename='assets/images/language/english.png') }}" alt="国旗">
+                                            <span>English</span>
+                                        </a>
+
+                                        <a href="{{ url_for('set_language', language='zh') }}" class="dropdown-item">
+                                            <img src="{{ url_for('static', filename='assets/images/language/china.png') }}" alt="国旗">
+                                            <span>简体中文</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+
+                        <ul class="log-in">
+                            <li>
+                                <a href="log-in-register.html">
+                                    <i class="bx bxs-lock"></i>
+                                    登录
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="log-in-register.html">
+                                    <i class="bx bxs-user"></i>
+                                    注册
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 结束顶部头部 -->
+
+    <!-- 开始导航栏区域 -->
+    <div class="navbar-area">
+        <div class="mobile-nav">
+            <div class="container">
+                <div class="mobile-menu">
+                    <div class="logo">
+                        <a href="index.html">
+                            <img src="{{ url_for('static', filename='assets/images/logo.png') }}" alt="logo">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="desktop-nav">
+            <div class="container">
+                <nav class="navbar navbar-expand-md navbar-light">
+                    <a class="navbar-brand" href="index.html">
+                        <img src="{{ url_for('static', filename='assets/images/logo.png') }}" alt="logo">
+                    </a>
+
+                    <div class="collapse navbar-collapse mean-menu">
+                        <ul class="navbar-nav m-auto">
+                            <li class="nav-item">
+                                <a href="#" class="nav-link active">
+                                    首页
+                                    <i class="bx bx-chevron-down"></i>
+                                </a>
+
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a href="index.html" class="nav-link active">首页</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    职位
+                                    <i class="bx bx-chevron-down"></i>
+                                </a>
+
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a href="job-listing.html" class="nav-link">职位列表</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="post-job.html" class="nav-link">发布职位</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="job-details.html" class="nav-link">职位详情</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    求职者
+                                    <i class="bx bx-chevron-down"></i>
+                                </a>
+
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a href="candidates-listing.html" class="nav-link">求职者列表</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="candidates-details.html" class="nav-link">求职者详情</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            求职者仪表板
+                                            <i class="bx bx-chevron-down"></i>
+                                        </a>
+
+                                        <ul class="dropdown-menu">
+                                            <li class="nav-item">
+                                                <a href="dashboard.html" class="nav-link">仪表板</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="profile.html" class="nav-link">个人资料</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="resume.html" class="nav-link">简历</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="bookmarks.html" class="nav-link">收藏</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="applied-jobs.html" class="nav-link">已申请职位</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="alert-jobs.html" class="nav-link">职位提醒</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="message.html" class="nav-link">消息</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="change-password.html" class="nav-link">修改密码</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    雇主
+                                    <i class="bx bx-chevron-down"></i>
+                                </a>
+
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a href="employers-listing.html" class="nav-link">雇主列表</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="employers-details.html" class="nav-link">雇主详情</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    页面
+                                    <i class="bx bx-chevron-down"></i>
+                                </a>
+
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a href="about-us.html" class="nav-link">关于我们</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="pricing.html" class="nav-link">价格</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="faq.html" class="nav-link">常见问题</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            博客
+                                            <i class="bx bx-chevron-down"></i>
+                                        </a>
+
+                                        <ul class="dropdown-menu">
+                                            <li class="nav-item">
+                                                <a href="blog.html" class="nav-link">博客</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="blog-details.html" class="nav-link">博客详情</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a href="contact-us.html" class="nav-link">联系我们</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="terms-conditions.html" class="nav-link">条款与条件</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="privacy-policy.html" class="nav-link">隐私政策</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="log-in-register.html" class="nav-link">登录/注册</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="freelancer.html" class="nav-link">自由职业者</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="testimonials.html" class="nav-link">客户评价</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="coming-soon.html" class="nav-link">即将上线</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="404.html" class="nav-link">404错误页面</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <div class="others-option">
+                            <div class="get-quote">
+                                <a href="post-job.html" class="default-btn">
+                                    发布职位
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+
+        <div class="others-option-for-responsive">
+            <div class="container">
+                <div class="dot-menu">
+                    <div class="inner">
+                        <div class="circle circle-one"></div>
+                        <div class="circle circle-two"></div>
+                        <div class="circle circle-three"></div>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="option-inner">
+                        <div class="others-option justify-content-center d-flex align-items-center">
+                            <div class="get-quote">
+                                <a href="post-job.html" class="default-btn">
+                                    发布职位
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 结束导航栏区域 -->
+</header>

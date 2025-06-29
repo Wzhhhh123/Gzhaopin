@@ -1,0 +1,1607 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <!-- 必需元标签 -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap最小CSS -->
+    <link rel="stylesheet" href="http://www.sucai8.cn/jquery/bootstrap-4.2.1.css">
+    <!-- Owl主题默认最小CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/owl.theme.default.min.css') }}">
+    <!-- Owl轮播最小CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/owl.carousel.min.css') }}">
+    <!-- 动画最小CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/animate.min.css') }}">
+    <!-- Boxicons最小CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/boxicons.min.css') }}">
+    <!--  magnific弹出最小CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/magnific-popup.min.css') }}">
+    <!-- Flaticon CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/flaticon.css') }}">
+    <!-- Meanmenu最小CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/meanmenu.min.css') }}">
+    <!--  Nice选择最小CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/nice-select.min.css') }}">
+    <!-- 里程表最小CSS-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/odometer.min.css') }}">
+    <!-- 日期选择CSS-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/date-picker.min.css') }}">
+    <!-- Muli字体最小CSS-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/muli-fonts.css') }}">
+    <!-- 样式CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/style.css') }}">
+    <!-- 响应式CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/responsive.css') }}">
+
+    <!-- 网站图标 -->
+    <link rel="icon" type="image/png" href="assets/images/favicon.png">
+    <!-- 标题 -->
+    <title>北京富鹏商旅服务有限公司</title>
+</head>
+
+<body>
+<!-- 开始预加载区域 -->
+<div class="preloader">
+    <div class="lds-ripple">
+        <div></div>
+        <div></div>
+    </div>
+</div>
+<!-- 结束预加载区域 -->
+
+<!-- 开始头部区域 -->
+{% include '/heng-zh.html' %}
+<!-- 结束头部区域 -->
+
+<!-- 开始横幅区域 -->
+<section class="banner-area ptb-100">
+    <div class="d-table">
+        <div class="d-table-cell">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-lg-7">
+                        <div class="banner-content">
+                            <h1>寻找您的职业，创造更好生活</h1>
+                            <p>今日搜索超过10,000个职位！</p>
+
+                            <form class="search-job">
+                                <div class="row">
+                                    <div class="col-lg-5 col-sm-6">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="job-title" placeholder="职位名称、技能或公司">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4 col-sm-6">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="job-title-2" placeholder="城市、省份或邮编">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3 col-sm-6 offset-sm-3 offset-lg-0">
+                                        <button type="submit" class="default-btn">
+                                            <i class="bx bx-search"></i>
+                                            搜索职位
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <div class="total-job-count">
+                                <div class="row">
+                                    <div class="col-lg-4 col-sm-6 col-md-4">
+                                        <div class="job-count">
+                                            <h3><span>实时职位：</span>9,492</h3>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4 col-sm-6 col-md-4">
+                                        <div class="job-count">
+                                            <h3><span>公司：</span>12,5582</h3>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4 col-sm-6 col-md-4 offset-sm-3 offset-lg-0 offset-md-0">
+                                        <div class="job-count">
+                                            <h3><span>新职位：</span>6,436</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5">
+                        <div class="banner-img">
+                            <img src="{{ url_for('static', filename='assets/images/banner/banner-img.png') }}" alt="图片">
+
+                            <div class="video-content">
+                                <!-- 视频内容 -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- 结束横幅区域 -->
+
+<!-- 开始工作流程区域 -->
+<section class="working-area bg-color pt-100 pb-70">
+    <div class="container">
+        <div class="section-title">
+            <span>工作流程</span>
+            <h2>如何为您寻找工作</h2>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-3 col-sm-6">
+                <div class="single-working">
+                    <i class="flaticon-find-my-friend"></i>
+                    <h3>找到合适职位</h3>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-sm-6">
+                <div class="single-working">
+                    <i class="flaticon-company"></i>
+                    <h3>研究公司</h3>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-sm-6">
+                <div class="single-working">
+                    <i class="flaticon-salary"></i>
+                    <h3>比较薪资</h3>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-sm-6">
+                <div class="single-working">
+                    <i class="flaticon-submit"></i>
+                    <h3>快速申请</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- 结束工作流程区域 -->
+
+<!-- 开始合作伙伴区域 -->
+<div class="partner-area bg-color">
+    <div class="container">
+        <div class="section-title">
+            <span>热门职位</span>
+            <h2>顶级招聘公司</h2>
+        </div>
+
+        <div class="partner-bg">
+            <div class="row">
+                <div class="partner-slider owl-carousel owl-theme">
+                    <div class="partner-item">
+                        <a href="#">
+                            <img src="{{ url_for('static', filename='assets/images/partner/partner-1.png') }}" alt="图片">
+                        </a>
+                    </div>
+
+                    <div class="partner-item">
+                        <a href="#">
+                            <img src="{{ url_for('static', filename='assets/images/partner/partner-2.png') }}" alt="图片">
+                        </a>
+                    </div>
+
+                    <div class="partner-item">
+                        <a href="#">
+                            <img src="{{ url_for('static', filename='assets/images/partner/partner-3.png') }}" alt="图片">
+                        </a>
+                    </div>
+
+                    <div class="partner-item">
+                        <a href="#">
+                            <img src="{{ url_for('static', filename='assets/images/partner/partner-4.png') }}" alt="图片">
+                        </a>
+                    </div>
+
+                    <div class="partner-item">
+                        <a href="#">
+                            <img src="{{ url_for('static', filename='assets/images/partner/partner-5.png') }}" alt="图片">
+                        </a>
+                    </div>
+
+                    <div class="partner-item">
+                        <a href="#">
+                            <img src="{{ url_for('static', filename='assets/images/partner/partner-3.png') }}" alt="图片">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 结束合作伙伴区域 -->
+
+<!-- 开始实时职位区域 -->
+<section class="live-jobs-area bg-color ptb-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="section-title">
+                    <span>今日实时职位</span>
+                    <h2>浏览分类</h2>
+                </div>
+
+                <div class="live-jobs-item">
+                    <div class="row">
+                        <div class="col-lg-2 col-sm-6">
+                            <div class="single-live-job">
+                                <i class="flaticon-calculations"></i>
+                                <a href="job-listing.html">
+                                    会计 (25)
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2 col-sm-6">
+                            <div class="single-live-job">
+                                <i class="flaticon-architect"></i>
+                                <a href="job-listing.html">
+                                    建筑师 (15)
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2 col-sm-6">
+                            <div class="single-live-job">
+                                <i class="flaticon-bank"></i>
+                                <a href="job-listing.html">
+                                    银行 (14)
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2 col-sm-6">
+                            <div class="single-live-job">
+                                <i class="flaticon-submit"></i>
+                                <a href="job-listing.html">
+                                    设计 (99)
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2 col-sm-6">
+                            <div class="single-live-job">
+                                <i class="flaticon-graduated"></i>
+                                <a href="job-listing.html">
+                                    教育 (42)
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2 col-sm-6">
+                            <div class="single-live-job">
+                                <i class="flaticon-travel"></i>
+                                <a href="job-listing.html">
+                                    旅游 (33)
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2 col-sm-6">
+                            <div class="single-live-job">
+                                <i class="flaticon-medical-insurance"></i>
+                                <a href="job-listing.html">
+                                    医疗 (19)
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2 col-sm-6">
+                            <div class="single-live-job">
+                                <i class="flaticon-submit"></i>
+                                <a href="job-listing.html">
+                                    市场营销 (165)
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2 col-sm-6">
+                            <div class="single-live-job">
+                                <i class="flaticon-ngo"></i>
+                                <a href="job-listing.html">
+                                    NGO (25)
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2 col-sm-6">
+                            <div class="single-live-job">
+                                <i class="flaticon-calculations"></i>
+                                <a href="job-listing.html">
+                                    会计 (25)
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2 col-sm-6">
+                            <div class="single-live-job">
+                                <i class="flaticon-architect"></i>
+                                <a href="job-listing.html">
+                                    建筑师 (15)
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2 col-sm-6">
+                            <div class="single-live-job">
+                                <i class="flaticon-bank"></i>
+                                <a href="job-listing.html">
+                                    银行 (14)
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2 col-sm-6">
+                            <div class="single-live-job">
+                                <i class="flaticon-submit"></i>
+                                <a href="job-listing.html">
+                                    设计 (99)
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2 col-sm-6">
+                            <div class="single-live-job">
+                                <i class="flaticon-graduated"></i>
+                                <a href="job-listing.html">
+                                    教育 (42)
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2 col-sm-6">
+                            <div class="single-live-job">
+                                <i class="flaticon-travel"></i>
+                                <a href="job-listing.html">
+                                    旅游 (33)
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2 col-sm-6">
+                            <div class="single-live-job">
+                                <i class="flaticon-medical-insurance"></i>
+                                <a href="job-listing.html">
+                                    医疗 (19)
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2 col-sm-6">
+                            <div class="single-live-job">
+                                <i class="flaticon-submit"></i>
+                                <a href="job-listing.html">
+                                    市场营销 (165)
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2 col-sm-6">
+                            <div class="single-live-job">
+                                <i class="flaticon-ngo"></i>
+                                <a href="job-listing.html">
+                                    NGO (25)
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="hiring-list">
+                    <h3>紧急招聘</h3>
+
+                    <ul>
+                        <li>
+                            <a href="job-details.html" class="hiring-img">
+                                <img src="{{ url_for('static', filename='assets/images/hiring/hiring-1.png') }}" alt="图片">
+                            </a>
+                            <a href="job-details.html" class="link">服务工程师</a>
+                            <span>北京富鹏商旅服务有限公司</span>
+                        </li>
+
+                        <li>
+                            <a href="job-details.html" class="hiring-img">
+                                <img src="{{ url_for('static', filename='assets/images/hiring/hiring-2.png') }}" alt="图片">
+                            </a>
+                            <a href="job-details.html" class="link">支持主管</a>
+                            <span>北京富鹏商旅服务有限公司</span>
+                        </li>
+
+                        <li>
+                            <a href="job-details.html" class="hiring-img">
+                                <img src="{{ url_for('static', filename='assets/images/hiring/hiring-3.png') }}" alt="图片">
+                            </a>
+                            <a href="job-details.html" class="link">研究助理</a>
+                            <span>北京富鹏商旅服务有限公司</span>
+                        </li>
+
+                        <li>
+                            <a href="job-details.html" class="hiring-img">
+                                <img src="{{ url_for('static', filename='assets/images/hiring/hiring-4.png') }}" alt="图片">
+                            </a>
+                            <a href="job-details.html" class="link">内容写作</a>
+                            <span>北京富鹏商旅服务有限公司</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- 结束实时职位区域 -->
+
+<!-- 开始热门职位区域 -->
+<section class="hot-jobs-area bg-color pb-70">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="section-title">
+                    <span>热门职位</span>
+                    <h2>新职位与随机职位</h2>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <select>
+                            <option value="1">全职</option>
+                            <option value="2">兼职</option>
+                            <option value="3">夜班</option>
+                            <option value="4">白班</option>
+                            <option value="5">晚班</option>
+                        </select>
+                    </div>
+
+                    <div class="col-lg-6 col-md-6">
+                        <div class="show-page">
+                            <p>每页显示</p>
+                            <select>
+                                <option value="1">05</option>
+                                <option value="2">07</option>
+                                <option value="3">10</option>
+                                <option value="4">15</option>
+                                <option value="5">18</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hot-jobs-list">
+                    <div class="row align-items-center">
+                        <div class="col-lg-2">
+                            <a href="job-details.html" class="hot-jobs-img">
+                                <img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-1.png') }}" alt="图片">
+                            </a>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="hot-jobs-content">
+                                <h3><a href="job-details.html">财务与会计</a></h3>
+                                <span class="sub-title">Finix贷款与融资机构</span>
+                                <ul>
+                                    <li><span>学历要求：</span> BBA / M.A.</li>
+                                    <li><span>工作经验：</span>至少1年</li>
+                                    <li><span>工作地点：</span>纽约</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="hot-jobs-btn">
+                                <a href="job-details.html" class="default-btn">浏览职位</a>
+                                <p><span>截止日期：</span>2020年12月30日</p>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="featured">精选</span>
+                </div>
+
+                <div class="hot-jobs-list">
+                    <div class="row align-items-center">
+                        <div class="col-lg-2">
+                            <a href="job-details.html" class="hot-jobs-img">
+                                <img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-2.png') }}" alt="图片">
+                            </a>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="hot-jobs-content">
+                                <h3><a href="job-details.html">助理经理</a></h3>
+                                <span class="sub-title">Leve银行有限公司</span>
+                                <ul>
+                                    <li><span>学历要求：</span> BBA / M.A.</li>
+                                    <li><span>工作经验：</span>至少2年</li>
+                                    <li><span>工作地点：</span>阿拉斯加</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="hot-jobs-btn">
+                                <a href="job-details.html" class="default-btn">浏览职位</a>
+                                <p><span>截止日期：</span>2020年11月30日</p>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="featured">精选</span>
+                </div>
+
+                <div class="hot-jobs-list">
+                    <div class="row align-items-center">
+                        <div class="col-lg-2">
+                            <a href="job-details.html" class="hot-jobs-img">
+                                <img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-3.png') }}" alt="图片">
+                            </a>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="hot-jobs-content">
+                                <h3><a href="job-details.html">机械工程师</a></h3>
+                                <span class="sub-title">Conzio建筑公司</span>
+                                <ul>
+                                    <li><span>学历要求：</span> B.Sc</li>
+                                    <li><span>工作经验：</span>至少1年</li>
+                                    <li><span>工作地点：</span>华盛顿</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="hot-jobs-btn">
+                                <a href="job-details.html" class="default-btn">浏览职位</a>
+                                <p><span>截止日期：</span>2020年12月30日</p>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="featured red">紧急</span>
+                </div>
+
+                <div class="hot-jobs-list">
+                    <div class="row align-items-center">
+                        <div class="col-lg-2">
+                            <a href="job-details.html" class="hot-jobs-img">
+                                <img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-4.png') }}" alt="图片">
+                            </a>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="hot-jobs-content">
+                                <h3><a href="job-details.html">英语教师</a></h3>
+                                <span class="sub-title">Eduon教育</span>
+                                <ul>
+                                    <li><span>学历要求：</span> BBA / M.A.</li>
+                                    <li><span>工作经验：</span>至少2年</li>
+                                    <li><span>工作地点：</span>佛罗里达</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="hot-jobs-btn">
+                                <a href="job-details.html" class="default-btn">浏览职位</a>
+                                <p><span>截止日期：</span>2020年11月30日</p>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="featured">精选</span>
+                </div>
+
+                <div class="hot-jobs-list">
+                    <div class="row align-items-center">
+                        <div class="col-lg-2">
+                            <a href="job-details.html" class="hot-jobs-img">
+                                <img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-5.png') }}" alt="图片">
+                            </a>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="hot-jobs-content">
+                                <h3><a href="job-details.html">高级/项目经理</a></h3>
+                                <span class="sub-title">Oryx国际</span>
+                                <ul>
+                                    <li><span>学历要求：</span> BBA / M.A.</li>
+                                    <li><span>工作经验：</span>至少5年</li>
+                                    <li><span>工作地点：</span>加利福尼亚</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="hot-jobs-btn">
+                                <a href="job-details.html" class="default-btn">浏览职位</a>
+                                <p><span>截止日期：</span>2020年12月15日</p>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="featured">精选</span>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="pagination-area">
+                            <span class="page-numbers current" aria-current="page">1</span>
+                            <a href="#" class="page-numbers">2</a>
+                            <a href="#" class="page-numbers">3</a>
+
+                            <a href="#" class="next page-numbers">
+                                <i class="flaticon-right-arrow"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        <div class="col-lg-4">
+            <div class="hot-jobs-sidebar">
+                <div class="hot-job-sidebar">
+                    <img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-sidebar-img.jpg') }}" alt="图片">
+
+                    <div class="hot-job-sidebar-content">
+                        <h3>使用Jubi的好处</h3>
+
+                        <ul>
+                            <li>
+                                <span>1</span>
+                                <a href="#">有帮助的客户支持</a>
+                            </li>
+                            <li>
+                                <span>2</span>
+                                <a href="#">获得职业指导</a>
+                            </li>
+                            <li>
+                                <span>3</span>
+                                <a href="#">技能课程</a>
+                            </li>
+                            <li>
+                                <span>4</span>
+                                <a href="#">一流的友好服务</a>
+                            </li>
+                            <li>
+                                <span>5</span>
+                                <a href="#">获取独家研究</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="hot-job-sidebar">
+                    <div class="hot-job-sidebar-content quick-link">
+                        <h3>快速链接</h3>
+
+                        <ul>
+                            <li>
+                                <i class="bx bx-chevrons-right"></i>
+                                <a href="#">雇主列表</a>
+                            </li>
+                            <li>
+                                <i class="bx bx-chevrons-right"></i>
+                                <a href="#">新职位(24小时内)</a>
+                            </li>
+                            <li>
+                                <i class="bx bx-chevrons-right"></i>
+                                <a href="#">明天截止</a>
+                            </li>
+                            <li>
+                                <i class="bx bx-chevrons-right"></i>
+                                <a href="#">紧急职位</a>
+                            </li>
+                            <li>
+                                <i class="bx bx-chevrons-right"></i>
+                                <a href="#">客户服务</a>
+                            </li>
+                            <li>
+                                <i class="bx bx-chevrons-right"></i>
+                                <a href="#">合同工作</a>
+                            </li>
+                            <li>
+                                <i class="bx bx-chevrons-right"></i>
+                                <a href="#">兼职工作</a>
+                            </li>
+                            <li>
+                                <i class="bx bx-chevrons-right"></i>
+                                <a href="#">正在招聘</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+</section>
+<!-- 结束热门职位区域 -->
+
+<!-- 开始全球人才区域 -->
+<section class="global-talent-area bg-color pb-100">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-7 col-md-6">
+                <div class="global-talent-content">
+                    <span>全球人才</span>
+                    <h2>发展您的职业生涯，梦想中的工作正在等待</h2>
+
+                    <ul>
+                        <li>
+                            <img src="{{ url_for('static', filename='assets/images/talent-dot/talent-dot-1.png') }}" alt="图片">
+                            全职和兼职工作
+                        </li>
+
+                        <li>
+                            <img src="{{ url_for('static', filename='assets/images/talent-dot/talent-dot-2.png') }}" alt="图片">
+                            员工与自由职业者
+                        </li>
+
+                        <li>
+                            <img src="{{ url_for('static', filename='assets/images/talent-dot/talent-dot-3.png') }}" alt="图片">
+                            灵活的现场工作
+                        </li>
+                    </ul>
+
+                    <a href="post-job.html" class="default-btn">
+                        发布职位
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-5 col-md-6">
+                <div class="jubi-site-status">
+                    <h3>Jubi网站状态</h3>
+
+                    <div class="site-status">
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-6">
+                                <div class="single-counter">
+                                    <i class="flaticon-job-seeker"></i>
+
+                                    <h2>
+                                        <span class="odometer" data-count="10523">00</span>
+                                    </h2>
+
+                                    <p>新增职位</p>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-sm-6">
+                                <div class="single-counter">
+                                    <i class="flaticon-organization"></i>
+
+                                    <h2>
+                                        <span class="odometer" data-count="123843">00</span>
+                                    </h2>
+
+                                    <p>公司</p>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-sm-6">
+                                <div class="single-counter">
+                                    <i class="flaticon-profile"></i>
+
+                                    <h2>
+                                        <span class="odometer" data-count="20537">00</span>
+                                    </h2>
+
+                                    <p>简历</p>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-sm-6">
+                                <div class="single-counter">
+                                    <i class="flaticon-community"></i>
+
+                                    <h2>
+                                        <span class="odometer" data-count="18523">00</span>
+                                    </h2>
+
+                                    <p>会员</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- 结束全球人才区域 -->
+
+<!-- 开始客户评价区域 -->
+<section class="testimonials-area bg-color pb-100">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-5">
+                <div class="testimonials-img">
+                    <img src="{{ url_for('static', filename='assets/images/testimonials/testimonials-img.png') }}" alt="图片">
+
+                    <h3>客户评价</h3>
+
+                    <div class="testimonials-1">
+                        <img src="{{ url_for('static', filename='assets/images/testimonials/testimonials-1.jpg') }}" alt="图片">
+                    </div>
+
+                    <div class="testimonials-2">
+                        <img src="{{ url_for('static', filename='assets/images/testimonials/testimonials-2.jpg') }}" alt="图片">
+                    </div>
+
+                    <div class="testimonials-3">
+                        <img src="{{ url_for('static', filename='assets/images/testimonials/testimonials-3.jpg') }}" alt="图片">
+                    </div>
+
+                    <div class="testimonials-4">
+                        <img src="{{ url_for('static', filename='assets/images/testimonials/testimonials-4.jpg') }}" alt="图片">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <div class="testimonials">
+                    <div class="testimonials-slider owl-carousel owl-theme">
+                        <div class="testimonials-item">
+                            <i class="flaticon-quote"></i>
+                            <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Quis ipsum suspendisse ultrices gravida. Risus viverra maecenas accumsan lacus vel facilisis."</p>
+
+                            <h3>Allan norris</h3>
+                            <span>软件工程师</span>
+                        </div>
+
+                        <div class="testimonials-item">
+                            <i class="flaticon-quote"></i>
+                            <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Quis ipsum suspendisse ultrices gravida. Risus viverra maecenas accumsan lacus vel facilisis."</p>
+
+                            <h3>Tammie King</h3>
+                            <span>创始人</span>
+                        </div>
+
+                        <div class="testimonials-item">
+                            <i class="flaticon-quote"></i>
+                            <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Quis ipsum suspendisse ultrices gravida. Risus viverra maecenas accumsan lacus vel facilisis."</p>
+
+                            <h3>Juhon Anderson</h3>
+                            <span>经理</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- 结束客户评价区域 -->
+
+<!-- 开始自由职业者区域 -->
+<section class="freelancer-area pt-100 pb-70">
+    <div class="container">
+        <div class="section-title">
+            <span>顶级自由职业者</span>
+            <h2>雇佣专家自由职业者</h2>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-3 col-sm-6">
+                <div class="single-freelancer">
+                    <img src="{{ url_for('static', filename='assets/images/freelancer/freelancer-1.jpg') }}" alt="图片">
+                    <h3>James Hendrix</h3>
+                    <span class="profession">UX/UI设计师</span>
+
+                    <ul>
+                        <li>
+                            <i class="bx bxs-star"></i>
+                        </li>
+                        <li>
+                            <i class="bx bxs-star"></i>
+                        </li>
+                        <li>
+                            <i class="bx bxs-star"></i>
+                        </li>
+                        <li>
+                            <i class="bx bxs-star"></i>
+                        </li>
+                        <li>
+                            <i class="bx bxs-star"></i>
+                        </li>
+                    </ul>
+
+                    <a href="candidates-details.html" class="default-btn">
+                        查看详情
+                    </a>
+
+                    <span class="per-hour">$75/小时</span>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-sm-6">
+                <div class="single-freelancer">
+                    <img src="{{ url_for('static', filename='assets/images/freelancer/freelancer-2.jpg') }}" alt="图片">
+                    <h3>Jean Burke</h3>
+                    <span class="profession">软件工程师</span>
+
+                    <ul>
+                        <li>
+                            <i class="bx bxs-star"></i>
+                        </li>
+                        <li>
+                            <i class="bx bxs-star"></i>
+                        </li>
+                        <li>
+                            <i class="bx bxs-star"></i>
+                        </li>
+                        <li>
+                            <i class="bx bxs-star"></i>
+                        </li>
+                        <li>
+                            <i class="bx bxs-star"></i>
+                        </li>
+                    </ul>
+
+                    <a href="candidates-details.html" class="default-btn">
+                        查看详情
+                    </a>
+
+                    <span class="per-hour">$99/小时</span>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-sm-6">
+                <div class="single-freelancer">
+                    <img src="{{ url_for('static', filename='assets/images/freelancer/freelancer-3.jpg') }}" alt="图片">
+                    <h3>David Guzman</h3>
+                    <span class="profession">网页开发人员</span>
+
+                    <ul>
+                        <li>
+                            <i class="bx bxs-star"></i>
+                        </li>
+                        <li>
+                            <i class="bx bxs-star"></i>
+                        </li>
+                        <li>
+                            <i class="bx bxs-star"></i>
+                        </li>
+                        <li>
+                            <i class="bx bxs-star"></i>
+                        </li>
+                        <li>
+                            <i class="bx bxs-star"></i>
+                        </li>
+                    </ul>
+
+                    <a href="candidates-details.html" class="default-btn">
+                        查看详情
+                    </a>
+
+                    <span class="per-hour">$50/小时</span>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-sm-6">
+                <div class="single-freelancer">
+                    <img src="{{ url_for('static', filename='assets/images/freelancer/freelancer-4.jpg') }}" alt="图片">
+                    <h3>Clarence Hart</h3>
+                    <span class="profession">高级主管</span>
+
+                    <ul>
+                        <li>
+                            <i class="bx bxs-star"></i>
+                        </li>
+                        <li>
+                            <i class="bx bxs-star"></i>
+                        </li>
+                        <li>
+                            <i class="bx bxs-star"></i>
+                        </li>
+                        <li>
+                            <i class="bx bxs-star"></i>
+                        </li>
+                        <li>
+                            <i class="bx bxs-star"></i>
+                        </li>
+                    </ul>
+
+                    <a href="candidates-details.html" class="default-btn">
+                        查看详情
+                    </a>
+
+                    <span class="per-hour">$25/小时</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- 结束自由职业者区域 -->
+
+<!-- 开始常见问题区域 -->
+<section class="faq-area bg-color ptb-100">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="faq-accordion">
+                    <div class="faq-title">
+                        <h2>常见问题</h2>
+                    </div>
+
+                    <ul class="accordion">
+                        <li class="accordion-item">
+                            <a class="accordion-title active" href="javascript:void(0)">
+                                <i class="bx bx-plus"></i>
+                                如何发布职位？
+                            </a>
+
+                            <div class="accordion-content show">
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam aliquam ut ad debitis maxime alias vitae magnam, accusamus amet pariatur tenetur totam deserunt dolore provident nobis impedit non vel quo? aliquam ut ad debitis maxime alias deserunt dolore provident  dolore provident nobis impedit non vel quo? aliquam ut ad  dolore provident</p>
+                            </div>
+                        </li>
+
+                        <li class="accordion-item">
+                            <a class="accordion-title" href="javascript:void(0)">
+                                <i class="bx bx-plus"></i>
+                                如何编辑或删除职位发布？
+                            </a>
+
+                            <div class="accordion-content">
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam aliquam ut ad debitis maxime alias vitae magnam, accusamus amet pariatur tenetur totam deserunt dolore provident nobis impedit non vel quo? aliquam ut ad debitis maxime alias deserunt dolore provident  dolore provident nobis impedit non vel quo? aliquam ut ad  dolore provident</p>
+                            </div>
+                        </li>
+
+                        <li class="accordion-item">
+                            <a class="accordion-title" href="javascript:void(0)">
+                                <i class="bx bx-plus"></i>
+                                我的职位发布会在线多久？
+                            </a>
+
+                            <div class="accordion-content">
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam aliquam ut ad debitis maxime alias vitae magnam, accusamus amet pariatur tenetur totam deserunt dolore provident nobis impedit non vel quo? aliquam ut ad debitis maxime alias deserunt dolore provident  dolore provident nobis impedit non vel quo? aliquam ut ad  dolore provident</p>
+                            </div>
+                        </li>
+
+                        <li class="accordion-item">
+                            <a class="accordion-title" href="javascript:void(0)">
+                                <i class="bx bx-plus"></i>
+                                如何退订邮件列表？
+                            </a>
+
+                            <div class="accordion-content">
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam aliquam ut ad debitis maxime alias vitae magnam, accusamus amet pariatur tenetur totam deserunt dolore provident nobis impedit non vel quo? aliquam ut ad debitis maxime alias deserunt dolore provident  dolore provident nobis impedit non vel quo? aliquam ut ad  dolore provident</p>
+                            </div>
+                        </li>
+
+                        <li class="accordion-item">
+                            <a class="accordion-title" href="javascript:void(0)">
+                                <i class="bx bx-plus"></i>
+                                如何更改密码？
+                            </a>
+
+                            <div class="accordion-content">
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam aliquam ut ad debitis maxime alias vitae magnam, accusamus amet pariatur tenetur totam deserunt dolore provident nobis impedit non vel quo? aliquam ut ad debitis maxime alias deserunt dolore provident  dolore provident nobis impedit non vel quo? aliquam ut ad  dolore provident</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="faq-img">
+                    <img src="{{ url_for('static', filename='assets/images/faq-img.png') }}" alt="图片">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- 结束常见问题区域 -->
+
+<!-- 开始应用下载区域 -->
+<section class="app-downloading-area pt-100">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="app-img-1">
+                    <img src="{{ url_for('static', filename='assets/images/app-img-1.png') }}" alt="图片">
+
+                    <div class="app-img-2">
+                        <img src="{{ url_for('static', filename='assets/images/app-img-2.png') }}" alt="图片">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="app-downloading-content">
+                    <h2>下载我们的移动应用，随时与我们保持联系</h2>
+
+                    <div class="app-btn">
+                        <a href="#" class="default-btn">
+                            <i class="bx bxl-apple"></i>
+                            下载于
+                            <span>App Store</span>
+                        </a>
+
+                        <a href="#" class="default-btn active">
+                            <i class="bx bxl-play-store"></i>
+                            下载于
+                            <span>Google Play</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- 结束应用下载区域 -->
+
+<!-- 开始价格套餐区域 -->
+<section class="pricing-package-area bg-color pt-100 pb-70">
+    <div class="container">
+        <div class="section-title">
+            <span>价格套餐</span>
+            <h2>我们的最佳优惠</h2>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-4 col-md-6">
+                <div class="single-pricing-box">
+                    <div class="pricing-title">
+                        <span>入门</span>
+                        <h1>专业版</h1>
+                        <h4>$199.99 <span>/月</span></h4>
+                    </div>
+
+                    <ul>
+                        <li>
+                            <i class="bx bx-check"></i>
+                            无限访问求职者
+                        </li>
+                        <li>
+                            <i class="bx bx-check"></i>
+                            每月1个职位
+                        </li>
+                        <li>
+                            <i class="bx bx-check"></i>
+                            每月查看50份简历
+                        </li>
+                        <li>
+                            <i class="bx bx-check"></i>
+                            简历匹配通知
+                        </li>
+                        <li>
+                            <i class="bx bx-check"></i>
+                            对求职者排序备注
+                        </li>
+                        <li>
+                            <i class="bx bx-check"></i>
+                            增强的求职者资料
+                        </li>
+                    </ul>
+
+                    <a href="#" class="default-btn">
+                        立即开始
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="single-pricing-box">
+                    <div class="pricing-title">
+                        <span>最受欢迎</span>
+                        <h1>标准版</h1>
+                        <h4>$299.99 <span>/月</span></h4>
+                    </div>
+
+                    <ul>
+                        <li>
+                            <i class="bx bx-check"></i>
+                            无限访问求职者
+                        </li>
+                        <li>
+                            <i class="bx bx-check"></i>
+                            每月1个职位
+                        </li>
+                        <li>
+                            <i class="bx bx-check"></i>
+                            每月查看50份简历
+                        </li>
+                        <li>
+                            <i class="bx bx-check"></i>
+                            简历匹配通知
+                        </li>
+                        <li>
+                            <i class="bx bx-check"></i>
+                            对求职者排序备注
+                        </li>
+                        <li>
+                            <i class="bx bx-check"></i>
+                            增强的求职者资料
+                        </li>
+                    </ul>
+
+                    <a href="#" class="default-btn">
+                        立即开始
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 offset-md-3 offset-lg-0">
+                <div class="single-pricing-box">
+                    <div class="pricing-title">
+                        <span>最优惠</span>
+                        <h1>终极版</h1>
+                        <h4>$499.99 <span>/月</span></h4>
+                    </div>
+
+                    <ul>
+                        <li>
+                            <i class="bx bx-check"></i>
+                            无限访问求职者
+                        </li>
+                        <li>
+                            <i class="bx bx-check"></i>
+                            每月1个职位
+                        </li>
+                        <li>
+                            <i class="bx bx-check"></i>
+                            每月查看50份简历
+                        </li>
+                        <li>
+                            <i class="bx bx-check"></i>
+                            简历匹配通知
+                        </li>
+                        <li>
+                            <i class="bx bx-check"></i>
+                            对求职者排序备注
+                        </li>
+                        <li>
+                            <i class="bx bx-check"></i>
+                            增强的求职者资料
+                        </li>
+                    </ul>
+
+                    <a href="#" class="default-btn">
+                        立即开始
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- 结束价格套餐区域 -->
+
+<!-- 开始博客区域 -->
+<section class="blog-area bg-color pb-70">
+    <div class="container">
+        <div class="section-title">
+            <span>最新消息</span>
+            <h2>快速职业建议</h2>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-4 col-md-6">
+                <div class="single-blog-post">
+                    <div class="blog-img">
+                        <a href="blog-details.html">
+                            <img src="{{ url_for('static', filename='assets/images/blog/blog-1.jpg') }}" alt="图片">
+                        </a>
+
+                        <ul>
+                            <li>11月12日</li>
+                            <li>2020年</li>
+                        </ul>
+                    </div>
+
+                    <div class="blog-content">
+                        <ul>
+                            <li>
+                                <i class="bx bxs-user"></i>
+                                <a href="#">Andrew Lawson</a>
+                            </li>
+                        </ul>
+
+                        <h3>
+                            <a href="blog-details.html">
+                                国内最受欢迎的职位
+                            </a>
+                        </h3>
+
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt...</p>
+
+                        <a href="blog-details.html" class="read-more">
+                            了解更多
+                            <i class="flaticon-right-arrow"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="single-blog-post">
+                    <div class="blog-img">
+                        <a href="blog-details.html">
+                            <img src="{{ url_for('static', filename='assets/images/blog/blog-2.jpg') }}" alt="图片">
+                        </a>
+
+                        <ul>
+                            <li>11月13日</li>
+                            <li>2020年</li>
+                        </ul>
+                    </div>
+
+                    <div class="blog-content">
+                        <ul>
+                            <li>
+                                <i class="bx bxs-user"></i>
+                                <a href="#">Adonay Porras</a>
+                            </li>
+                        </ul>
+
+                        <h3>
+                            <a href="blog-details.html">
+                                加入公司前要问的10个问题
+                            </a>
+                        </h3>
+
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt...</p>
+
+                        <a href="blog-details.html" class="read-more">
+                            了解更多
+                            <i class="flaticon-right-arrow"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 offset-md-3 offset-lg-0">
+                <div class="single-blog-post">
+                    <div class="blog-img">
+                        <a href="blog-details.html">
+                            <img src="{{ url_for('static', filename='assets/images/blog/blog-3.jpg') }}" alt="图片">
+                        </a>
+
+                        <ul>
+                            <li>11月14日</li>
+                            <li>2020年</li>
+                        </ul>
+                    </div>
+
+                    <div class="blog-content">
+                        <ul>
+                            <li>
+                                <i class="bx bxs-user"></i>
+                                <a href="#">Espinoza Lara</a>
+                            </li>
+                        </ul>
+
+                        <h3>
+                            <a href="blog-details.html">
+                                如何雇佣您的第一位在线增长设计师
+                            </a>
+                        </h3>
+
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt...</p>
+
+                        <a href="blog-details.html" class="read-more">
+                            了解更多
+                            <i class="flaticon-right-arrow"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- 结束博客区域 -->
+
+<!-- 开始订阅区域 -->
+<section class="subscribe-area">
+    <div class="container">
+        <div class="subscribe-bg">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="subscribe-content">
+                        <h2>找到您的下一个绝佳工作机会！</h2>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <form class="newsletter-form" data-toggle="validator">
+                        <input type="email" class="form-control" placeholder="输入邮箱地址" name="EMAIL" required autocomplete="off">
+
+                        <button class="default-btn" type="submit">
+                            <span>订阅</span>
+                        </button>
+
+                        <div id="validator-newsletter" class="form-result"></div>
+                        <p>加入通讯，已有10,000用户订阅！</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- 结束订阅区域 -->
+
+<!-- 开始页脚区域 -->
+<footer class="footer-area pt-100 pb-70">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-6">
+                <div class="single-footer-widget single-bg">
+                    <a href="index.html" class="logo">
+                        <img src="{{ url_for('static', filename='assets/images/logo.png') }}" alt="图片">
+                    </a>
+
+                    <p>Lorem ipsum dolor sit amet, consec tetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua consec tetur.</p>
+
+                    <ul class="social-icon">
+                        <li>
+                            <a href="#">
+                                <i class="bx bxl-facebook"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="bx bxl-instagram"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="bx bxl-linkedin-square"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="bx bxl-twitter"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="single-footer-widget">
+                    <h3>联系方式</h3>
+
+                    <ul class="address">
+                        <li>
+                            <i class="bx bx-phone-call"></i>
+                            <span>电话：</span>
+                            <a href="tel:+1-(514)-7939-357">+1 (514) 7939-357</a>
+                        </li>
+                        <li>
+                            <i class="bx bx-envelope"></i>
+                            <span>邮箱：</span>
+                            <a href="mailto:hello@jubi.com">hello@jubi.com</a>
+                        </li>
+                        <li class="location">
+                            <i class="bx bx-location-plus"></i>
+                            <span>地址：</span>
+                            美国纽约布朗克斯区6890大道，邮编1058
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="single-footer-widget">
+                    <h3>有用资源</h3>
+
+                    <ul class="import-link">
+                        <li>
+                            <a href="#">创建账户</a>
+                        </li>
+                        <li>
+                            <a href="#">联系我们</a>
+                        </li>
+                        <li>
+                            <a href="#">网站地图</a>
+                        </li>
+                        <li>
+                            <a href="#">使用条款</a>
+                        </li>
+                        <li>
+                            <a href="#">隐私中心</a>
+                        </li>
+                        <li>
+                            <a href="#">博客</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="single-footer-widget">
+                    <h3>求职者</h3>
+
+                    <ul class="import-link">
+                        <li>
+                            <a href="#">创建账户</a>
+                        </li>
+                        <li>
+                            <a href="#">浏览职位</a>
+                        </li>
+                        <li>
+                            <a href="#">上传简历</a>
+                        </li>
+                        <li>
+                            <a href="#">公司简介</a>
+                        </li>
+                        <li>
+                            <a href="#">国际职位</a>
+                        </li>
+                        <li>
+                            <a href="#">常见问题</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- 结束页脚区域 -->
+
+<!-- 开始版权区域 -->
+<div class="copy-right-area">
+    <div class="container">
+        <p>
+            © 2020 Jubi由
+            <a href="#">EnvyTheme</a>自豪地创建
+        </p>
+    </div>
+</div>
+<!-- 结束版权区域 -->
+
+<!-- 开始返回顶部区域 -->
+<div class="go-top">
+    <i class="bx bx-chevrons-up"></i>
+    <i class="bx bx-chevrons-up"></i>
+</div>
+<!-- 结束返回顶部区域 -->
+
+
+<!-- Jquery最小JS -->
+<script src="http://www.sucai8.cn/jquery/jquery-1.10.2.js"></script>
+<!-- Popper最小JS -->
+<script src="{{ url_for('static', filename='assets/js/popper.min.js') }}"></script>
+<!-- Bootstrap最小JS -->
+<script src="http://www.sucai8.cn/jquery/bootstrap-4.2.1.js"></script>
+<!-- Meanmenu最小JS -->
+<script src="{{ url_for('static', filename='assets/js/meanmenu.min.js') }}"></script>
+<!-- Wow最小JS -->
+<script src="{{ url_for('static', filename='assets/js/wow.min.js') }}"></script>
+<!-- Owl轮播最小JS -->
+<script src="{{ url_for('static', filename='assets/js/owl.carousel.min.js') }}"></script>
+<!-- Nice选择最小JS -->
+<script src="{{ url_for('static', filename='assets/js/nice-select.min.js') }}"></script>
+<!-- magnific弹出最小JS -->
+<script src="{{ url_for('static', filename='assets/js/magnific-popup.min.js') }}"></script>
+<!-- Mixitup JS -->
+<script src="{{ url_for('static', filename='assets/js/jquery.mixitup.min.js') }}"></script>
+<!-- 出现最小JS -->
+<script src="{{ url_for('static', filename='assets/js/appear.min.js') }}"></script>
+<!-- 里程表最小JS -->
+<script src="{{ url_for('static', filename='assets/js/odometer.min.js') }}"></script>
+<!-- 范围滑块最小JS -->
+<script src="{{ url_for('static', filename='assets/js/range-slider.min.js') }}"></script>
+<!-- 日期选择器最小JS -->
+<script src="{{ url_for('static', filename='assets/js/bootstrap-datepicker.min.js') }}"></script>
+<!-- 表单验证最小JS -->
+<script src="{{ url_for('static', filename='assets/js/form-validator.min.js') }}"></script>
+<!-- 联系JS -->
+<script src="{{ url_for('static', filename='assets/js/contact-form-script.js') }}"></script>
+<!-- Ajaxchimp最小JS -->
+<script src="{{ url_for('static', filename='assets/js/ajaxchimp.min.js') }}"></script>
+<!-- 自定义JS -->
+<script src="{{ url_for('static', filename='assets/js/custom.js') }}"></script>
+
+{% include '/chat-zh.html' %}
+
+
+</body>
+</html>

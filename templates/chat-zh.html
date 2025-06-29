@@ -1,0 +1,166 @@
+<!-- 聊天按钮 -->
+<div id="chat-icon" onclick="toggleChat()">
+    💬
+</div>
+
+<!-- 聊天窗口 -->
+<div id="chat-window">
+    <div id="chat-header">招聘聊天框</div>
+    <div id="chat-messages"></div>
+    <div id="chat-input">
+        <input type="text" id="message" placeholder="请输入您的问题..." />
+        <button onclick="sendMessage()">发送</button>
+    </div>
+    <div id="preset-questions">
+        <button onclick="sendPredefinedResponse('公司位置')">公司位置</button>
+        <button onclick="sendPredefinedResponse('统一社会信用代码')">统一社会信用代码</button>
+        <button onclick="sendPredefinedResponse('电话')">电话</button>
+        <button onclick="sendPredefinedResponse('法定代表人')">法定代表人</button>
+        <button onclick="sendPredefinedResponse('注册资本')">注册资本</button>
+    </div>
+</div>
+
+<style>
+    #chat-icon {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #007bff;
+        color: white;
+        border-radius: 50%;
+        width: 52px;
+        height: 52px;
+        text-align: center;
+        line-height: 52px;
+        font-size: 24px;
+        cursor: pointer;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    #chat-window {
+        position: fixed;
+        bottom: 80px;
+        right: 20px;
+        width: 300px;
+        height: 600px;
+        background: white;
+        border: 1px solid #ccc;
+        display: none;
+        flex-direction: column;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        border-radius: 10px;
+        overflow: hidden;
+        z-index: 999;
+    }
+
+    #chat-header {
+        background: #007bff;
+        color: white;
+        padding: 10px;
+        font-weight: bold;
+    }
+
+    #chat-messages {
+        flex: 1;
+        padding: 10px;
+        overflow-y: auto;
+        font-size: 14px;
+    }
+
+    #chat-input {
+        display: flex;
+        border-top: 1px solid #ddd;
+    }
+
+    #chat-input input {
+        flex: 1;
+        border: none;
+        padding: 10px;
+    }
+
+    #chat-input button {
+        background: #007bff;
+        border: none;
+        color: white;
+        padding: 10px 15px;
+        cursor: pointer;
+    }
+
+    #chat-input input:focus {
+        outline: none;
+    }
+
+    #preset-questions {
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    #preset-questions button {
+        margin: 5px 0;
+        background: #f0f0f0;
+        border: none;
+        padding: 8px;
+        cursor: pointer;
+    }
+</style>
+
+<script>
+    function toggleChat() {
+        const chatWindow = document.getElementById("chat-window");
+        chatWindow.style.display = chatWindow.style.display === "none" ? "flex" : "none";
+    }
+
+    function sendMessage() {
+        const input = document.getElementById("message");
+        const message = input.value.trim();
+        if (!message) return;
+
+        const chat = document.getElementById("chat-messages");
+        const userMsgDiv = document.createElement("div");
+        userMsgDiv.textContent = "您：" + message;
+        userMsgDiv.style.marginBottom = "8px";
+        chat.appendChild(userMsgDiv);
+
+        // 清空输入框
+        input.value = "";
+        chat.scrollTop = chat.scrollHeight;
+
+        // 回复固定消息
+        const replyDiv = document.createElement("div");
+        replyDiv.textContent = "客服：感谢您的咨询，您可以点击以下问题获取更多信息：";
+        chat.appendChild(replyDiv);
+        chat.scrollTop = chat.scrollHeight;
+    }
+
+    function sendPredefinedResponse(topic) {
+        const chat = document.getElementById("chat-messages");
+
+        let response = "";
+        switch (topic) {
+            case "公司位置":
+                response = "客服：公司地址：北京市通州区梨园镇大稿村民委员会西200米京洲苑867号";
+                break;
+            case "统一社会信用代码":
+                response = "客服：统一社会信用代码：91110105MA00E7JN1X";
+                break;
+            case "电话":
+                response = "客服：联系电话：13552791564";
+                break;
+            case "法定代表人":
+                response = "客服：法定代表人：张鹏";
+                break;
+            case "注册资本":
+                response = "客服：注册资本：30万(元)";
+                break;
+            default:
+                response = "客服：请点击上方问题获取相关信息";
+        }
+
+        const replyDiv = document.createElement("div");
+        replyDiv.textContent = response;
+        replyDiv.style.color = "green";
+        chat.appendChild(replyDiv);
+        chat.scrollTop = chat.scrollHeight;
+    }
+</script>

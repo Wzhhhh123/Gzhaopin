@@ -6,7 +6,6 @@ DB_CONFIG = {
     "user": "root",
     "password": "Wzh010310",
     "database": "zhaopin",
-
     "charset": "utf8mb4"
 
 }

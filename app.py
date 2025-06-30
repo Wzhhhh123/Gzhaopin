@@ -1,8 +1,15 @@
 from flask import Flask, render_template
 from flask import Flask, request, session, redirect, url_for
 from flask_babel import Babel, _
+from werkzeug.security import generate_password_hash, check_password_hash
+from db import connect_db
+from functools import wraps
+from flask import Flask, request, redirect, url_for, session, flash, render_template
+from werkzeug.security import generate_password_hash, check_password_hash
+
+from functools import wraps
 app = Flask(__name__)
-app.secret_key = 'asdasdasdasd'
+app.config["SECRET_KEY"] = '79537d00f4834892986f09a100aa1edf'
 
 # 配置Babel
 app.config['BABEL_DEFAULT_LOCALE'] = 'en'
@@ -10,7 +17,15 @@ app.config['LANGUAGES'] = {
     'en': 'English',
     'zh': '中文'
 }
-
+# 登录装饰器
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'username' not in session:
+            flash('请先登录。', 'warning')
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return decorated_function
 babel = Babel(app)
 @babel.localeselector
 def get_locale():
@@ -136,11 +151,136 @@ def job_listing():
 def job_details():
     return render_template('job-details.html')
 
-# 登录注册
-@app.route('/log-in-register.html')
-def login_register():
-    return render_template('log-in-register.html')
 
+
+# 登录路由
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email_username = request.form.get('email-username')
+        password = request.form.get('password')
+        remember = True if request.form.get('remember') else False
+
+        conn = connect_db()
+        cursor = conn.cursor()
+
+        try:
+            # 查询用户是否存在
+            cursor.execute("""
+                SELECT * FROM users
+                WHERE username = %s OR email = %s
+            """, (email_username, email_username))
+            user = cursor.fetchone()
+
+            if user and check_password_hash(user['password_hash'], password):
+                session['user_id'] = user['id']
+                session['username'] = user['username']
+                session['email'] = user['email']
+                session['role'] = user['role']
+                session['first_name'] = user.get('first_name', '')
+                session['last_name'] = user.get('last_name', '')
+
+                if remember:
+                    session.permanent = True
+
+                flash('Login successful!', 'success')
+                return redirect(url_for('dashboard'))
+            else:
+                flash('Invalid username/email or password', 'danger')
+        except Exception as e:
+            flash('An error occurred during login', 'danger')
+            app.logger.error(f"Login error: {str(e)}")
+        finally:
+            cursor.close()
+            conn.close()
+
+    return render_template('log-in-register.html', show_form='login')
+
+
+
+
+# 注册路由
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        # 获取表单数据
+        first_name = request.form.get('first_name')
+        last_name = request.form.get('last_name')
+        username = request.form.get('username')
+        email = request.form.get('email')
+        phone = request.form.get('phone')
+        dob = request.form.get('dob')
+        address = request.form.get('address')
+        user_type = request.form.get('user_type')
+        password = request.form.get('password')
+        confirm_password = request.form.get('confirm_password')
+        terms = request.form.get('terms')
+
+        # 验证数据
+        if not terms:
+            flash('You must agree to the terms and conditions', 'danger')
+            return render_template('log-in-register.html', show_form='register')
+
+
+
+        if password != confirm_password:
+            flash('Passwords do not match', 'danger')
+            return render_template('log-in-register.html', show_form='register')
+
+
+
+        conn = connect_db()
+        cursor = conn.cursor()
+
+        try:
+            # 检查用户名或邮箱是否已存在
+            cursor.execute("""
+                SELECT id FROM users
+                WHERE username = %s OR email = %s
+            """, (username, email))
+
+            if cursor.fetchone():
+                flash('Username or email already exists', 'danger')
+                return render_template('log-in-register.html', show_form='register')
+
+
+
+            # 创建用户
+            password_hash = generate_password_hash(password)
+
+            cursor.execute("""
+                INSERT INTO users (
+                    first_name, last_name, username, email, phone,
+                    dob, address, role, password_hash, created_at
+                ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, NOW())
+            """, (
+                first_name, last_name, username, email, phone,
+                dob, address, user_type, password_hash
+            ))
+
+            conn.commit()
+            flash('Registration successful! Please log in.', 'success')
+            return render_template('log-in-register.html', show_form='login')
+
+
+        except Exception as e:
+            conn.rollback()
+            flash('An error occurred during registration', 'danger')
+            app.logger.error(f"Registration error: {str(e)}")
+        finally:
+            cursor.close()
+            conn.close()
+
+    return render_template('log-in-register.html', show_form='register')
+
+
+# 退出登录
+@app.route('/logout')
+def logout():
+    session.clear()
+    print("session after clear:", dict(session))
+    flash('已退出登录。', 'info')
+    return redirect(url_for('login'))
 # 消息
 @app.route('/message.html')
 def message():

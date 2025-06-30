@@ -38,22 +38,42 @@
                                 </div>
                             </li>
                         </ul>
-
+                        {% if 'username' in session %}
                         <ul class="log-in">
                             <li>
-                                <a href="log-in-register.html">
+                                <a >
+                                    <i class="bx bxs-lock"></i>
+                                    {{ session['username'] }}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ url_for('logout') }}">
+                                    <i class="bx bxs-user"></i>
+                                    退出登录
+                                </a>
+                            </li>
+
+                        </ul>
+
+                        {% else %}
+                        <!-- 未登录状态 -->
+                        <ul class="log-in">
+                            <li>
+                                <a href="login">
                                     <i class="bx bxs-lock"></i>
                                     登录
                                 </a>
                             </li>
 
                             <li>
-                                <a href="log-in-register.html">
+                                <a href="register">
                                     <i class="bx bxs-user"></i>
                                     注册
                                 </a>
                             </li>
                         </ul>
+                        {% endif %}
+
                     </div>
                 </div>
             </div>

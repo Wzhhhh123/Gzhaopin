@@ -193,8 +193,11 @@ def login():
         finally:
             cursor.close()
             conn.close()
+    if session['language']=="en":
+        return render_template('log-in-register.html', show_form='login')
+    if session['language']=="zh":
+        return render_template('log-in-register-zh.html', show_form='login')
 
-    return render_template('log-in-register.html', show_form='login')
 
 
 
@@ -219,13 +222,20 @@ def register():
         # 验证数据
         if not terms:
             flash('You must agree to the terms and conditions', 'danger')
-            return render_template('log-in-register.html', show_form='register')
+            if session['language']=="en":
+                return render_template('log-in-register.html', show_form='register')
+            if session['language']=="zh":
+                return render_template('log-in-register-zh.html', show_form='register')
+
 
 
 
         if password != confirm_password:
             flash('Passwords do not match', 'danger')
-            return render_template('log-in-register.html', show_form='register')
+            if session['language']=="en":
+                return render_template('log-in-register.html', show_form='register')
+            if session['language']=="zh":
+                return render_template('log-in-register-zh.html', show_form='register')
 
 
 
@@ -241,7 +251,10 @@ def register():
 
             if cursor.fetchone():
                 flash('Username or email already exists', 'danger')
-                return render_template('log-in-register.html', show_form='register')
+                if session['language']=="en":
+                    return render_template('log-in-register.html', show_form='register')
+                if session['language']=="zh":
+                    return render_template('log-in-register-zh.html', show_form='register')
 
 
 
@@ -259,8 +272,13 @@ def register():
             ))
 
             conn.commit()
-            flash('Registration successful! Please log in.', 'success')
-            return render_template('log-in-register.html', show_form='login')
+
+            if session['language']=="en":
+                flash('Registration successful! Please log in.', 'success')
+                return render_template('log-in-register.html', show_form='login')
+            if session['language']=="zh":
+                flash('注册成功，请登录！', 'success')
+                return render_template('log-in-register-zh.html', show_form='login')
 
 
         except Exception as e:
@@ -271,7 +289,10 @@ def register():
             cursor.close()
             conn.close()
 
-    return render_template('log-in-register.html', show_form='register')
+    if session['language']=="en":
+        return render_template('log-in-register.html', show_form='register')
+    if session['language']=="zh":
+        return render_template('log-in-register-zh.html', show_form='register')
 
 
 # 退出登录

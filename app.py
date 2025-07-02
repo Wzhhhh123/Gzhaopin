@@ -298,7 +298,9 @@ def register():
 # 退出登录
 @app.route('/logout')
 def logout():
+    ss=session['language']
     session.clear()
+    session['language']=ss
     print("session after clear:", dict(session))
     flash('已退出登录。', 'info')
     return redirect(url_for('login'))

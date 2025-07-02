@@ -1,0 +1,898 @@
+<!doctype html>
+<html lang="zxx">
+    <head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Bootstrap Min CSS --> 
+		<link rel="stylesheet" href="http://www.sucai8.cn/jquery/bootstrap-4.2.1.css">
+		<!-- Owl Theme Default Min CSS --> 
+		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/owl.theme.default.min.css') }}">
+		<!-- Owl Carousel Min CSS --> 
+		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/owl.carousel.min.css') }}">
+		<!-- Animate Min CSS --> 
+		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/animate.min.css') }}">
+		<!-- Boxicons Min CSS --> 
+		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/boxicons.min.css') }}"> 
+		<!-- Magnific Popup Min CSS --> 
+		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/magnific-popup.min.css') }}"> 
+		<!-- Flaticon CSS --> 
+		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/flaticon.css') }}">
+		<!-- Meanmenu Min CSS -->
+		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/meanmenu.min.css') }}">
+		<!-- Nice Select Min CSS -->
+		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/nice-select.min.css') }}">
+		<!-- Odometer Min CSS-->
+		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/odometer.min.css') }}">
+		<!-- Date Picker CSS-->
+		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/date-picker.min.css') }}">
+		<!-- Muli Fonts Min CSS-->
+		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/muli-fonts.css') }}">
+		<!-- Style CSS -->
+		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/style.css') }}">
+		<!-- Responsive CSS -->
+		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/responsive.css') }}">
+		
+		<!-- Favicon -->
+		<link rel="icon" type="image/png" href="assets/images/favicon.png">
+		<!-- Title -->
+		<title>北京富鹏商务服务有限公司</title>
+    </head>
+
+    <body>
+		<!-- Start Preloader Area -->
+		<div class="preloader">
+			<div class="lds-ripple">
+				<div></div>
+				<div></div>
+			</div>
+		</div>
+		<!-- End Preloader Area -->
+		
+		{% include "/heng-zh.html" %}
+
+		<!-- Start Page Title Area -->
+		<div class="page-title-area">
+			<div class="container">
+				<div class="page-title-content">
+					<h2>职位列表</h2>
+					<ul>
+						<li>
+							<a href="index.html">
+								主页
+							</a>
+						</li>
+						<li class="active">职位列表</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!-- End Page Title Area -->
+
+		<!-- Start Job Listing Area -->
+		<section class="job-listing-area ptb-100">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-8">
+						<form class="search-job">
+							<div class="row">
+								<div class="col-lg-5">
+									<div class="form-group">
+										<input type="text" class="form-control" id="job-title" placeholder="职位名称、技能或公司">
+									</div>
+								</div>
+
+								<div class="col-lg-4">
+									<div class="form-group">
+										<input type="text" class="form-control" id="job-title-2" placeholder="城市、省份或邮编">
+									</div>
+								</div>
+
+								<div class="col-lg-3">
+									<button type="submit" class="default-btn">
+										<i class="bx bx-search"></i>
+										搜索职位
+									</button>
+								</div>
+							</div>
+						</form>
+
+						<div class="time-and-hour">
+							<div class="row">
+								<div class="col-lg-6">
+									<div class="rated">
+										<p>筛选条件</p>
+										<select>
+											<option value="1">高评分优先</option>
+											<option value="2">中等评分</option>
+											<option value="3">低评分</option>
+											<option value="3">时薪</option>
+											<option value="4">其他</option>
+										</select>
+									</div>
+								</div>
+
+								<div class="col-lg-6">
+									<div class="show-page">
+										<p>每页显示</p>
+										<select>
+											<option value="1">10</option>
+											<option value="2">20</option>
+											<option value="3">30</option>
+											<option value="4">40</option>
+											<option value="5">50</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="hot-jobs-list">
+							<div class="row align-items-center">
+								<div class="col-lg-2">
+									<a href="job-details.html" class="hot-jobs-img">
+										<img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-1.png') }}" alt="金融与会计职位">
+									</a>
+								</div>
+
+								<div class="col-lg-6">
+									<div class="hot-jobs-content">
+										<h3><a href="job-details.html">金融与会计</a></h3>
+										<span class="sub-title">Finix贷款与融资机构</span>
+										<ul>
+											<li><span>学历要求:</span> 工商管理学士/硕士</li>
+											<li><span>工作经验: </span>至少1年</li>
+											<li><span>工作地点: </span>纽约</li>
+										</ul>
+									</div>
+								</div>
+
+								<div class="col-lg-4">
+									<div class="hot-jobs-btn">
+										<a href="job-details.html" class="default-btn">查看职位</a>
+										<p><span>截止日期: </span>2020年12月30日</p>
+									</div>
+								</div>
+							</div>
+							<span class="featured">推荐</span>
+						</div>
+
+						<div class="hot-jobs-list">
+							<div class="row align-items-center">
+								<div class="col-lg-2">
+									<a href="job-details.html" class="hot-jobs-img">
+										<img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-2.png') }}" alt="助理经理职位">
+									</a>
+								</div>
+
+								<div class="col-lg-6">
+									<div class="hot-jobs-content">
+										<h3><a href="job-details.html">助理经理</a></h3>
+										<span class="sub-title">Leve银行有限公司</span>
+										<ul>
+											<li><span>学历要求:</span> 工商管理学士/硕士</li>
+											<li><span>工作经验: </span>至少2年</li>
+											<li><span>工作地点: </span>阿拉斯加</li>
+										</ul>
+									</div>
+								</div>
+
+								<div class="col-lg-4">
+									<div class="hot-jobs-btn">
+										<a href="job-details.html" class="default-btn">查看职位</a>
+										<p><span>截止日期: </span>2020年11月30日</p>
+									</div>
+								</div>
+							</div>
+							<span class="featured">推荐</span>
+						</div>
+
+						<div class="hot-jobs-list">
+							<div class="row align-items-center">
+								<div class="col-lg-2">
+									<a href="job-details.html" class="hot-jobs-img">
+										<img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-3.png') }}" alt="机械工程师职位">
+									</a>
+								</div>
+
+								<div class="col-lg-6">
+									<div class="hot-jobs-content">
+										<h3><a href="job-details.html">机械工程师</a></h3>
+										<span class="sub-title">Conzio建筑公司</span>
+										<ul>
+											<li><span>学历要求:</span> 理学学士</li>
+											<li><span>工作经验: </span>至少1年</li>
+											<li><span>工作地点: </span>华盛顿</li>
+										</ul>
+									</div>
+								</div>
+
+								<div class="col-lg-4">
+									<div class="hot-jobs-btn">
+										<a href="job-details.html" class="default-btn">查看职位</a>
+										<p><span>截止日期: </span>2020年12月30日</p>
+									</div>
+								</div>
+							</div>
+							<span class="featured red">紧急</span>
+						</div>
+
+						<div class="hot-jobs-list">
+							<div class="row align-items-center">
+								<div class="col-lg-2">
+									<a href="job-details.html" class="hot-jobs-img">
+										<img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-4.png') }}" alt="英语教师职位">
+									</a>
+								</div>
+
+								<div class="col-lg-6">
+									<div class="hot-jobs-content">
+										<h3><a href="job-details.html">英语教师</a></h3>
+										<span class="sub-title">Eduon教育机构</span>
+										<ul>
+											<li><span>学历要求:</span> 文学学士/硕士</li>
+											<li><span>工作经验: </span>至少2年</li>
+											<li><span>工作地点: </span>佛罗里达</li>
+										</ul>
+									</div>
+								</div>
+
+								<div class="col-lg-4">
+									<div class="hot-jobs-btn">
+										<a href="job-details.html" class="default-btn">查看职位</a>
+										<p><span>截止日期: </span>2020年11月30日</p>
+									</div>
+								</div>
+							</div>
+							<span class="featured">推荐</span>
+						</div>
+
+						<div class="hot-jobs-list">
+							<div class="row align-items-center">
+								<div class="col-lg-2">
+									<a href="job-details.html" class="hot-jobs-img">
+										<img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-5.png') }}" alt="高级项目经理职位">
+									</a>
+								</div>
+
+								<div class="col-lg-6">
+									<div class="hot-jobs-content">
+										<h3><a href="job-details.html">高级/项目经理</a></h3>
+										<span class="sub-title">Oryx国际公司</span>
+										<ul>
+											<li><span>学历要求:</span> 工商管理学士/硕士</li>
+											<li><span>工作经验: </span>至少5年</li>
+											<li><span>工作地点: </span>加利福尼亚</li>
+										</ul>
+									</div>
+								</div>
+
+								<div class="col-lg-4">
+									<div class="hot-jobs-btn">
+										<a href="job-details.html" class="default-btn">查看职位</a>
+										<p><span>截止日期: </span>2020年12月15日</p>
+									</div>
+								</div>
+							</div>
+							<span class="featured">推荐</span>
+						</div>
+
+						<div class="hot-jobs-list">
+							<div class="row align-items-center">
+								<div class="col-lg-2">
+									<a href="job-details.html" class="hot-jobs-img">
+										<img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-6.png') }}" alt="服务工程师职位">
+									</a>
+								</div>
+
+								<div class="col-lg-6">
+									<div class="hot-jobs-content">
+										<h3><a href="job-details.html">服务工程师</a></h3>
+										<span class="sub-title">Autozon电力有限公司</span>
+										<ul>
+											<li><span>学历要求:</span> 工商管理学士/硕士</li>
+											<li><span>工作经验: </span>至少1年</li>
+											<li><span>工作地点: </span>纽约</li>
+										</ul>
+									</div>
+								</div>
+
+								<div class="col-lg-4">
+									<div class="hot-jobs-btn">
+										<a href="job-details.html" class="default-btn">查看职位</a>
+										<p><span>截止日期: </span>2020年12月20日</p>
+									</div>
+								</div>
+							</div>
+							<span class="featured">推荐</span>
+						</div>
+
+						<div class="hot-jobs-list">
+							<div class="row align-items-center">
+								<div class="col-lg-2">
+									<a href="job-details.html" class="hot-jobs-img">
+										<img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-7.png') }}" alt="客服主管职位">
+									</a>
+								</div>
+
+								<div class="col-lg-6">
+									<div class="hot-jobs-content">
+										<h3><a href="job-details.html">客服主管</a></h3>
+										<span class="sub-title">Saspol有限公司</span>
+										<ul>
+											<li><span>学历要求:</span> 文学学士</li>
+											<li><span>工作经验: </span>至少2年</li>
+											<li><span>工作地点: </span>阿拉斯加</li>
+										</ul>
+									</div>
+								</div>
+
+								<div class="col-lg-4">
+									<div class="hot-jobs-btn">
+										<a href="job-details.html" class="default-btn">查看职位</a>
+										<p><span>截止日期: </span>2020年12月30日</p>
+									</div>
+								</div>
+							</div>
+							<span class="featured">推荐</span>
+						</div>
+
+						<div class="hot-jobs-list">
+							<div class="row align-items-center">
+								<div class="col-lg-2">
+									<a href="job-details.html" class="hot-jobs-img">
+										<img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-8.png') }}" alt="研究助理职位">
+									</a>
+								</div>
+
+								<div class="col-lg-6">
+									<div class="hot-jobs-content">
+										<h3><a href="job-details.html">研究助理</a></h3>
+										<span class="sub-title">Medq医疗公司</span>
+										<ul>
+											<li><span>学历要求:</span> 理学学士</li>
+											<li><span>工作经验: </span>至少2年</li>
+											<li><span>工作地点: </span>华盛顿</li>
+										</ul>
+									</div>
+								</div>
+
+								<div class="col-lg-4">
+									<div class="hot-jobs-btn">
+										<a href="job-details.html" class="default-btn">查看职位</a>
+										<p><span>截止日期: </span>2020年12月15日</p>
+									</div>
+								</div>
+							</div>
+							<span class="featured red">紧急</span>
+						</div>
+
+						<div class="hot-jobs-list">
+							<div class="row align-items-center">
+								<div class="col-lg-2">
+									<a href="job-details.html" class="hot-jobs-img">
+										<img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-10.png') }}" alt="高级经理职位">
+									</a>
+								</div>
+
+								<div class="col-lg-6">
+									<div class="hot-jobs-content">
+										<h3><a href="job-details.html">高级经理</a></h3>
+										<span class="sub-title">Seqty电力有限公司</span>
+										<ul>
+											<li><span>学历要求:</span> 文学硕士</li>
+											<li><span>工作经验: </span>至少5年</li>
+											<li><span>工作地点: </span>加利福尼亚</li>
+										</ul>
+									</div>
+								</div>
+
+								<div class="col-lg-4">
+									<div class="hot-jobs-btn">
+										<a href="job-details.html" class="default-btn">查看职位</a>
+										<p><span>截止日期: </span>2020年12月15日</p>
+									</div>
+								</div>
+							</div>
+							<span class="featured">推荐</span>
+						</div>
+
+						<div class="hot-jobs-list">
+							<div class="row align-items-center">
+								<div class="col-lg-2">
+									<a href="job-details.html" class="hot-jobs-img">
+										<img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-9.png') }}" alt="内容写作职位">
+									</a>
+								</div>
+
+								<div class="col-lg-6">
+									<div class="hot-jobs-content">
+										<h3><a href="job-details.html">内容写作</a></h3>
+										<span class="sub-title">Depan内部有限公司</span>
+										<ul>
+											<li><span>学历要求:</span> 工商管理学士/硕士</li>
+											<li><span>工作经验: </span>至少3年</li>
+											<li><span>工作地点: </span>佛罗里达</li>
+										</ul>
+									</div>
+								</div>
+
+								<div class="col-lg-4">
+									<div class="hot-jobs-btn">
+										<a href="job-details.html" class="default-btn">查看职位</a>
+										<p><span>截止日期: </span>2020年11月30日</p>
+									</div>
+								</div>
+							</div>
+							<span class="featured">推荐</span>
+						</div>
+
+						<div class="row">
+							<div class="col-lg-12 col-md-12">
+								<div class="pagination-area">
+									<span class="page-numbers current" aria-current="page">1</span>
+									<a href="#" class="page-numbers">2</a>
+									<a href="#" class="page-numbers">3</a>
+
+									<a href="#" class="next page-numbers">
+										<i class="flaticon-right-arrow"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-4">
+						<div class="job-listing-sidebar">
+							<div class="job-listing-widget">
+								<ul class="accordion-widget">
+									<li class="accordion-item">
+										<a class="accordion-widget-title active" href="javascript:void(0)">
+											<h3>职位类型</h3>
+											<i class="bx bx-chevron-down"></i>
+										</a>
+
+										<ul class="accordion-widget-content show">
+											<li>
+												<label class="single-check">
+													全部
+													<input type="radio" checked="checked" name="radio-1">
+													<span class="checkmark"></span>
+												</label>
+											</li>
+											<li>
+												<label class="single-check">
+													全职
+													<input type="radio" checked="checked" name="radio-1">
+													<span class="checkmark"></span>
+													<span class="count">(8954)</span>
+												</label>
+											</li>
+											<li>
+												<label class="single-check">
+													兼职
+													<input type="radio" checked="checked" name="radio-1">
+													<span class="checkmark"></span>
+													<span class="count">(354)</span>
+												</label>
+											</li>
+											<li>
+												<label class="single-check">
+													临时
+													<input type="radio" checked="checked" name="radio-1">
+													<span class="checkmark"></span>
+													<span class="count">(83)</span>
+												</label>
+											</li>
+											<li>
+												<label class="single-check">
+													合同制
+													<input type="radio" checked="checked" name="radio-1">
+													<span class="checkmark"></span>
+													<span class="count">(1291)</span>
+												</label>
+											</li>
+											<li>
+												<label class="single-check">
+													实习
+													<input type="radio" checked="checked" name="radio-1">
+													<span class="checkmark"></span>
+													<span class="count">(954)</span>
+												</label>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+
+							<div class="job-listing-widget">
+								<ul class="accordion-widget">
+									<li class="accordion-item">
+										<a class="accordion-widget-title active" href="javascript:void(0)">
+											<h3>发布时间</h3>
+											<i class="bx bx-chevron-down"></i>
+										</a>
+
+										<ul class="accordion-widget-content show">
+											<li>
+												<label class="single-check">
+													全部
+													<input type="radio" checked="checked" name="radio-2">
+													<span class="checkmark"></span>
+												</label>
+											</li>
+											<li>
+												<label class="single-check">
+													最近一小时
+													<input type="radio" checked="checked" name="radio-2">
+													<span class="checkmark"></span>
+												</label>
+											</li>
+											<li>
+												<label class="single-check">
+													最近24小时
+													<input type="radio" checked="checked" name="radio-2">
+													<span class="checkmark"></span>
+												</label>
+											</li>
+											<li>
+												<label class="single-check">
+													最近7天
+													<input type="radio" checked="checked" name="radio-2">
+													<span class="checkmark"></span>
+												</label>
+											</li>
+											<li>
+												<label class="single-check">
+													最近14天
+													<input type="radio" checked="checked" name="radio-2">
+													<span class="checkmark"></span>
+												</label>
+											</li>
+											<li>
+												<label class="single-check">
+													最近30天
+													<input type="radio" checked="checked" name="radio-2">
+													<span class="checkmark"></span>
+												</label>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+
+							<div class="job-listing-widget">
+								<ul class="accordion-widget">
+									<li class="accordion-item">
+										<a class="accordion-widget-title active" href="javascript:void(0)">
+											<h3>薪资</h3>
+											<i class="bx bx-chevron-down"></i>
+										</a>
+
+										<ul class="accordion-widget-content show">
+											<li>
+												<label class="single-check">
+													全部
+													<input type="radio" checked="checked" name="radio-3">
+													<span class="checkmark"></span>
+												</label>
+											</li>
+											<li>
+												<label class="single-check">
+													月薪
+													<input type="radio" checked="checked" name="radio-3">
+													<span class="checkmark"></span>
+												</label>
+											</li>
+											<li>
+												<label class="single-check">
+													周薪
+													<input type="radio" checked="checked" name="radio-3">
+													<span class="checkmark"></span>
+												</label>
+											</li>
+											<li>
+												<label class="single-check">
+													日薪
+													<input type="radio" checked="checked" name="radio-3">
+													<span class="checkmark"></span>
+												</label>
+											</li>
+											<li>
+												<label class="single-check">
+													时薪
+													<input type="radio" checked="checked" name="radio-3">
+													<span class="checkmark"></span>
+												</label>
+											</li>
+											<li>
+												<label class="single-check">
+													年薪
+													<input type="radio" checked="checked" name="radio-3">
+													<span class="checkmark"></span>
+												</label>
+											</li>
+											<li>
+												<form class="price-range-content">
+													<div class="price-range-bar" id="range-slider"></div>
+													<div class="price-range-filter">
+														<div class="price-range-filter-item">
+															<input type="text" id="price-amount" readonly>
+														</div>
+													</div>
+												</form>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+
+							<div class="job-listing-widget">
+								<ul class="accordion-widget">
+									<li class="accordion-item">
+										<a class="accordion-widget-title active" href="javascript:void(0)">
+											<h3>职业级别</h3>
+											<i class="bx bx-chevron-down"></i>
+										</a>
+
+										<ul class="accordion-widget-content show">
+											<li>
+												<label class="single-check">
+													经理
+													<input type="radio" checked="checked" name="radio-4">
+													<span class="checkmark"></span>
+												</label>
+											</li>
+											<li>
+												<label class="single-check">
+													职员
+													<input type="radio" checked="checked" name="radio-4">
+													<span class="checkmark"></span>
+												</label>
+											</li>
+											<li>
+												<label class="single-check">
+													学生
+													<input type="radio" checked="checked" name="radio-4">
+													<span class="checkmark"></span>
+												</label>
+											</li>
+											<li>
+												<label class="single-check">
+													高管
+													<input type="radio" checked="checked" name="radio-4">
+													<span class="checkmark"></span>
+												</label>
+											</li>
+											<li>
+												<label class="single-check">
+													其他
+													<input type="radio" checked="checked" name="radio-4">
+													<span class="checkmark"></span>
+												</label>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+
+							<div class="job-listing-widget">
+								<ul class="accordion-widget">
+									<li class="accordion-item">
+										<a class="accordion-widget-title active" href="javascript:void(0)">
+											<h3>工作经验</h3>
+											<i class="bx bx-chevron-down"></i>
+										</a>
+
+										<ul class="accordion-widget-content show">
+											<li>
+												<label class="single-check">
+													应届毕业生
+													<input type="radio" checked="checked" name="radio-5">
+													<span class="checkmark"></span>
+												</label>
+											</li>
+											<li>
+												<label class="single-check">
+													1年
+													<input type="radio" checked="checked" name="radio-5">
+													<span class="checkmark"></span>
+												</label>
+											</li>
+											<li>
+												<label class="single-check">
+													3年
+													<input type="radio" checked="checked" name="radio-5">
+													<span class="checkmark"></span>
+												</label>
+											</li>
+											<li>
+												<label class="single-check">
+													5年
+													<input type="radio" checked="checked" name="radio-5">
+													<span class="checkmark"></span>
+												</label>
+											</li>
+											<li>
+												<label class="single-check">
+													7年
+													<input type="radio" checked="checked" name="radio-5">
+													<span class="checkmark"></span>
+												</label>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+
+							<div class="job-listing-widget">
+								<ul class="accordion-widget">
+									<li class="accordion-item">
+										<a class="accordion-widget-title active" href="javascript:void(0)">
+											<h3>学历要求</h3>
+											<i class="bx bx-chevron-down"></i>
+										</a>
+
+										<ul class="accordion-widget-content show">
+											<li>
+												<label class="single-check">
+													证书
+													<input type="radio" checked="checked" name="radio-6">
+													<span class="checkmark"></span>
+												</label>
+											</li>
+											<li>
+												<label class="single-check">
+													大专
+													<input type="radio" checked="checked" name="radio-6">
+													<span class="checkmark"></span>
+												</label>
+											</li>
+											<li>
+												<label class="single-check">
+													学士学位
+													<input type="radio" checked="checked" name="radio-6">
+													<span class="checkmark"></span>
+												</label>
+											</li>
+											<li>
+												<label class="single-check">
+													硕士学位
+													<input type="radio" checked="checked" name="radio-6">
+													<span class="checkmark"></span>
+												</label>
+											</li>
+											<li>
+												<label class="single-check">
+													副学士
+													<input type="radio" checked="checked" name="radio-6">
+													<span class="checkmark"></span>
+												</label>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+
+							<div class="job-listing-widget">
+								<ul class="accordion-widget">
+									<li class="accordion-item">
+										<a class="accordion-widget-title active" href="javascript:void(0)">
+											<h3>性别</h3>
+											<i class="bx bx-chevron-down"></i>
+										</a>
+
+										<ul class="accordion-widget-content show">
+											<li>
+												<label class="single-check">
+													男
+													<input type="radio" checked="checked" name="radio-7">
+													<span class="checkmark"></span>
+												</label>
+											</li>
+											<li>
+												<label class="single-check">
+													女
+													<input type="radio" checked="checked" name="radio-7">
+													<span class="checkmark"></span>
+												</label>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- End Job Listing Area -->
+
+		<!-- Start Subscribe Area -->
+		<section class="subscribe-area subscribe-area-about-page">
+			<div class="container">
+				<div class="subscribe-bg">
+					<div class="row align-items-center">
+						<div class="col-lg-6">
+							<div class="subscribe-content">
+								<h2>Find Your Next Great Job Opportunity!</h2>
+							</div>
+						</div>
+	
+						<div class="col-lg-6">
+							<form class="newsletter-form" data-toggle="validator">
+								<input type="email" class="form-control" placeholder="Enter email address" name="EMAIL" required autocomplete="off">
+	
+								<button class="default-btn" type="submit">
+									<span>Subscribe</span>
+								</button>
+	
+								<div id="validator-newsletter" class="form-result"></div>
+								<p>Join The Newsletter 10,000 Users Already!</p>
+							</form>	
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- End Subscribe Area -->
+
+		{% include "/footer.html" %}
+
+		<!-- Start Copy Right Area -->
+		<div class="copy-right-area">
+			<div class="container">
+				<p>
+					© 2020 Jubi Is Proudly Created By
+					<a href="#">EnvyTheme</a>
+				</p>
+			</div>
+		</div>
+		<!-- End Copy Right Area -->
+		
+		<!-- Start Go Top Area -->
+		<div class="go-top">
+			<i class="bx bx-chevrons-up"></i>
+			<i class="bx bx-chevrons-up"></i>
+		</div>
+		<!-- End Go Top Area -->
+		
+
+        <!-- Jquery Min JS -->
+        <script src="http://www.sucai8.cn/jquery/jquery-1.10.2.js"></script>
+        <!-- Popper Min JS -->
+        <script src="{{ url_for('static', filename='assets/js/popper.min.js') }}"></script>
+        <!-- Bootstrap Min JS -->
+        <script src="http://www.sucai8.cn/jquery/bootstrap-4.2.1.js"></script>
+        <!-- Meanmenu Min JS -->
+		<script src="{{ url_for('static', filename='assets/js/meanmenu.min.js') }}"></script>
+		<!-- Wow Min JS -->
+        <script src="{{ url_for('static', filename='assets/js/wow.min.js') }}"></script>
+        <!-- Owl Carousel Min JS -->
+		<script src="{{ url_for('static', filename='assets/js/owl.carousel.min.js') }}"></script>
+        <!-- Nice Select Min JS -->
+		<script src="{{ url_for('static', filename='assets/js/nice-select.min.js') }}"></script>
+        <!-- Magnific Popup Min JS -->
+		<script src="{{ url_for('static', filename='assets/js/magnific-popup.min.js') }}"></script>
+		<!-- Mixitup JS --> 
+		<script src="{{ url_for('static', filename='assets/js/jquery.mixitup.min.js') }}"></script>
+		<!-- Appear Min JS --> 
+        <script src="{{ url_for('static', filename='assets/js/appear.min.js') }}"></script>
+		<!-- Odometer Min JS --> 
+		<script src="{{ url_for('static', filename='assets/js/odometer.min.js') }}"></script>
+		<!-- Range Slider Min JS --> 
+		<script src="{{ url_for('static', filename='assets/js/range-slider.min.js') }}"></script>
+		<!-- Datepicker Min JS --> 
+		<script src="{{ url_for('static', filename='assets/js/bootstrap-datepicker.min.js') }}"></script>
+		<!-- Form Validator Min JS -->
+		<script src="{{ url_for('static', filename='assets/js/form-validator.min.js') }}"></script>
+		<!-- Contact JS -->
+		<script src="{{ url_for('static', filename='assets/js/contact-form-script.js') }}"></script>
+		<!-- Ajaxchimp Min JS -->
+		<script src="{{ url_for('static', filename='assets/js/ajaxchimp.min.js') }}"></script>
+        <!-- Custom JS -->
+		<script src="{{ url_for('static', filename='assets/js/custom.js') }}"></script>
+    </body>
+</html>

@@ -145,7 +145,11 @@ def freelancer():
 # 工作相关
 @app.route('/job-listing.html')
 def job_listing():
-    return render_template('job-listing.html')
+    if session['language']=="en":
+        return render_template('job-listing.html')
+    if session['language']=="zh":
+        return render_template('job-listing-zh.html')
+
 
 @app.route('/job-details.html')
 def job_details():

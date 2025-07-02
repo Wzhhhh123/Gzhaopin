@@ -16,8 +16,8 @@ def replace_header_in_file(file_path):
             content = f.read()
 
         # 使用正则查找 <!-- Start Header Area --> 和 <!-- End Header Area --> 之间的内容
-        header_area_pattern = r'<!-- Start Header Area -->.*?<!-- End Header Area -->'
-        new_content = re.sub(header_area_pattern, '{% include "/heng.html" %}', content, flags=re.DOTALL)
+        header_area_pattern = r'<!-- Start Footer Area -->.*?<!-- End Footer Area -->'
+        new_content = re.sub(header_area_pattern, '{% include "/footer.html" %}', content, flags=re.DOTALL)
 
         # 写回文件
         with open(file_path, 'w', encoding='utf-8') as f:

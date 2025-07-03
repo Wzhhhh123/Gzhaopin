@@ -2,7 +2,7 @@ from flask import Flask, render_template
 from flask import Flask, request, session, redirect, url_for
 from flask_babel import Babel, _
 from werkzeug.security import generate_password_hash, check_password_hash
-from db import connect_db
+from db import init_db_config, connect_db
 from functools import wraps
 from flask import Flask, request, redirect, url_for, session, flash, render_template
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -10,7 +10,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
 app = Flask(__name__)
 app.config["SECRET_KEY"] = '79537d00f4834892986f09a100aa1edf'
-
+init_db_config()
 # 配置Babel
 app.config['BABEL_DEFAULT_LOCALE'] = 'en'
 app.config['LANGUAGES'] = {
@@ -354,4 +354,5 @@ def page_not_found(e):
     return render_template('404.html'), 404
 
 if __name__ == "__main__":
+
     app.run(debug=True,host='0.0.0.0',port=5222)

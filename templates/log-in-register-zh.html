@@ -5,8 +5,8 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-		<!-- Bootstrap Min CSS --> 
-		<link rel="stylesheet" href="http://www.sucai8.cn/jquery/bootstrap-4.2.1.css">
+		<!-- Bootstrap Min CSS -->
+		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/bootstrap.min.css') }}">
 		<!-- Owl Theme Default Min CSS --> 
 		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/owl.theme.default.min.css') }}">
 		<!-- Owl Carousel Min CSS --> 
@@ -442,11 +442,11 @@
 		
 
         <!-- Jquery Min JS -->
-        <script src="http://www.sucai8.cn/jquery/jquery-1.10.2.js"></script>
+		<script src="{{ url_for('static', filename='assets/js/jquery-1.10.2.js') }}"></script>
         <!-- Popper Min JS -->
         <script src="{{ url_for('static', filename='assets/js/popper.min.js') }}"></script>
         <!-- Bootstrap Min JS -->
-        <script src="http://www.sucai8.cn/jquery/bootstrap-4.2.1.js"></script>
+		<script src="{{ url_for('static', filename='assets/js/bootstrap-4.2.1.js') }}"></script>
         <!-- Meanmenu Min JS -->
 		<script src="{{ url_for('static', filename='assets/js/meanmenu.min.js') }}"></script>
 		<!-- Wow Min JS -->

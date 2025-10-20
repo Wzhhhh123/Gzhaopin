@@ -65,17 +65,17 @@
                             <h1>寻找您的职业，创造更好生活</h1>
                             <p>今日搜索超过10,000个职位！</p>
 
-                            <form class="search-job">
+                            <form class="search-job" method="GET" action="{{ url_for('job_listing') }}">
                                 <div class="row">
                                     <div class="col-lg-5 col-sm-6">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" id="job-title" placeholder="职位名称、技能或公司">
+                                            <input type="text" class="form-control" name="search" placeholder="职位名称、技能或公司" value="{{ current_search }}">
                                         </div>
                                     </div>
 
                                     <div class="col-lg-4 col-sm-6">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" id="job-title-2" placeholder="城市、省份或邮编">
+                                            <input type="text" class="form-control" name="location" placeholder="城市、省份或邮编" value="{{ current_location }}">
                                         </div>
                                     </div>
 
@@ -86,6 +86,11 @@
                                         </button>
                                     </div>
                                 </div>
+
+                                <!-- 隐藏字段用于保持其他筛选参数 -->
+                                {% if current_job_type %}
+                                <input type="hidden" name="job_type" value="{{ current_job_type }}">
+                                {% endif %}
                             </form>
 
                             <div class="total-job-count">

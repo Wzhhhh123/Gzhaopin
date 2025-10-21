@@ -239,167 +239,21 @@
 
                 <div class="live-jobs-item">
                     <div class="row">
+                        {% for category, count in categories.items() %}
                         <div class="col-lg-2 col-sm-6">
                             <div class="single-live-job">
-                                <i class="flaticon-calculations"></i>
-                                <a href="job-listing.html">
-                                    翻译服务 (15)
+                                {% set icons = [
+                                'flaticon-calculations', 'flaticon-architect', 'flaticon-bank',
+                                'flaticon-submit', 'flaticon-graduated', 'flaticon-travel',
+                                'flaticon-medical-insurance', 'flaticon-ngo'
+                                ] %}
+                                <i class="{{ icons[loop.index0 % icons|length] }}"></i>
+                                <a href="{{ url_for('job_listing', search=category[:2]) }}">
+                                    {{ category }} ({{ count }})
                                 </a>
                             </div>
                         </div>
-
-                        <div class="col-lg-2 col-sm-6">
-                            <div class="single-live-job">
-                                <i class="flaticon-architect"></i>
-                                <a href="job-listing.html">
-                                    技术服务 (15)
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-2 col-sm-6">
-                            <div class="single-live-job">
-                                <i class="flaticon-bank"></i>
-                                <a href="job-listing.html">
-                                    技术开发 (14)
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-2 col-sm-6">
-                            <div class="single-live-job">
-                                <i class="flaticon-submit"></i>
-                                <a href="job-listing.html">
-                                    技术咨询 (13)
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-2 col-sm-6">
-                            <div class="single-live-job">
-                                <i class="flaticon-graduated"></i>
-                                <a href="job-listing.html">
-                                    技术交流 (12)
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-2 col-sm-6">
-                            <div class="single-live-job">
-                                <i class="flaticon-travel"></i>
-                                <a href="job-listing.html">
-                                    技术转让 (13)
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-2 col-sm-6">
-                            <div class="single-live-job">
-                                <i class="flaticon-medical-insurance"></i>
-                                <a href="job-listing.html">
-                                    技术推广 (13)
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-2 col-sm-6">
-                            <div class="single-live-job">
-                                <i class="flaticon-submit"></i>
-                                <a href="job-listing.html">
-                                    会议及展览服务 (15)
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-2 col-sm-6">
-                            <div class="single-live-job">
-                                <i class="flaticon-ngo"></i>
-                                <a href="job-listing.html">
-                                    组织文化艺术交流活动 (15)
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-2 col-sm-6">
-                            <div class="single-live-job">
-                                <i class="flaticon-calculations"></i>
-                                <a href="job-listing.html">
-                                    社会经济咨询服务 (15)
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-2 col-sm-6">
-                            <div class="single-live-job">
-                                <i class="flaticon-architect"></i>
-                                <a href="job-listing.html">
-                                    公共安全管理咨询服务 (15)
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-2 col-sm-6">
-                            <div class="single-live-job">
-                                <i class="flaticon-bank"></i>
-                                <a href="job-listing.html">
-                                    教育咨询服务 (14)
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-2 col-sm-6">
-                            <div class="single-live-job">
-                                <i class="flaticon-submit"></i>
-                                <a href="job-listing.html">
-                                    市场营销策划 (12)
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-2 col-sm-6">
-                            <div class="single-live-job">
-                                <i class="flaticon-graduated"></i>
-                                <a href="job-listing.html">
-                                    俄罗斯信息咨询服务 (12)
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-2 col-sm-6">
-                            <div class="single-live-job">
-                                <i class="flaticon-travel"></i>
-                                <a href="job-listing.html">
-                                    中亚国家信息咨询服务 (13)
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-2 col-sm-6">
-                            <div class="single-live-job">
-                                <i class="flaticon-medical-insurance"></i>
-                                <a href="job-listing.html">
-                                    中亚国家信息咨询服务 (13)
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-2 col-sm-6">
-                            <div class="single-live-job">
-                                <i class="flaticon-submit"></i>
-                                <a href="job-listing.html">
-                                    中亚国家信息咨询服务 (13)
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-2 col-sm-6">
-                            <div class="single-live-job">
-                                <i class="flaticon-ngo"></i>
-                                <a href="job-listing.html">
-                                    NGO (25)
-                                </a>
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -409,37 +263,21 @@
                     <h3>紧急招聘</h3>
 
                     <ul>
+                        {% for job in urgent_jobs %}
                         <li>
-                            <a href="job-details.html" class="hiring-img">
-                                <img src="{{ url_for('static', filename='assets/images/hiring/hiring-1.png') }}" alt="图片">
+                            <a href="{{ url_for('job_detail', job_id=job.id) }}" class="hiring-img">
+                                <img src="{{ url_for('static', filename='assets/images/hot-jobs/' + job.logo) }}" alt="{{ job.title }}">
                             </a>
-                            <a href="job-details.html" class="link">社会经济咨询服务</a>
-                            <span>北京富鹏商旅服务有限公司</span>
+                            <a href="{{ url_for('job_detail', job_id=job.id) }}" class="link">{{ job.title }}</a>
+                            <span>{{ job.company }}</span>
+                            <span class="urgent-badge">紧急</span>
                         </li>
-
-                        <li>
-                            <a href="job-details.html" class="hiring-img">
-                                <img src="{{ url_for('static', filename='assets/images/hiring/hiring-2.png') }}" alt="图片">
-                            </a>
-                            <a href="job-details.html" class="link">公共安全管理咨询服务</a>
-                            <span>北京富鹏商旅服务有限公司</span>
+                        {% else %}
+                        <li class="text-center">
+                            <p class="text-muted">暂无紧急招聘职位</p>
+                            <a href="{{ url_for('job_listing') }}" class="default-btn">查看所有职位</a>
                         </li>
-
-                        <li>
-                            <a href="job-details.html" class="hiring-img">
-                                <img src="{{ url_for('static', filename='assets/images/hiring/hiring-3.png') }}" alt="图片">
-                            </a>
-                            <a href="job-details.html" class="link">俄罗斯信息咨询服务</a>
-                            <span>北京富鹏商旅服务有限公司</span>
-                        </li>
-
-                        <li>
-                            <a href="job-details.html" class="hiring-img">
-                                <img src="{{ url_for('static', filename='assets/images/hiring/hiring-4.png') }}" alt="图片">
-                            </a>
-                            <a href="job-details.html" class="link">中亚国家信息咨询服务</a>
-                            <span>北京富鹏商旅服务有限公司</span>
-                        </li>
+                        {% endfor %}
                     </ul>
                 </div>
             </div>

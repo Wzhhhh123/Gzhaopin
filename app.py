@@ -32,7 +32,7 @@ app.config['LANGUAGES'] = {
     'en': 'English',
     'zh': '中文'
 }
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Wzh010310@192.168.1.185/job_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Wzh010310@jq777.cn/job_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -127,14 +127,50 @@ def create_sample_data():
         "富鹏国际交流中心", "富鹏会展服务有限公司", "富鹏文化艺术交流中心"
     ]
 
-    # 职位列表基于业务范围
+    # 职位列表基于业务范围 - 确保覆盖所有分类
     job_titles = [
-        "翻译服务专员", "技术开发工程师", "技术咨询顾问", "国际交流协调员",
-        "会展活动策划", "文化艺术交流专员", "商务咨询顾问", "市场营销策划",
-        "俄罗斯信息咨询顾问", "中亚国家信息咨询顾问", "公共安全管理咨询师",
-        "教育咨询顾问", "技术推广专员", "技术转让顾问", "高级翻译项目经理",
-        "多语言翻译专员", "软件工程师", "前端开发工程师", "后端开发工程师",
-        "数据分析师", "系统架构师", "技术解决方案顾问"
+        # 翻译服务类
+        "翻译服务专员", "高级翻译项目经理", "多语言翻译专员", "俄语翻译", "英语翻译",
+
+        # 技术开发类
+        "技术开发工程师", "软件工程师", "前端开发工程师", "后端开发工程师",
+        "数据分析师", "系统架构师", "Java开发工程师", "Python开发工程师",
+
+        # 技术咨询类
+        "技术咨询顾问", "技术解决方案顾问", "IT咨询顾问", "业务咨询顾问",
+
+        # 技术交流类
+        "国际交流协调员", "技术交流专员", "国际合作专员",
+
+        # 技术转让类
+        "技术转让顾问", "知识产权顾问",
+
+        # 技术推广类
+        "技术推广专员", "产品推广专员",
+
+        # 会议及展览服务类
+        "会展活动策划", "会议服务专员", "展览策划", "活动执行",
+
+        # 文化艺术交流类
+        "文化艺术交流专员", "文化活动策划", "艺术项目协调员",
+
+        # 社会经济咨询类
+        "商务咨询顾问", "经济分析师", "投资顾问", "商业策划师",
+
+        # 公共安全管理咨询类
+        "公共安全管理咨询师", "安全顾问", "风险管理师",
+
+        # 教育咨询类
+        "教育咨询顾问", "留学顾问", "培训顾问",
+
+        # 市场营销类
+        "市场营销策划", "市场推广专员", "品牌策划", "数字营销专员",
+
+        # 俄罗斯信息咨询类
+        "俄罗斯信息咨询顾问", "俄语商务顾问", "俄罗斯市场分析师",
+
+        # 中亚信息咨询类
+        "中亚国家信息咨询顾问", "中亚市场分析师", "中亚商务专员"
     ]
 
     # 详细的职位描述
@@ -154,7 +190,30 @@ def create_sample_data():
         "技术推广专员": "负责技术推广工作，包括技术展示、推广活动和客户培训。具备良好的演讲能力和技术理解能力。",
         "技术转让顾问": "协助客户进行技术转让交易，包括技术评估、合同谈判和项目实施。具备技术背景和法律知识。",
         "高级翻译项目经理": "管理翻译项目团队，协调项目进度，确保翻译质量和交付时间。具备项目管理经验和团队领导能力。",
-        "多语言翻译专员": "负责多种语言的翻译工作，包括文档翻译、现场口译和本地化服务。精通至少两种外语。"
+        "多语言翻译专员": "负责多种语言的翻译工作，包括文档翻译、现场口译和本地化服务。精通至少两种外语。",
+        # 新增职位的描述
+        "软件工程师": "负责软件系统的设计、开发和维护工作，参与产品需求分析和技术方案制定。",
+        "数据分析师": "负责业务数据的收集、分析和可视化，为决策提供数据支持。",
+        "系统架构师": "设计系统架构方案，确保系统的可扩展性、安全性和高性能。",
+        "俄语翻译": "负责中俄双语翻译工作，包括商务文件翻译和现场口译服务。",
+        "英语翻译": "负责中英双语翻译工作，确保翻译质量和专业性。",
+        "IT咨询顾问": "为客户提供IT战略规划、系统选型和数字化转型咨询服务。",
+        "国际合作专员": "负责国际项目的协调和管理，促进跨国合作与交流。",
+        "知识产权顾问": "提供知识产权相关的咨询服务，包括专利、商标和技术转让。",
+        "产品推广专员": "负责公司产品和服务的市场推广工作，制定推广策略并执行。",
+        "展览策划": "策划和组织各类展览活动，包括展位设计、展商协调和现场管理。",
+        "活动执行": "负责活动的现场执行工作，确保活动顺利进行。",
+        "艺术项目协调员": "协调艺术项目的实施，管理项目进度和资源分配。",
+        "经济分析师": "进行市场研究和经济分析，为客户提供投资建议。",
+        "风险管理师": "识别和评估业务风险，制定风险管理策略和应急预案。",
+        "留学顾问": "提供留学咨询和申请服务，协助学生完成留学规划。",
+        "培训顾问": "设计和实施培训项目，提升员工专业技能和综合素质。",
+        "品牌策划": "负责品牌战略规划和品牌形象建设，提升品牌价值。",
+        "数字营销专员": "执行数字营销策略，包括社交媒体营销、搜索引擎优化等。",
+        "俄语商务顾问": "为对俄业务提供商务咨询和语言支持服务。",
+        "俄罗斯市场分析师": "分析俄罗斯市场动态和商业机会，提供市场进入策略。",
+        "中亚市场分析师": "研究中亚国家市场环境，为企业拓展中亚市场提供决策支持。",
+        "中亚商务专员": "负责中亚地区的商务拓展和客户关系维护。"
     }
 
     # 生成80个示例职位
@@ -221,10 +280,78 @@ def set_language():
 # 首页路由
 @app.route('/')
 def index123():
+    """首页 - 显示分类统计和紧急招聘"""
+    # 基于职位标题关键词的分类统计
+    categories = {
+        '翻译服务': Job.query.filter(
+            Job.title.contains('翻译') |
+            Job.title.contains('语言')
+        ).count(),
+        '技术开发': Job.query.filter(
+            Job.title.contains('开发') |
+            Job.title.contains('工程') |
+            Job.title.contains('软件') |
+            Job.title.contains('架构') |
+            Job.title.contains('数据')
+        ).count(),
+        '技术咨询': Job.query.filter(
+            Job.title.contains('咨询') |
+            Job.title.contains('顾问')
+        ).count(),
+        '技术交流': Job.query.filter(
+            Job.title.contains('交流') |
+            Job.title.contains('国际') |
+            Job.title.contains('协调')
+        ).count(),
+        '技术转让': Job.query.filter(Job.title.contains('转让')).count(),
+        '技术推广': Job.query.filter(Job.title.contains('推广')).count(),
+        '会议及展览服务': Job.query.filter(
+            Job.title.contains('会议') |
+            Job.title.contains('会展') |
+            Job.title.contains('展览')
+        ).count(),
+        '组织文化艺术交流活动': Job.query.filter(
+            Job.title.contains('文化') |
+            Job.title.contains('艺术')
+        ).count(),
+        '社会经济咨询服务': Job.query.filter(
+            Job.title.contains('商务') |
+            Job.title.contains('经济')
+        ).count(),
+        '公共安全管理咨询服务': Job.query.filter(
+            Job.title.contains('安全') |
+            Job.title.contains('管理')
+        ).count(),
+        '教育咨询服务': Job.query.filter(Job.title.contains('教育')).count(),
+        '市场营销策划': Job.query.filter(
+            Job.title.contains('市场') |
+            Job.title.contains('营销')
+        ).count(),
+        '俄罗斯信息咨询服务': Job.query.filter(Job.title.contains('俄罗斯')).count(),
+        '中亚国家信息咨询服务': Job.query.filter(Job.title.contains('中亚')).count()
+    }
+
+    # 获取紧急招聘职位（标记为紧急的职位）
+    urgent_jobs = Job.query.filter_by(is_urgent=True).order_by(Job.created_at.desc()).limit(4).all()
+
+    # 获取推荐职位
+    featured_jobs = Job.query.filter_by(is_featured=True).order_by(Job.created_at.desc()).limit(6).all()
+
+    # 获取最新职位
+    latest_jobs = Job.query.order_by(Job.created_at.desc()).limit(8).all()
     if session['language']=="en":
-        return render_template('index.html')
+        return render_template('index.html',
+                             categories=categories,
+                             urgent_jobs=urgent_jobs,
+                             featured_jobs=featured_jobs,
+                             latest_jobs=latest_jobs)
     if session['language']=="zh":
-        return render_template('index-zh.html')
+            return render_template('index-zh.html',
+                             categories=categories,
+                             urgent_jobs=urgent_jobs,
+                             featured_jobs=featured_jobs,
+                             latest_jobs=latest_jobs)
+
 
 @app.route('/index.html')
 def index():

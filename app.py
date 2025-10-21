@@ -32,7 +32,7 @@ app.config['LANGUAGES'] = {
     'en': 'English',
     'zh': '中文'
 }
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Wzh010310@jq777.cn/job_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Wzh010310@192.168.1.185/job_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 

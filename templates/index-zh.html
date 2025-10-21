@@ -36,7 +36,40 @@
 
     <!-- 网站图标 -->
     <link rel="icon" type="image/png" href="assets/images/favicon.png">
+    <style>
+        .stats-widget .stats-item {
+            text-align: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .stats-widget .stats-item:last-child {
+            border-bottom: none;
+        }
+
+        .stats-widget .stats-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #3f51b5;
+            margin-bottom: 5px;
+        }
+
+        .stats-widget .stats-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .quick-link ul li a {
+            color: #333;
+            transition: color 0.3s ease;
+        }
+
+        .quick-link ul li a:hover {
+            color: #3f51b5;
+        }
+    </style>
     <!-- 标题 -->
+
     <title>北京富鹏商务服务有限公司</title>
 </head>
 
@@ -287,282 +320,254 @@
 <!-- 结束实时职位区域 -->
 
 <!-- 开始热门职位区域 -->
+<!-- 开始热门职位区域 -->
 <section class="hot-jobs-area bg-color pb-70">
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
                 <div class="section-title">
                     <span>热门职位</span>
-                    <h2>新职位与随机职位</h2>
+                    <h2>推荐职位与最新职位</h2>
                 </div>
 
-                <div class="row">
+                <div class="row mb-4">
                     <div class="col-lg-6 col-md-6">
-                        <select>
-                            <option value="1">全职</option>
-                            <option value="2">兼职</option>
-                            <option value="3">夜班</option>
-                            <option value="4">白班</option>
-                            <option value="5">晚班</option>
+                        <select id="jobTypeFilter" onchange="filterHomeJobs()">
+                            <option value="">所有类型</option>
+                            <option value="全职">全职</option>
+                            <option value="兼职">兼职</option>
+                            <option value="实习">实习</option>
+                            <option value="合同制">合同制</option>
                         </select>
                     </div>
 
                     <div class="col-lg-6 col-md-6">
                         <div class="show-page">
-                            <p>每页显示</p>
-                            <select>
-                                <option value="1">05</option>
-                                <option value="2">07</option>
-                                <option value="3">10</option>
-                                <option value="4">15</option>
-                                <option value="5">18</option>
+                            <p>排序方式</p>
+                            <select id="sortFilter" onchange="sortHomeJobs()">
+                                <option value="featured">推荐优先</option>
+                                <option value="latest">最新发布</option>
+                                <option value="urgent">紧急职位</option>
+                                <option value="deadline">截止日期</option>
                             </select>
                         </div>
                     </div>
                 </div>
 
-                <div class="hot-jobs-list">
-                    <div class="row align-items-center">
-                        <div class="col-lg-2">
-                            <a href="job-details.html" class="hot-jobs-img">
-                                <img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-1.png') }}" alt="图片">
-                            </a>
-                        </div>
+                <!-- 推荐职位 -->
+                <div id="featuredJobs">
+                    {% for job in featured_jobs %}
+                    <div class="hot-jobs-list">
+                        <div class="row align-items-center">
+                            <div class="col-lg-2">
+                                <a href="{{ url_for('job_detail', job_id=job.id) }}" class="hot-jobs-img">
+                                    <img src="{{ url_for('static', filename='assets/images/hot-jobs/' + job.logo) }}" alt="{{ job.title }}">
+                                </a>
+                            </div>
 
-                        <div class="col-lg-6">
-                            <div class="hot-jobs-content">
-                                <h3><a href="job-details.html">财务与会计</a></h3>
-                                <span class="sub-title">Finix贷款与融资机构</span>
-                                <ul>
-                                    <li><span>学历要求：</span> BBA / M.A.</li>
-                                    <li><span>工作经验：</span>至少1年</li>
-                                    <li><span>工作地点：</span>纽约</li>
-                                </ul>
+                            <div class="col-lg-6">
+                                <div class="hot-jobs-content">
+                                    <h3><a href="{{ url_for('job_detail', job_id=job.id) }}">{{ job.title }}</a></h3>
+                                    <span class="sub-title">{{ job.company }}</span>
+                                    <ul>
+                                        <li><span>学历要求：</span> {{ job.education }}</li>
+                                        <li><span>工作经验：</span> {{ job.experience }}</li>
+                                        <li><span>工作地点：</span> {{ job.location }}</li>
+                                        <li><span>薪资待遇：</span> {{ job.salary }}</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="hot-jobs-btn">
+                                    <a href="{{ url_for('job_detail', job_id=job.id) }}" class="default-btn">浏览职位</a>
+                                    <p><span>截止日期：</span>{{ job.deadline.strftime('%Y年%m月%d日') }}</p>
+                                </div>
                             </div>
                         </div>
-
-                        <div class="col-lg-4">
-                            <div class="hot-jobs-btn">
-                                <a href="job-details.html" class="default-btn">浏览职位</a>
-                                <p><span>截止日期：</span>2025年12月30日</p>
-                            </div>
-                        </div>
+                        {% if job.is_featured %}
+                        <span class="featured">精选</span>
+                        {% endif %}
+                        {% if job.is_urgent %}
+                        <span class="featured red">紧急</span>
+                        {% endif %}
                     </div>
-                    <span class="featured">精选</span>
+                    {% else %}
+                    <div class="alert alert-info">
+                        <p>暂无推荐职位，<a href="{{ url_for('job_listing') }}">查看所有职位</a></p>
+                    </div>
+                    {% endfor %}
                 </div>
 
-                <div class="hot-jobs-list">
-                    <div class="row align-items-center">
-                        <div class="col-lg-2">
-                            <a href="job-details.html" class="hot-jobs-img">
-                                <img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-2.png') }}" alt="图片">
-                            </a>
-                        </div>
-
-                        <div class="col-lg-6">
-                            <div class="hot-jobs-content">
-                                <h3><a href="job-details.html">助理经理</a></h3>
-                                <span class="sub-title">Leve银行有限公司</span>
-                                <ul>
-                                    <li><span>学历要求：</span> BBA / M.A.</li>
-                                    <li><span>工作经验：</span>至少2年</li>
-                                    <li><span>工作地点：</span>阿拉斯加</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4">
-                            <div class="hot-jobs-btn">
-                                <a href="job-details.html" class="default-btn">浏览职位</a>
-                                <p><span>截止日期：</span>2025年11月30日</p>
-                            </div>
-                        </div>
+                <!-- 最新职位 -->
+                <div class="mt-5">
+                    <div class="section-title">
+                        <h3>最新职位</h3>
                     </div>
-                    <span class="featured">精选</span>
+
+                    <div id="latestJobs">
+                        {% for job in latest_jobs %}
+                        <div class="hot-jobs-list">
+                            <div class="row align-items-center">
+                                <div class="col-lg-2">
+                                    <a href="{{ url_for('job_detail', job_id=job.id) }}" class="hot-jobs-img">
+                                        <img src="{{ url_for('static', filename='assets/images/hot-jobs/' + job.logo) }}" alt="{{ job.title }}">
+                                    </a>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="hot-jobs-content">
+                                        <h3><a href="{{ url_for('job_detail', job_id=job.id) }}">{{ job.title }}</a></h3>
+                                        <span class="sub-title">{{ job.company }}</span>
+                                        <ul>
+                                            <li><span>学历要求：</span> {{ job.education }}</li>
+                                            <li><span>工作经验：</span> {{ job.experience }}</li>
+                                            <li><span>工作地点：</span> {{ job.location }}</li>
+                                            <li><span>职位类型：</span> {{ job.job_type }}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4">
+                                    <div class="hot-jobs-btn">
+                                        <a href="{{ url_for('job_detail', job_id=job.id) }}" class="default-btn">浏览职位</a>
+                                        <p><span>发布时间：</span>{{ job.created_at.strftime('%Y年%m月%d日') }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% if job.is_featured %}
+                            <span class="featured">精选</span>
+                            {% endif %}
+                            {% if job.is_urgent %}
+                            <span class="featured red">紧急</span>
+                            {% endif %}
+                        </div>
+                        {% else %}
+                        <div class="alert alert-info">
+                            <p>暂无最新职位</p>
+                        </div>
+                        {% endfor %}
+                    </div>
                 </div>
 
-                <div class="hot-jobs-list">
-                    <div class="row align-items-center">
-                        <div class="col-lg-2">
-                            <a href="job-details.html" class="hot-jobs-img">
-                                <img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-3.png') }}" alt="图片">
-                            </a>
-                        </div>
-
-                        <div class="col-lg-6">
-                            <div class="hot-jobs-content">
-                                <h3><a href="job-details.html">机械工程师</a></h3>
-                                <span class="sub-title">Conzio建筑公司</span>
-                                <ul>
-                                    <li><span>学历要求：</span> B.Sc</li>
-                                    <li><span>工作经验：</span>至少1年</li>
-                                    <li><span>工作地点：</span>华盛顿</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4">
-                            <div class="hot-jobs-btn">
-                                <a href="job-details.html" class="default-btn">浏览职位</a>
-                                <p><span>截止日期：</span>2025年12月30日</p>
-                            </div>
-                        </div>
-                    </div>
-                    <span class="featured red">紧急</span>
-                </div>
-
-                <div class="hot-jobs-list">
-                    <div class="row align-items-center">
-                        <div class="col-lg-2">
-                            <a href="job-details.html" class="hot-jobs-img">
-                                <img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-4.png') }}" alt="图片">
-                            </a>
-                        </div>
-
-                        <div class="col-lg-6">
-                            <div class="hot-jobs-content">
-                                <h3><a href="job-details.html">英语教师</a></h3>
-                                <span class="sub-title">Eduon教育</span>
-                                <ul>
-                                    <li><span>学历要求：</span> BBA / M.A.</li>
-                                    <li><span>工作经验：</span>至少2年</li>
-                                    <li><span>工作地点：</span>佛罗里达</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4">
-                            <div class="hot-jobs-btn">
-                                <a href="job-details.html" class="default-btn">浏览职位</a>
-                                <p><span>截止日期：</span>2025年11月30日</p>
-                            </div>
-                        </div>
-                    </div>
-                    <span class="featured">精选</span>
-                </div>
-
-                <div class="hot-jobs-list">
-                    <div class="row align-items-center">
-                        <div class="col-lg-2">
-                            <a href="job-details.html" class="hot-jobs-img">
-                                <img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-5.png') }}" alt="图片">
-                            </a>
-                        </div>
-
-                        <div class="col-lg-6">
-                            <div class="hot-jobs-content">
-                                <h3><a href="job-details.html">高级/项目经理</a></h3>
-                                <span class="sub-title">Oryx国际</span>
-                                <ul>
-                                    <li><span>学历要求：</span> BBA / M.A.</li>
-                                    <li><span>工作经验：</span>至少5年</li>
-                                    <li><span>工作地点：</span>加利福尼亚</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4">
-                            <div class="hot-jobs-btn">
-                                <a href="job-details.html" class="default-btn">浏览职位</a>
-                                <p><span>截止日期：</span>2025年12月15日</p>
-                            </div>
-                        </div>
-                    </div>
-                    <span class="featured">精选</span>
-                </div>
-
-                <div class="row">
+                <div class="row mt-4">
                     <div class="col-lg-12 col-md-12">
-                        <div class="pagination-area">
-                            <span class="page-numbers current" aria-current="page">1</span>
-                            <a href="#" class="page-numbers">2</a>
-                            <a href="#" class="page-numbers">3</a>
-
-                            <a href="#" class="next page-numbers">
-                                <i class="flaticon-right-arrow"></i>
-                            </a>
+                        <div class="text-center">
+                            <a href="{{ url_for('job_listing') }}" class="default-btn">查看所有职位</a>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <div class="col-lg-4">
+                <div class="hot-jobs-sidebar">
+                    <!-- 公司福利 -->
+                    <div class="hot-job-sidebar">
+                        <img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-sidebar-img.jpg') }}" alt="加入我们">
 
-        <div class="col-lg-4">
-            <div class="hot-jobs-sidebar">
-                <div class="hot-job-sidebar">
-                    <img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-sidebar-img.jpg') }}" alt="图片">
+                        <div class="hot-job-sidebar-content">
+                            <h3>加入我们的优势</h3>
 
-                    <div class="hot-job-sidebar-content">
-                        <h3>进入公司的好处</h3>
-
-                        <ul>
-                            <li>
-                                <span>1</span>
-                                <a href="#">有帮助的客户支持</a>
-                            </li>
-                            <li>
-                                <span>2</span>
-                                <a href="#">获得职业指导</a>
-                            </li>
-                            <li>
-                                <span>3</span>
-                                <a href="#">技能课程</a>
-                            </li>
-                            <li>
-                                <span>4</span>
-                                <a href="#">一流的友好服务</a>
-                            </li>
-                            <li>
-                                <span>5</span>
-                                <a href="#">获取独家研究</a>
-                            </li>
-                        </ul>
+                            <ul>
+                                <li>
+                                    <span>1</span>
+                                    <a href="#">专业的职业发展支持</a>
+                                </li>
+                                <li>
+                                    <span>2</span>
+                                    <a href="#">完善的培训体系</a>
+                                </li>
+                                <li>
+                                    <span>3</span>
+                                    <a href="#">技能提升课程</a>
+                                </li>
+                                <li>
+                                    <span>4</span>
+                                    <a href="#">友好的团队氛围</a>
+                                </li>
+                                <li>
+                                    <span>5</span>
+                                    <a href="#">行业前沿项目经验</a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
 
-                <div class="hot-job-sidebar">
-                    <div class="hot-job-sidebar-content quick-link">
-                        <h3>快速链接</h3>
+                    <!-- 快速链接 -->
+                    <div class="hot-job-sidebar">
+                        <div class="hot-job-sidebar-content quick-link">
+                            <h3>快速链接</h3>
 
-                        <ul>
-                            <li>
-                                <i class="bx bx-chevrons-right"></i>
-                                <a href="#">雇主列表</a>
-                            </li>
-                            <li>
-                                <i class="bx bx-chevrons-right"></i>
-                                <a href="#">新职位(24小时内)</a>
-                            </li>
-                            <li>
-                                <i class="bx bx-chevrons-right"></i>
-                                <a href="#">明天截止</a>
-                            </li>
-                            <li>
-                                <i class="bx bx-chevrons-right"></i>
-                                <a href="#">紧急职位</a>
-                            </li>
-                            <li>
-                                <i class="bx bx-chevrons-right"></i>
-                                <a href="#">客户服务</a>
-                            </li>
-                            <li>
-                                <i class="bx bx-chevrons-right"></i>
-                                <a href="#">合同工作</a>
-                            </li>
-                            <li>
-                                <i class="bx bx-chevrons-right"></i>
-                                <a href="#">兼职工作</a>
-                            </li>
-                            <li>
-                                <i class="bx bx-chevrons-right"></i>
-                                <a href="#">正在招聘</a>
-                            </li>
-                        </ul>
+                            <ul>
+                                <li>
+                                    <i class="bx bx-chevrons-right"></i>
+                                    <a href="{{ url_for('job_listing') }}">所有职位列表</a>
+                                </li>
+                                <li>
+                                    <i class="bx bx-chevrons-right"></i>
+                                    <a href="{{ url_for('job_listing') }}?sort=latest">最新发布职位</a>
+                                </li>
+                                <li>
+                                    <i class="bx bx-chevrons-right"></i>
+                                    <a href="{{ url_for('job_listing') }}?urgent=true">紧急招聘职位</a>
+                                </li>
+                                <li>
+                                    <i class="bx bx-chevrons-right"></i>
+                                    <a href="{{ url_for('job_listing') }}?job_type=全职">全职工作</a>
+                                </li>
+                                <li>
+                                    <i class="bx bx-chevrons-right"></i>
+                                    <a href="{{ url_for('job_listing') }}?job_type=兼职">兼职工作</a>
+                                </li>
+                                <li>
+                                    <i class="bx bx-chevrons-right"></i>
+                                    <a href="{{ url_for('job_listing') }}?job_type=实习">实习机会</a>
+                                </li>
+                                <li>
+                                    <i class="bx bx-chevrons-right"></i>
+                                    <a href="{{ url_for('job_listing') }}?job_type=合同制">合同制工作</a>
+                                </li>
+                                <li>
+                                    <i class="bx bx-chevrons-right"></i>
+                                    <a href="{{ url_for('job_listing') }}?location=远程工作">远程工作</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 统计数据 -->
+                    <div class="hot-job-sidebar">
+                        <div class="hot-job-sidebar-content stats-widget">
+                            <h3>职位统计</h3>
+                            <div class="stats-item">
+                                <div class="stats-number">{{ stats.total_jobs }}</div>
+                                <div class="stats-label">总职位数</div>
+                            </div>
+                            <div class="stats-item">
+                                <div class="stats-number">{{ stats.urgent_jobs }}</div>
+                                <div class="stats-label">紧急职位</div>
+                            </div>
+                            <div class="stats-item">
+                                <div class="stats-number">{{ stats.full_time_jobs }}</div>
+                                <div class="stats-label">全职职位</div>
+                            </div>
+                            <div class="stats-item">
+                                <div class="stats-number">{{ stats.remote_jobs }}</div>
+                                <div class="stats-label">远程职位</div>
+                            </div>
+                            <div class="stats-item">
+                                <div class="stats-number">{{ stats.featured_jobs_count }}</div>
+                                <div class="stats-label">推荐职位</div>
+                            </div>
+                            <div class="stats-item">
+                                <div class="stats-number">{{ stats.new_today }}</div>
+                                <div class="stats-label">今日新增</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-      </div>
     </div>
 </section>
 <!-- 结束热门职位区域 -->
@@ -1124,6 +1129,52 @@
 <!-- 自定义JS -->
 <script src="{{ url_for('static', filename='assets/js/custom.js') }}"></script>
 
+<script>
+    // 首页职位筛选功能
+    function filterHomeJobs() {
+        const jobType = document.getElementById('jobTypeFilter').value;
+        // 这里可以实现AJAX筛选或跳转到职位列表页面
+        if (jobType) {
+            window.location.href = "{{ url_for('job_listing') }}?job_type=" + jobType;
+        }
+    }
+
+    function sortHomeJobs() {
+        const sortBy = document.getElementById('sortFilter').value;
+        // 这里可以实现AJAX排序或跳转到排序后的页面
+        let url = "{{ url_for('job_listing') }}";
+        if (sortBy === 'featured') {
+            url += "?featured=true";
+        } else if (sortBy === 'latest') {
+            url += "?sort=latest";
+        } else if (sortBy === 'urgent') {
+            url += "?urgent=true";
+        } else if (sortBy === 'deadline') {
+            url += "?sort=deadline";
+        }
+        window.location.href = url;
+    }
+
+    // 页面加载完成后的一些交互效果
+    document.addEventListener('DOMContentLoaded', function() {
+        // 为统计数字添加动画效果
+        const statsNumbers = document.querySelectorAll('.stats-number');
+        statsNumbers.forEach(number => {
+            const target = parseInt(number.textContent);
+            let current = 0;
+            const increment = target / 50;
+
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                number.textContent = Math.floor(current);
+            }, 30);
+        });
+    });
+</script>
 {% include '/chat-zh.html' %}
 
 

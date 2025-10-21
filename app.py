@@ -281,7 +281,7 @@ def set_language():
 @app.route('/')
 def index123():
     """首页 - 显示分类统计和紧急招聘"""
-    # 基于职位标题关键词的分类统计
+    # 获取职位分类统计
     categories = {
         '翻译服务': Job.query.filter(
             Job.title.contains('翻译') |
@@ -331,34 +331,44 @@ def index123():
         '中亚国家信息咨询服务': Job.query.filter(Job.title.contains('中亚')).count()
     }
 
-    # 获取紧急招聘职位（标记为紧急的职位）
+    # 获取紧急招聘职位
     urgent_jobs = Job.query.filter_by(is_urgent=True).order_by(Job.created_at.desc()).limit(4).all()
 
-    # 获取推荐职位
+    # 获取推荐职位（精选职位）
     featured_jobs = Job.query.filter_by(is_featured=True).order_by(Job.created_at.desc()).limit(6).all()
 
     # 获取最新职位
-    latest_jobs = Job.query.order_by(Job.created_at.desc()).limit(8).all()
+    latest_jobs = Job.query.order_by(Job.created_at.desc()).limit(6).all()
+
+    # 获取统计数据
+    stats = {
+        'total_jobs': Job.query.count(),
+        'urgent_jobs': Job.query.filter_by(is_urgent=True).count(),
+        'full_time_jobs': Job.query.filter_by(job_type='全职').count(),
+        'remote_jobs': Job.query.filter_by(location='远程工作').count(),
+        'featured_jobs_count': Job.query.filter_by(is_featured=True).count(),
+        'new_today': Job.query.filter(Job.created_at >= datetime.utcnow().date()).count()
+    }
     if session['language']=="en":
         return render_template('index.html',
                              categories=categories,
                              urgent_jobs=urgent_jobs,
                              featured_jobs=featured_jobs,
-                             latest_jobs=latest_jobs)
+                             latest_jobs=latest_jobs,
+                             stats=stats)
     if session['language']=="zh":
-            return render_template('index-zh.html',
+        return render_template('index-zh.html',
                              categories=categories,
                              urgent_jobs=urgent_jobs,
                              featured_jobs=featured_jobs,
-                             latest_jobs=latest_jobs)
+                             latest_jobs=latest_jobs,
+                             stats=stats)
+
 
 
 @app.route('/index.html')
 def index():
-    if session['language']=="en":
-        return render_template('index.html')
-    if session['language']=="zh":
-        return render_template('index-zh.html')
+    return redirect(url_for('index123'))
 # 备用首页路由
 @app.route('/index-2.html')
 def index2():

@@ -7,7 +7,9 @@
                     <ul class="header-left-content">
                         <li>
                             <span>热线电话</span>
-                            <a href="tel:+86-(010)-123-5678">+86 (010) 123-5678</a>
+                            <a href="tel:+86-199-0475-6656">+(86)199-0475-6656</a>
+                            <a href="tel:+86-150-2644-9010">+(86)150-2644-9010</a>
+
                         </li>
                     </ul>
                 </div>
@@ -265,8 +267,13 @@
 
                         <div class="others-option">
                             <div class="get-quote">
-                                <a href="post-job.html" class="default-btn">
-                                    发布职位
+                                {% if session.role == 'admin' %}
+                                <a href="/admin/resumes" class="default-btn" style="background: #00b542">
+                                    后台管理
+                                </a>
+                                {% endif %}
+                                <a href="post-resume.html" class="default-btn">
+                                    投递简历
                                 </a>
                             </div>
                         </div>

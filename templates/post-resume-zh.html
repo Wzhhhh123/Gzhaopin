@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Bootstrap Min CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/bootstrap.min.css') }}">
+	<!-- Owl Theme Default Min CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/owl.theme.default.min.css') }}">
+	<!-- Owl Carousel Min CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/owl.carousel.min.css') }}">
+	<!-- Animate Min CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/animate.min.css') }}">
+	<!-- Boxicons Min CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/boxicons.min.css') }}">
+	<!-- Magnific Popup Min CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/magnific-popup.min.css') }}">
+	<!-- Flaticon CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/flaticon.css') }}">
+	<!-- Meanmenu Min CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/meanmenu.min.css') }}">
+	<!-- Nice Select Min CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/nice-select.min.css') }}">
+	<!-- Odometer Min CSS-->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/odometer.min.css') }}">
+	<!-- Date Picker CSS-->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/date-picker.min.css') }}">
+	<!-- Muli Fonts Min CSS-->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/muli-fonts.css') }}">
+	<!-- Style CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/style.css') }}">
+	<!-- Responsive CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/responsive.css') }}">
+
+	<!-- Favicon -->
+	<link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/images/favicon.png') }}">
+	<!-- Title -->
+	<title>提交简历 - 北京富鹏商务服务有限公司</title>
+</head>
+<body>
+<!-- Start Preloader Area -->
+<div class="preloader">
+	<div class="lds-ripple">
+		<div></div>
+		<div></div>
+	</div>
+</div>
+<!-- End Preloader Area -->
+
+{% include "heng-zh.html" %}
+
+<body>
+<!-- Start Preloader Area -->
+<div class="preloader">
+	<div class="lds-ripple">
+		<div></div>
+		<div></div>
+	</div>
+</div>
+<!-- End Preloader Area -->
+
+<div class="container mt-5">
+	<div class="row">
+		<!-- 职位筛选和列表 -->
+		<div class="col-lg-4 mb-4">
+			<div class="card">
+				<div class="card-header">
+					<h5 class="mb-0">选择申请职位</h5>
+				</div>
+				<div class="card-body">
+					<!-- 筛选表单 -->
+					<form method="GET" action="{{ url_for('post_resume') }}">
+						<div class="form-group">
+							<label>搜索职位</label>
+							<input type="text" name="search" class="form-control" value="{{ search }}" placeholder="输入职位名称或公司">
+						</div>
+						<div class="form-group">
+							<label>职位类型</label>
+							<select name="job_type" class="form-control">
+								<option value="">所有类型</option>
+								<option value="全职" {% if job_type == '全职' %}selected{% endif %}>全职</option>
+								<option value="兼职" {% if job_type == '兼职' %}selected{% endif %}>兼职</option>
+								<option value="实习" {% if job_type == '实习' %}selected{% endif %}>实习</option>
+								<option value="合同制" {% if job_type == '合同制' %}selected{% endif %}>合同制</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label>工作地点</label>
+							<input type="text" name="location" class="form-control" value="{{ location }}" placeholder="输入工作地点">
+						</div>
+						<button type="submit" class="btn btn-primary btn-block">筛选职位</button>
+						{% if search or job_type or location %}
+						<a href="{{ url_for('post_resume') }}" class="btn btn-outline-secondary btn-block mt-2">清除筛选</a>
+						{% endif %}
+					</form>
+				</div>
+			</div>
+
+			<!-- 职位列表 -->
+			<div class="card mt-4">
+				<div class="card-header">
+					<h6 class="mb-0">可用职位 ({{ jobs|length }})</h6>
+				</div>
+				<div class="card-body p-0">
+					<div class="list-group list-group-flush">
+						{% for job in jobs %}
+						<a href="#" class="list-group-item list-group-item-action job-item {% if selected_job_id == job.id %}active{% endif %}"
+						   data-job-id="{{ job.id }}" data-job-title="{{ job.title }}">
+							<div class="d-flex w-100 justify-content-between">
+								<h6 class="mb-1">{{ job.title }}</h6>
+								{% if job.is_featured %}
+								<small class="text-warning">推荐</small>
+								{% endif %}
+								{% if job.is_urgent %}
+								<small class="text-danger">紧急</small>
+								{% endif %}
+							</div>
+							<p class="mb-1 small">{{ job.company }}</p>
+							<div class="d-flex justify-content-between">
+								<small>{{ job.location }}</small>
+								<small>{{ job.salary }}</small>
+							</div>
+							<small class="text-muted">截止: {{ job.deadline.strftime('%m-%d') }}</small>
+						</a>
+						{% else %}
+						<div class="list-group-item text-center text-muted">
+							暂无职位信息
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 简历提交表单 -->
+		<div class="col-lg-8">
+			<div class="job-apply-form">
+				<h3 class="text-center mb-4">
+					{% if selected_job %}
+					申请职位：{{ selected_job.title }}
+					{% else %}
+					提交简历
+					{% endif %}
+				</h3>
+
+				{% if not selected_job_id %}
+				<div class="alert alert-info">
+					<strong>提示：</strong> 请先从左侧选择要申请的职位
+				</div>
+				{% endif %}
+
+				<form class="apply-form" method="POST" action="{{ url_for('post_resume') }}" enctype="multipart/form-data">
+					<!-- 隐藏字段存储选择的职位ID -->
+					<input type="hidden" name="job_id" id="selectedJobId" value="{{ selected_job_id }}">
+
+					<div class="row">
+						<div class="col-lg-6">
+							<div class="form-group">
+								<label>姓名 *</label>
+								<input type="text" name="name" class="form-control" required maxlength="50" value="{{ request.form.name if request.form }}">
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="form-group">
+								<label>联系电话 *</label>
+								<input type="tel" name="phone" class="form-control" required pattern="[0-9+\-() ]+" maxlength="20" value="{{ request.form.phone if request.form }}">
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="form-group">
+								<label>电子邮箱 *</label>
+								<input type="email" name="email" class="form-control" required maxlength="100" value="{{ request.form.email if request.form }}">
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="form-group">
+								<label>最高学历</label>
+								<select name="education" class="form-control">
+									<option value="">请选择</option>
+									<option value="高中" {% if request.form and request.form.education == '高中' %}selected{% endif %}>高中</option>
+									<option value="大专" {% if request.form and request.form.education == '大专' %}selected{% endif %}>大专</option>
+									<option value="本科" {% if request.form and request.form.education == '本科' %}selected{% endif %}>本科</option>
+									<option value="硕士" {% if request.form and request.form.education == '硕士' %}selected{% endif %}>硕士</option>
+									<option value="博士" {% if request.form and request.form.education == '博士' %}selected{% endif %}>博士</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-lg-12">
+							<div class="form-group">
+								<label>工作经历</label>
+								<textarea name="work_experience" class="form-control" rows="4" placeholder="请简要描述您的工作经历（最多500字）" maxlength="500">{{ request.form.work_experience if request.form }}</textarea>
+							</div>
+						</div>
+						<div class="col-lg-12">
+							<div class="form-group">
+								<label>上传简历 *</label>
+								<input type="file" name="resume" class="form-control-file" accept=".pdf,.doc,.docx,.jpg,.png,.jpeg" required>
+								<small class="form-text text-muted">
+									支持格式：PDF, DOC, DOCX, JPG, PNG<br>
+									文件大小不超过5MB<br>
+								</small>
+							</div>
+						</div>
+						<div class="col-lg-12">
+							<div class="form-group">
+								<label>附加信息</label>
+								<textarea name="additional_info" class="form-control" rows="3" placeholder="如有其他需要说明的信息，请在此填写（最多300字）" maxlength="300">{{ request.form.additional_info if request.form }}</textarea>
+							</div>
+						</div>
+						<div class="col-lg-12">
+							<div class="form-group">
+								<div class="form-check">
+									<input type="checkbox" class="form-check-input" name="agree_terms" required {% if request.form and request.form.agree_terms %}checked{% endif %}>
+									<label class="form-check-label">我已阅读并同意<a href="#" data-toggle="modal" data-target="#privacyModal">隐私政策</a></label>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-12 text-center">
+							<button type="submit" class="btn btn-primary btn-lg" {% if not selected_job_id %}disabled{% endif %}>
+								提交申请
+							</button>
+						</div>
+					</div>
+
+					{% if error_message %}
+					<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+						{{ error_message }}
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					{% endif %}
+
+					{% if success_message %}
+					<div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+						{{ success_message }}
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					{% endif %}
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 隐私政策模态框 -->
+<div class="modal fade" id="privacyModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">隐私政策</h5>
+				<button type="button" class="close" data-dismiss="modal">
+					<span>&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<p>我们承诺保护您的个人信息安全。您提交的申请信息仅用于招聘目的，不会被用于其他商业用途。</p>
+				<p>我们会妥善保管您的简历和个人信息，并在招聘流程结束后按规定处理相关数据。</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Jquery Min JS -->
+<script src="{{ url_for('static', filename='assets/js/jquery-1.10.2.js') }}"></script>
+<!-- Bootstrap Min JS -->
+<script src="{{ url_for('static', filename='assets/js/bootstrap-4.2.1.js') }}"></script>
+
+<script>
+	// 页面加载完成后隐藏预加载动画
+	$(document).ready(function() {
+		$('.preloader').fadeOut();
+
+		// 职位选择功能
+		$('.job-item').click(function(e) {
+			e.preventDefault();
+
+			// 移除所有active类
+			$('.job-item').removeClass('active');
+			// 添加active类到当前点击的项
+			$(this).addClass('active');
+
+			// 更新隐藏字段的值
+			var jobId = $(this).data('job-id');
+			var jobTitle = $(this).data('job-title');
+
+			$('#selectedJobId').val(jobId);
+
+			// 更新标题
+			$('.job-apply-form h3').text('申请职位：' + jobTitle);
+
+			// 启用提交按钮
+			$('button[type="submit"]').prop('disabled', false);
+
+			// 添加URL参数并刷新页面（保持选择状态）
+			var url = new URL(window.location.href);
+			url.searchParams.set('selected_job', jobId);
+			window.history.replaceState({}, '', url);
+		});
+
+		// 如果URL中有selected_job参数，自动选择对应的职位
+		var urlParams = new URLSearchParams(window.location.search);
+		var selectedJobFromUrl = urlParams.get('selected_job');
+		if (selectedJobFromUrl) {
+			$('.job-item[data-job-id="' + selectedJobFromUrl + '"]').click();
+		}
+	});
+</script>
+</body>
+</html>

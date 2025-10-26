@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, send_file
 from flask import Flask, request, session, redirect, url_for
 from flask_babel import Babel, _
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -13,8 +13,12 @@ import os
 import uuid
 from werkzeug.utils import secure_filename
 import mimetypes
-
+import re
 from functools import wraps
+
+
+
+
 app = Flask(__name__)
 app.config["SECRET_KEY"] = '79537d00f4834892986f09a100aa1edf'
 # 配置文件上传
@@ -38,6 +42,21 @@ db = SQLAlchemy(app)
 
 
 
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        # 检查用户是否登录
+        if 'username' not in session:
+            flash('请先登录。', 'warning')
+            return redirect(url_for('login'))
+
+        # 检查用户角色是否为admin
+        if session.get('role') != 'admin':
+            flash('您没有权限访问管理员页面', 'danger')
+            return redirect(url_for('dashboard'))
+
+        return f(*args, **kwargs)
+    return decorated_function
 def allowed_file(filename):
     """检查文件扩展名是否允许"""
     if '.' not in filename:
@@ -537,121 +556,76 @@ def job_listing():
 @app.route('/job/<int:job_id>', methods=['GET', 'POST'])
 def job_detail(job_id):
     job = Job.query.get_or_404(job_id)
-
-    # 获取相似职位
     similar_jobs = Job.query.filter(
         Job.job_type == job.job_type,
         Job.id != job.id
     ).limit(3).all()
 
+    def render_job_detail(msg=None, success=False):
+        """统一渲染模板，减少重复"""
+        return render_template(
+            'job-details.html',
+            job=job,
+            similar_jobs=similar_jobs,
+            **({'success_message': msg} if success else {'error_message': msg}) if msg else {}
+        )
+
     if request.method == 'POST':
         try:
-            # 验证表单数据
-            name = request.form.get('name', '').strip()
-            phone = request.form.get('phone', '').strip()
-            email = request.form.get('email', '').strip()
-            education = request.form.get('education', '').strip()
-            work_experience = request.form.get('work_experience', '').strip()
-            additional_info = request.form.get('additional_info', '').strip()
+            # 获取表单数据
+            form = {k: request.form.get(k, '').strip() for k in
+                    ['name', 'phone', 'email', 'education', 'work_experience', 'additional_info']}
             agree_terms = request.form.get('agree_terms')
+            resume_file = request.files.get('resume')
 
             # 基本验证
-            if not all([name, phone, email, agree_terms]):
-                return render_template('job-details.html',
-                                     job=job,
-                                     similar_jobs=similar_jobs,
-                                     error_message='请填写所有必填字段并同意隐私政策。')
+            if not all([form['name'], form['phone'], form['email'], agree_terms]):
+                return render_job_detail('请填写所有必填字段并同意隐私政策。')
 
-            # 处理文件上传
-            if 'resume' not in request.files:
-                return render_template('job-details.html',
-                                     job=job,
-                                     similar_jobs=similar_jobs,
-                                     error_message='请上传简历文件。')
+            if not resume_file or resume_file.filename == '':
+                return render_job_detail('请上传简历文件。')
 
-            resume_file = request.files['resume']
-
-            if resume_file.filename == '':
-                return render_template('job-details.html',
-                                     job=job,
-                                     similar_jobs=similar_jobs,
-                                     error_message='请选择要上传的简历文件。')
-
-            # 检查文件类型
             if not allowed_file(resume_file.filename):
-                return render_template('job-details.html',
-                                     job=job,
-                                     similar_jobs=similar_jobs,
-                                     error_message='不支持的文件格式。请上传PDF、DOC、DOCX、JPG或PNG格式的文件。')
+                return render_job_detail('不支持的文件格式，请上传 PDF、DOC、DOCX、JPG 或 PNG。')
 
             # 检查文件大小
             resume_file.seek(0, os.SEEK_END)
-            file_size = resume_file.tell()
+            size = resume_file.tell()
             resume_file.seek(0)
-
-            if file_size == 0:
-                return render_template('job-details.html',
-                                     job=job,
-                                     similar_jobs=similar_jobs,
-                                     error_message='文件为空，请重新选择文件。')
-
-            if file_size > MAX_FILE_SIZE:
-                return render_template('job-details.html',
-                                     job=job,
-                                     similar_jobs=similar_jobs,
-                                     error_message='文件大小不能超过5MB。')
-
-            # 生成安全的文件名（保持原始扩展名）
-            unique_filename = get_safe_filename(resume_file.filename)
-
-            # 确保上传目录存在
-            create_upload_folder()
+            if size == 0:
+                return render_job_detail('文件为空，请重新选择文件。')
+            if size > MAX_FILE_SIZE:
+                return render_job_detail('文件大小不能超过5MB。')
 
             # 保存文件
+            unique_filename = get_safe_filename(resume_file.filename)
+            create_upload_folder()
             resume_path = os.path.join(app.config['UPLOAD_FOLDER'], unique_filename)
             resume_file.save(resume_path)
 
-            # 验证文件是否成功保存
             if not os.path.exists(resume_path):
-                return render_template('job-details.html',
-                                     job=job,
-                                     similar_jobs=similar_jobs,
-                                     error_message='文件保存失败，请重试。')
+                return render_job_detail('文件保存失败，请重试。')
 
-            # 保存申请信息到数据库
-            application = JobApplication(
+            # 保存数据库
+            db.session.add(JobApplication(
                 job_id=job.id,
-                name=name,
-                phone=phone,
-                email=email,
-                education=education,
-                work_experience=work_experience,
-                additional_info=additional_info,
                 resume_filename=unique_filename,
-                original_filename=resume_file.filename  # 保存原始文件名
-            )
-
-            db.session.add(application)
+                original_filename=resume_file.filename,
+                **form
+            ))
             db.session.commit()
 
-            return render_template('job-details.html',
-                                 job=job,
-                                 similar_jobs=similar_jobs,
-                                 success_message='申请提交成功！我们会尽快审核并与您联系。')
+            return render_job_detail('申请提交成功！我们会尽快审核并与您联系。', success=True)
 
         except Exception as e:
             db.session.rollback()
-            # 如果数据库保存失败，删除已上传的文件
             if 'resume_path' in locals() and os.path.exists(resume_path):
                 os.remove(resume_path)
+            print(f"Error in job_detail: {e}")
+            return render_job_detail('系统错误，请稍后重试。')
 
-            print(f"Error in job_detail: {str(e)}")  # 用于调试
-            return render_template('job-details.html',
-                                 job=job,
-                                 similar_jobs=similar_jobs,
-                                 error_message='系统错误，请稍后重试。')
+    return render_job_detail()
 
-    return render_template('job-details.html', job=job, similar_jobs=similar_jobs)
 @app.route('/api/jobs')
 def api_jobs():
     page = request.args.get('page', 1, type=int)
@@ -742,7 +716,7 @@ def login():
                     session.permanent = True
 
                 flash('Login successful!', 'success')
-                return redirect(url_for('dashboard'))
+                return redirect(url_for('index123'))
             else:
                 flash('Invalid username/email or password', 'danger')
         except Exception as e:
@@ -870,7 +844,7 @@ def message():
 # 发布工作
 @app.route('/post-job.html')
 def post_job():
-    return render_template('post-job.html')
+    return render_template('post-resume-zh.html')
 
 # 价格
 @app.route('/pricing.html')
@@ -906,7 +880,265 @@ def testimonials():
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
+# 提交简历页面 - 可选择职位
+@app.route('/post-resume.html', methods=['GET', 'POST'])
+def post_resume():
+    # 获取筛选参数
+    search = request.args.get('search', '')
+    job_type = request.args.get('job_type', '')
+    location = request.args.get('location', '')
+    selected_job_id = request.args.get('selected_job', type=int)
 
+    # 基础职位查询（未过期）
+    base_query = Job.query.filter(Job.deadline >= datetime.utcnow())
+
+    if search:
+        base_query = base_query.filter(db.or_(
+            Job.title.contains(search),
+            Job.description.contains(search),
+            Job.company.contains(search),
+            Job.requirements.contains(search)
+        ))
+    if job_type:
+        base_query = base_query.filter(Job.job_type == job_type)
+    if location:
+        base_query = base_query.filter(Job.location.contains(location))
+
+    jobs = base_query.order_by(Job.created_at.desc()).all()
+    selected_job = Job.query.get(selected_job_id) if selected_job_id else None
+
+    def render_page(msg=None, success=False):
+        """统一渲染模板，减少重复"""
+        return render_template(
+            'post-resume-zh.html',
+            jobs=jobs,
+            search=search,
+            job_type=job_type,
+            location=location,
+            selected_job_id=selected_job_id,
+            selected_job=selected_job,
+            **({'success_message': msg} if success else {'error_message': msg}) if msg else {}
+        )
+
+    if request.method == 'POST':
+        try:
+            # 表单字段
+            form = {k: request.form.get(k, '').strip() for k in
+                    ['name', 'phone', 'email', 'education', 'work_experience', 'additional_info']}
+            agree_terms = request.form.get('agree_terms')
+            selected_job_id = request.form.get('job_id', type=int)
+            resume_file = request.files.get('resume')
+
+            # 验证基本字段
+            if not all([form['name'], form['phone'], form['email'], agree_terms]):
+                return render_page('请填写所有必填字段并同意隐私政策。')
+
+            if not selected_job_id:
+                return render_page('请选择要申请的职位。')
+
+            selected_job = Job.query.filter(
+                Job.id == selected_job_id,
+                Job.deadline >= datetime.utcnow()
+            ).first()
+            if not selected_job:
+                return render_page('选择的职位不存在或已过期。')
+
+            # 验证上传文件
+            if not resume_file or resume_file.filename == '':
+                return render_page('请上传简历文件。')
+
+            if not allowed_file(resume_file.filename):
+                return render_page('不支持的文件格式，请上传 PDF、DOC、DOCX、JPG 或 PNG。')
+
+            resume_file.seek(0, os.SEEK_END)
+            size = resume_file.tell()
+            resume_file.seek(0)
+            if size == 0:
+                return render_page('文件为空，请重新选择文件。')
+            if size > MAX_FILE_SIZE:
+                return render_page('文件大小不能超过5MB。')
+
+            # 保存文件
+            unique_filename = get_safe_filename(resume_file.filename)
+            create_upload_folder()
+            resume_path = os.path.join(app.config['UPLOAD_FOLDER'], unique_filename)
+            resume_file.save(resume_path)
+            if not os.path.exists(resume_path):
+                return render_page('文件保存失败，请重试。')
+
+            # 保存申请信息
+            db.session.add(JobApplication(
+                job_id=selected_job_id,
+                resume_filename=unique_filename,
+                original_filename=resume_file.filename,
+                **form
+            ))
+            db.session.commit()
+
+            # 成功返回
+            return render_template(
+                'post-resume-zh.html',
+                jobs=jobs,
+                search=search,
+                job_type=job_type,
+                location=location,
+                selected_job_id=None,
+                selected_job=None,
+                success_message=f'申请提交成功！您已成功申请 "{selected_job.title}" 职位，我们会尽快审核并与您联系。'
+            )
+
+        except Exception as e:
+            db.session.rollback()
+            if 'resume_path' in locals() and os.path.exists(resume_path):
+                try:
+                    os.remove(resume_path)
+                except Exception:
+                    pass
+            print(f"Error in post_resume: {e}")
+            import traceback; print(traceback.format_exc())
+            return render_page('系统错误，请稍后重试。')
+
+    return render_page()
+@app.route('/admin/resumes')
+@admin_required
+def admin_resumes():
+    """管理员简历预览界面"""
+    # 获取筛选参数
+    search = request.args.get('search', '')
+    job_id = request.args.get('job_id', '', type=int)
+    status = request.args.get('status', '')
+    page = request.args.get('page', 1, type=int)
+    per_page = 20
+
+    # 构建基础查询 - 使用正确的关联查询
+    base_query = JobApplication.query.join(Job, JobApplication.job_id == Job.id).add_entity(Job)
+
+    # 应用筛选条件
+    if search:
+        base_query = base_query.filter(
+            db.or_(
+                JobApplication.name.contains(search),
+                JobApplication.email.contains(search),
+                JobApplication.phone.contains(search),
+                Job.title.contains(search)
+            )
+        )
+
+    if job_id:
+        base_query = base_query.filter(JobApplication.job_id == job_id)
+
+    if status:
+        base_query = base_query.filter(JobApplication.status == status)
+    else:
+        # 默认显示所有简历
+        pass
+
+    # 分页查询
+    pagination = base_query.order_by(JobApplication.applied_at.desc()).paginate(
+        page=page, per_page=per_page, error_out=False
+    )
+
+    # 获取所有职位用于筛选
+    jobs = Job.query.filter(Job.deadline >= datetime.utcnow()).all()
+
+    # 统计信息 - 新简历对应 pending 状态
+    total_count = JobApplication.query.count()
+    pending_count = JobApplication.query.filter(
+        db.or_(JobApplication.status.is_(None), JobApplication.status == 'pending')
+    ).count()
+    reviewed_count = JobApplication.query.filter_by(status='reviewed').count()
+    contacted_count = JobApplication.query.filter_by(status='contacted').count()
+    rejected_count = JobApplication.query.filter_by(status='rejected').count()
+    hired_count = JobApplication.query.filter_by(status='hired').count()
+
+    # 调试信息
+    print(f"查询到的简历数量: {len(pagination.items)}")
+    for item in pagination.items:
+        print(f"简历: {item[0].name}, 职位: {item[1].title}, 状态: {item[0].status}")
+
+    return render_template('admin-resumes.html',
+                         resumes=pagination.items,
+                         pagination=pagination,
+                         jobs=jobs,
+                         search=search,
+                         selected_job_id=job_id,
+                         selected_status=status,
+                         total_count=total_count,
+                         pending_count=pending_count,
+                         reviewed_count=reviewed_count,
+                         contacted_count=contacted_count,
+                         rejected_count=rejected_count,
+                         hired_count=hired_count)
+
+@app.route('/admin/resume/<int:resume_id>')
+@admin_required
+def admin_resume_detail(resume_id):
+    """简历详情页面"""
+    resume_data = JobApplication.query.join(Job, JobApplication.job_id == Job.id)\
+        .add_entity(Job)\
+        .filter(JobApplication.id == resume_id)\
+        .first_or_404()
+    return render_template('admin-resume-detail.html', resume=resume_data)
+
+@app.route('/admin/resume/<int:resume_id>/update-status', methods=['POST'])
+@admin_required
+def update_resume_status(resume_id):
+    """更新简历状态"""
+    resume = JobApplication.query.get_or_404(resume_id)
+    new_status = request.form.get('status')
+    notes = request.form.get('notes', '')
+
+    if new_status in ['pending', 'reviewed', 'contacted', 'rejected', 'hired']:
+        resume.status = new_status
+        if notes:
+            # 如果需要保存备注，可以在这里添加备注字段
+            pass
+
+        db.session.commit()
+        flash('简历状态已更新', 'success')
+    else:
+        flash('无效的状态', 'error')
+
+    return redirect(url_for('admin_resume_detail', resume_id=resume_id))
+
+@app.route('/admin/resume/<int:resume_id>/download')
+@admin_required
+def download_resume(resume_id):
+    """下载简历文件"""
+    resume = JobApplication.query.get_or_404(resume_id)
+
+    if not resume.resume_filename:
+        flash('简历文件不存在', 'error')
+        return redirect(url_for('admin_resume_detail', resume_id=resume_id))
+
+    file_path = os.path.join(app.config['UPLOAD_FOLDER'], resume.resume_filename)
+
+    if not os.path.exists(file_path):
+        flash('简历文件不存在', 'error')
+        return redirect(url_for('admin_resume_detail', resume_id=resume_id))
+
+    # 设置下载文件名
+    download_name = f"{resume.name}_简历.{resume.resume_filename.rsplit('.', 1)[1].lower()}"
+
+    return send_file(file_path, as_attachment=True, download_name=download_name)
+
+@app.route('/admin/resume/<int:resume_id>/delete', methods=['POST'])
+@admin_required
+def delete_resume(resume_id):
+    """删除简历"""
+    resume = JobApplication.query.get_or_404(resume_id)
+
+    # 删除文件
+    if resume.resume_filename:
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], resume.resume_filename)
+        if os.path.exists(file_path):
+            os.remove(file_path)
+
+    db.session.delete(resume)
+    db.session.commit()
+
+    flash('简历已删除', 'success')
+    return redirect(url_for('admin_resumes'))
 if __name__ == "__main__":
     try:
         with app.app_context():

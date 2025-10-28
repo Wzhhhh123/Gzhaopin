@@ -39,19 +39,29 @@
                             </li>
                         </ul>
 
-
+                        {% if session.role == 'admin' %}
+                        <a href="/admin/resumes" class="admin-btn">
+                            <i class="bx bxs-cog"></i> 后台管理
+                        </a>
+                        {% endif %}
 
 
                         {% if 'username' in session %}
                         <ul class="log-in">
                             <li>
-                                <a >
-                                    <i class="bx bxs-lock"></i>
-                                    {{ session['username'] }}
+                                <a href="/post-resume.html">
+                                    <i class="bx bxs-file"></i>
+                                    Post a resume
                                 </a>
                             </li>
+                            <li class="user-info">
+
+                                <i class="bx bxs-user-circle"></i>
+                                    {{ session['username'] }}
+
+                            </li>
                             <li>
-                                <a href="{{ url_for('logout') }}">
+                                <a href="{{ url_for('logout') }}" class="logout-btn">
                                     <i class="bx bxs-user"></i>
                                     logout
                                 </a>
@@ -63,22 +73,89 @@
                         <!-- 未登录状态 -->
                         <ul class="log-in">
                             <li>
-                                <a href="login">
+                                <a href="/post-resume.html">
+                                    <i class="bx bxs-file"></i>
+                                    Post a resume
+                                </a>
+                            </li>
+                            <li>
+                                <a href="login" class="login-btn">
                                     <i class="bx bxs-lock"></i>
                                     Log In
                                 </a>
                             </li>
 
                             <li>
-                                <a href="register">
-                                    <i class="bx bxs-user"></i>
+                                <a href="register" class="register-btn">
+                                    <i class="bx bx-user-plus"></i>
                                     Register
                                 </a>
                             </li>
                         </ul>
                         {% endif %}
 
+                        <style>
+                            /* 通用容器排版 */
+                            .log-in {
+                                display: flex;
+                                align-items: center;
+                                gap: 16px;
+                                list-style: none;
+                                margin: 0;
+                                padding: 0;
+                                font-family: "Microsoft YaHei", sans-serif;
+                            }
 
+                            /* 管理按钮样式 */
+                            .admin-btn {
+                                display: inline-flex;
+                                align-items: center;
+                                gap: 6px;
+                                background: linear-gradient(90deg, #00b542, #06d36a);
+                                color: #fff;
+                                padding: 8px 18px;
+                                border-radius: 24px;
+                                text-decoration: none;
+                                font-weight: 500;
+                                box-shadow: 0 3px 10px rgba(0,181,66,0.4);
+                                transition: all 0.25s ease;
+                            }
+
+                            .admin-btn:hover {
+                                transform: translateY(-2px);
+                                box-shadow: 0 5px 14px rgba(0,181,66,0.6);
+                            }
+
+                            /* 用户信息 */
+                            .user-info {
+                                color: #333;
+                                display: flex;
+                                align-items: center;
+                                gap: 6px;
+                                font-weight: 500;
+                                background: #f6f7fb;
+                                padding: 6px 12px;
+                                border-radius: 18px;
+                            }
+
+                            /* 登录/注册/退出按钮统一风格 */
+                            .log-in a {
+                                display: inline-flex;
+                                align-items: center;
+                                gap: 5px;
+                                padding: 6px 14px;
+                                border-radius: 20px;
+                                text-decoration: none;
+                                font-size: 14px;
+                                font-weight: 500;
+                                transition: all 0.2s ease-in-out;
+                            }
+
+
+
+
+
+                        </style>
                     </div>
                 </div>
             </div>

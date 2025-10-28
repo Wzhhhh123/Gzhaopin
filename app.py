@@ -300,55 +300,70 @@ def set_language():
 @app.route('/')
 def index123():
     """首页 - 显示分类统计和紧急招聘"""
-    # 获取职位分类统计
-    categories = {
+    # 获取职位分类统计（基础数据查询不变）
+    category_queries = {
         '翻译服务': Job.query.filter(
-            Job.title.contains('翻译') |
-            Job.title.contains('语言')
+            Job.title.contains('翻译') | Job.title.contains('语言')
         ).count(),
         '技术开发': Job.query.filter(
-            Job.title.contains('开发') |
-            Job.title.contains('工程') |
-            Job.title.contains('软件') |
-            Job.title.contains('架构') |
+            Job.title.contains('开发') | Job.title.contains('工程') |
+            Job.title.contains('软件') | Job.title.contains('架构') |
             Job.title.contains('数据')
         ).count(),
         '技术咨询': Job.query.filter(
-            Job.title.contains('咨询') |
-            Job.title.contains('顾问')
+            Job.title.contains('咨询') | Job.title.contains('顾问')
         ).count(),
         '技术交流': Job.query.filter(
-            Job.title.contains('交流') |
-            Job.title.contains('国际') |
+            Job.title.contains('交流') | Job.title.contains('国际') |
             Job.title.contains('协调')
         ).count(),
         '技术转让': Job.query.filter(Job.title.contains('转让')).count(),
         '技术推广': Job.query.filter(Job.title.contains('推广')).count(),
         '会议及展览服务': Job.query.filter(
-            Job.title.contains('会议') |
-            Job.title.contains('会展') |
+            Job.title.contains('会议') | Job.title.contains('会展') |
             Job.title.contains('展览')
         ).count(),
         '组织文化艺术交流活动': Job.query.filter(
-            Job.title.contains('文化') |
-            Job.title.contains('艺术')
+            Job.title.contains('文化') | Job.title.contains('艺术')
         ).count(),
         '社会经济咨询服务': Job.query.filter(
-            Job.title.contains('商务') |
-            Job.title.contains('经济')
+            Job.title.contains('商务') | Job.title.contains('经济')
         ).count(),
         '公共安全管理咨询服务': Job.query.filter(
-            Job.title.contains('安全') |
-            Job.title.contains('管理')
+            Job.title.contains('安全') | Job.title.contains('管理')
         ).count(),
         '教育咨询服务': Job.query.filter(Job.title.contains('教育')).count(),
         '市场营销策划': Job.query.filter(
-            Job.title.contains('市场') |
-            Job.title.contains('营销')
+            Job.title.contains('市场') | Job.title.contains('营销')
         ).count(),
         '俄罗斯信息咨询服务': Job.query.filter(Job.title.contains('俄罗斯')).count(),
         '中亚国家信息咨询服务': Job.query.filter(Job.title.contains('中亚')).count()
     }
+
+    # 根据语言选择分类标签
+    language = session.get('language', 'zh')
+
+    if language == 'en':
+        # 英文分类标签
+        categories = {
+            'Translation Services': category_queries['翻译服务'],
+            'Technical Development': category_queries['技术开发'],
+            'Technical Consulting': category_queries['技术咨询'],
+            'Technical Exchange': category_queries['技术交流'],
+            'Technology Transfer': category_queries['技术转让'],
+            'Technology Promotion': category_queries['技术推广'],
+            'Conference & Exhibition Services': category_queries['会议及展览服务'],
+            'Cultural Exchange Activities': category_queries['组织文化艺术交流活动'],
+            'Socio-economic Consulting': category_queries['社会经济咨询服务'],
+            'Public Security Consulting': category_queries['公共安全管理咨询服务'],
+            'Education Consulting': category_queries['教育咨询服务'],
+            'Marketing Planning': category_queries['市场营销策划'],
+            'Russia Information Services': category_queries['俄罗斯信息咨询服务'],
+            'Central Asia Information Services': category_queries['中亚国家信息咨询服务']
+        }
+    else:
+        # 中文分类标签（保持原样）
+        categories = category_queries
 
     # 获取紧急招聘职位
     urgent_jobs = Job.query.filter_by(is_urgent=True).order_by(Job.created_at.desc()).limit(4).all()
@@ -368,20 +383,15 @@ def index123():
         'featured_jobs_count': Job.query.filter_by(is_featured=True).count(),
         'new_today': Job.query.filter(Job.created_at >= datetime.utcnow().date()).count()
     }
-    if session['language']=="en":
-        return render_template('index.html',
-                             categories=categories,
-                             urgent_jobs=urgent_jobs,
-                             featured_jobs=featured_jobs,
-                             latest_jobs=latest_jobs,
-                             stats=stats)
-    if session['language']=="zh":
-        return render_template('index-zh.html',
-                             categories=categories,
-                             urgent_jobs=urgent_jobs,
-                             featured_jobs=featured_jobs,
-                             latest_jobs=latest_jobs,
-                             stats=stats)
+
+    template_name = 'index.html' if language == 'en' else 'index-zh.html'
+
+    return render_template(template_name,
+                         categories=categories,
+                         urgent_jobs=urgent_jobs,
+                         featured_jobs=featured_jobs,
+                         latest_jobs=latest_jobs,
+                         stats=stats)
 
 
 
@@ -844,7 +854,7 @@ def message():
 # 发布工作
 @app.route('/post-job.html')
 def post_job():
-    return render_template('post-resume-zh.html')
+    return redirect(url_for('post_resume'))
 
 # 价格
 @app.route('/pricing.html')
@@ -881,8 +891,12 @@ def testimonials():
 def page_not_found(e):
     return render_template('404.html'), 404
 # 提交简历页面 - 可选择职位
+# 提交简历页面 - 可选择职位
 @app.route('/post-resume.html', methods=['GET', 'POST'])
 def post_resume():
+    # 获取语言设置
+    language = session.get('language', 'zh')
+
     # 获取筛选参数
     search = request.args.get('search', '')
     job_type = request.args.get('job_type', '')
@@ -909,8 +923,14 @@ def post_resume():
 
     def render_page(msg=None, success=False):
         """统一渲染模板，减少重复"""
+        template_name = 'post-resume.html' if language == 'en' else 'post-resume-zh.html'
+
+        # 根据语言选择消息内容
+        if msg and language == 'en':
+            msg = translate_message(msg)
+
         return render_template(
-            'post-resume-zh.html',
+            template_name,
             jobs=jobs,
             search=search,
             job_type=job_type,
@@ -919,6 +939,22 @@ def post_resume():
             selected_job=selected_job,
             **({'success_message': msg} if success else {'error_message': msg}) if msg else {}
         )
+
+    def translate_message(msg):
+        """翻译错误和成功消息"""
+        translations = {
+            '请填写所有必填字段并同意隐私政策。': 'Please fill in all required fields and agree to the privacy policy.',
+            '请选择要申请的职位。': 'Please select a job to apply for.',
+            '选择的职位不存在或已过期。': 'The selected job does not exist or has expired.',
+            '请上传简历文件。': 'Please upload a resume file.',
+            '不支持的文件格式，请上传 PDF、DOC、DOCX、JPG 或 PNG。': 'Unsupported file format. Please upload PDF, DOC, DOCX, JPG, or PNG.',
+            '文件为空，请重新选择文件。': 'The file is empty. Please select a new file.',
+            '文件大小不能超过5MB。': 'File size cannot exceed 5MB.',
+            '文件保存失败，请重试。': 'File save failed. Please try again.',
+            '系统错误，请稍后重试。': 'System error, please try again later.',
+            '申请提交成功！您已成功申请 "{}" 职位，我们会尽快审核并与您联系。': 'Application submitted successfully! You have successfully applied for the "{}" position. We will review it and contact you as soon as possible.'
+        }
+        return translations.get(msg, msg)
 
     if request.method == 'POST':
         try:
@@ -975,16 +1011,21 @@ def post_resume():
             ))
             db.session.commit()
 
-            # 成功返回
+            # 成功返回 - 处理动态消息
+            success_msg = '申请提交成功！您已成功申请 "{}" 职位，我们会尽快审核并与您联系。'.format(selected_job.title)
+            if language == 'en':
+                success_msg = 'Application submitted successfully! You have successfully applied for the "{}" position. We will review it and contact you as soon as possible.'.format(selected_job.title)
+
+            template_name = 'post-resume.html' if language == 'en' else 'post-resume-zh.html'
             return render_template(
-                'post-resume-zh.html',
+                template_name,
                 jobs=jobs,
                 search=search,
                 job_type=job_type,
                 location=location,
                 selected_job_id=None,
                 selected_job=None,
-                success_message=f'申请提交成功！您已成功申请 "{selected_job.title}" 职位，我们会尽快审核并与您联系。'
+                success_message=success_msg
             )
 
         except Exception as e:
@@ -999,6 +1040,8 @@ def post_resume():
             return render_page('系统错误，请稍后重试。')
 
     return render_page()
+
+
 @app.route('/admin/resumes')
 @admin_required
 def admin_resumes():

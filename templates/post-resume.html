@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Bootstrap Min CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/bootstrap.min.css') }}">
+	<!-- Owl Theme Default Min CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/owl.theme.default.min.css') }}">
+	<!-- Owl Carousel Min CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/owl.carousel.min.css') }}">
+	<!-- Animate Min CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/animate.min.css') }}">
+	<!-- Boxicons Min CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/boxicons.min.css') }}">
+	<!-- Magnific Popup Min CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/magnific-popup.min.css') }}">
+	<!-- Flaticon CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/flaticon.css') }}">
+	<!-- Meanmenu Min CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/meanmenu.min.css') }}">
+	<!-- Nice Select Min CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/nice-select.min.css') }}">
+	<!-- Odometer Min CSS-->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/odometer.min.css') }}">
+	<!-- Date Picker CSS-->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/date-picker.min.css') }}">
+	<!-- Muli Fonts Min CSS-->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/muli-fonts.css') }}">
+	<!-- Style CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/style.css') }}">
+	<!-- Responsive CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/responsive.css') }}">
+
+	<!-- Favicon -->
+	<link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/images/favicon.png') }}">
+	<!-- Title -->
+	<title>Submit Resume - Beijing Fupeng Business Service Co., Ltd.</title>
+</head>
+<body>
+<!-- Start Preloader Area -->
+<div class="preloader">
+	<div class="lds-ripple">
+		<div></div>
+		<div></div>
+	</div>
+</div>
+<!-- End Preloader Area -->
+
+{% include "heng.html" %}
+
+<!-- Start Preloader Area -->
+<div class="preloader">
+	<div class="lds-ripple">
+		<div></div>
+		<div></div>
+	</div>
+</div>
+<!-- End Preloader Area -->
+
+<div class="container mt-5">
+	<div class="row">
+		<!-- Job Filter and List -->
+		<div class="col-lg-4 mb-4">
+			<div class="card">
+				<div class="card-header">
+					<h5 class="mb-0">Select Position to Apply</h5>
+				</div>
+				<div class="card-body">
+					<!-- Filter Form -->
+					<form method="GET" action="{{ url_for('post_resume') }}">
+						<div class="form-group">
+							<label>Search Jobs</label>
+							<input type="text" name="search" class="form-control" value="{{ search }}" placeholder="Enter job title or company">
+						</div>
+						<div class="form-group">
+							<label>Job Type</label>
+							<select name="job_type" class="form-control">
+								<option value="">All Types</option>
+								<option value="Full-time" {% if job_type == 'Full-time' %}selected{% endif %}>Full-time</option>
+								<option value="Part-time" {% if job_type == 'Part-time' %}selected{% endif %}>Part-time</option>
+								<option value="Internship" {% if job_type == 'Internship' %}selected{% endif %}>Internship</option>
+								<option value="Contract" {% if job_type == 'Contract' %}selected{% endif %}>Contract</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label>Location</label>
+							<input type="text" name="location" class="form-control" value="{{ location }}" placeholder="Enter work location">
+						</div>
+						<button type="submit" class="btn btn-primary btn-block">Filter Jobs</button>
+						{% if search or job_type or location %}
+						<a href="{{ url_for('post_resume') }}" class="btn btn-outline-secondary btn-block mt-2">Clear Filters</a>
+						{% endif %}
+					</form>
+				</div>
+			</div>
+
+			<!-- Job List -->
+			<div class="card mt-4">
+				<div class="card-header">
+					<h6 class="mb-0">Available Positions ({{ jobs|length }})</h6>
+				</div>
+				<div class="card-body p-0">
+					<div class="list-group list-group-flush">
+						{% for job in jobs %}
+						<a href="#" class="list-group-item list-group-item-action job-item {% if selected_job_id == job.id %}active{% endif %}"
+						   data-job-id="{{ job.id }}" data-job-title="{{ job.title }}">
+							<div class="d-flex w-100 justify-content-between">
+								<h6 class="mb-1">{{ job.title }}</h6>
+								{% if job.is_featured %}
+								<small class="text-warning">Featured</small>
+								{% endif %}
+								{% if job.is_urgent %}
+								<small class="text-danger">Urgent</small>
+								{% endif %}
+							</div>
+							<p class="mb-1 small">{{ job.company }}</p>
+							<div class="d-flex justify-content-between">
+								<small>{{ job.location }}</small>
+								<small>{{ job.salary }}</small>
+							</div>
+							<small class="text-muted">Deadline: {{ job.deadline.strftime('%m-%d') }}</small>
+						</a>
+						{% else %}
+						<div class="list-group-item text-center text-muted">
+							No job positions available
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Resume Submission Form -->
+		<div class="col-lg-8">
+			<div class="job-apply-form">
+				<h3 class="text-center mb-4">
+					{% if selected_job %}
+					Apply for: {{ selected_job.title }}
+					{% else %}
+					Submit Resume
+					{% endif %}
+				</h3>
+
+				{% if not selected_job_id %}
+				<div class="alert alert-info">
+					<strong>Note:</strong> Please select a position to apply for from the left side first.
+				</div>
+				{% endif %}
+
+				<form class="apply-form" method="POST" action="{{ url_for('post_resume') }}" enctype="multipart/form-data">
+					<!-- Hidden field to store selected job ID -->
+					<input type="hidden" name="job_id" id="selectedJobId" value="{{ selected_job_id }}">
+
+					<div class="row">
+						<div class="col-lg-6">
+							<div class="form-group">
+								<label>Full Name *</label>
+								<input type="text" name="name" class="form-control" required maxlength="50" value="{{ request.form.name if request.form }}">
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="form-group">
+								<label>Phone Number *</label>
+								<input type="tel" name="phone" class="form-control" required pattern="[0-9+\-() ]+" maxlength="20" value="{{ request.form.phone if request.form }}">
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="form-group">
+								<label>Email Address *</label>
+								<input type="email" name="email" class="form-control" required maxlength="100" value="{{ request.form.email if request.form }}">
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="form-group">
+								<label>Highest Education</label>
+								<select name="education" class="form-control">
+									<option value="">Please Select</option>
+									<option value="High School" {% if request.form and request.form.education == 'High School' %}selected{% endif %}>High School</option>
+									<option value="Associate" {% if request.form and request.form.education == 'Associate' %}selected{% endif %}>Associate</option>
+									<option value="Bachelor" {% if request.form and request.form.education == 'Bachelor' %}selected{% endif %}>Bachelor</option>
+									<option value="Master" {% if request.form and request.form.education == 'Master' %}selected{% endif %}>Master</option>
+									<option value="PhD" {% if request.form and request.form.education == 'PhD' %}selected{% endif %}>PhD</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-lg-12">
+							<div class="form-group">
+								<label>Work Experience</label>
+								<textarea name="work_experience" class="form-control" rows="4" placeholder="Please briefly describe your work experience (max 500 characters)" maxlength="500">{{ request.form.work_experience if request.form }}</textarea>
+							</div>
+						</div>
+						<div class="col-lg-12">
+							<div class="form-group">
+								<label>Upload Resume *</label>
+								<input type="file" name="resume" class="form-control-file" accept=".pdf,.doc,.docx,.jpg,.png,.jpeg" required>
+								<small class="form-text text-muted">
+									Supported formats: PDF, DOC, DOCX, JPG, PNG<br>
+									Maximum file size: 5MB<br>
+								</small>
+							</div>
+						</div>
+						<div class="col-lg-12">
+							<div class="form-group">
+								<label>Additional Information</label>
+								<textarea name="additional_info" class="form-control" rows="3" placeholder="If you have any other information to provide, please fill in here (max 300 characters)" maxlength="300">{{ request.form.additional_info if request.form }}</textarea>
+							</div>
+						</div>
+						<div class="col-lg-12">
+							<div class="form-group">
+								<div class="form-check">
+									<input type="checkbox" class="form-check-input" name="agree_terms" required {% if request.form and request.form.agree_terms %}checked{% endif %}>
+									<label class="form-check-label">I have read and agree to the <a href="#" data-toggle="modal" data-target="#privacyModal">Privacy Policy</a></label>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-12 text-center">
+							<button type="submit" class="btn btn-primary btn-lg" {% if not selected_job_id %}disabled{% endif %}>
+								Submit Application
+							</button>
+						</div>
+					</div>
+
+					{% if error_message %}
+					<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+						{{ error_message }}
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					{% endif %}
+
+					{% if success_message %}
+					<div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+						{{ success_message }}
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					{% endif %}
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Privacy Policy Modal -->
+<div class="modal fade" id="privacyModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Privacy Policy</h5>
+				<button type="button" class="close" data-dismiss="modal">
+					<span>&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<p>We are committed to protecting the security of your personal information. The application information you submit will only be used for recruitment purposes and will not be used for other commercial purposes.</p>
+				<p>We will properly keep your resume and personal information, and process relevant data according to regulations after the recruitment process ends.</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Jquery Min JS -->
+<script src="{{ url_for('static', filename='assets/js/jquery-1.10.2.js') }}"></script>
+<!-- Bootstrap Min JS -->
+<script src="{{ url_for('static', filename='assets/js/bootstrap-4.2.1.js') }}"></script>
+
+<script>
+	// Hide preloader after page loads
+	$(document).ready(function() {
+		$('.preloader').fadeOut();
+
+		// Job selection functionality
+		$('.job-item').click(function(e) {
+			e.preventDefault();
+
+			// Remove all active classes
+			$('.job-item').removeClass('active');
+			// Add active class to currently clicked item
+			$(this).addClass('active');
+
+			// Update hidden field value
+			var jobId = $(this).data('job-id');
+			var jobTitle = $(this).data('job-title');
+
+			$('#selectedJobId').val(jobId);
+
+			// Update title
+			$('.job-apply-form h3').text('Apply for: ' + jobTitle);
+
+			// Enable submit button
+			$('button[type="submit"]').prop('disabled', false);
+
+			// Add URL parameter and refresh page (maintain selection state)
+			var url = new URL(window.location.href);
+			url.searchParams.set('selected_job', jobId);
+			window.history.replaceState({}, '', url);
+		});
+
+		// If there's a selected_job parameter in URL, automatically select corresponding job
+		var urlParams = new URLSearchParams(window.location.search);
+		var selectedJobFromUrl = urlParams.get('selected_job');
+		if (selectedJobFromUrl) {
+			$('.job-item[data-job-id="' + selectedJobFromUrl + '"]').click();
+		}
+	});
+</script>
+</body>
+</html>

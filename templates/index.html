@@ -1,1176 +1,962 @@
 <!doctype html>
-<html lang="zxx">
-    <head>
-		<!-- Required meta tags -->
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-		<!-- Bootstrap Min CSS --> 
-		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/bootstrap.min.css') }}">
-		<!-- Owl Theme Default Min CSS --> 
-		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/owl.theme.default.min.css') }}">
-		<!-- Owl Carousel Min CSS --> 
-		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/owl.carousel.min.css') }}">
-		<!-- Animate Min CSS --> 
-		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/animate.min.css') }}">
-		<!-- Boxicons Min CSS --> 
-		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/boxicons.min.css') }}"> 
-		<!-- Magnific Popup Min CSS --> 
-		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/magnific-popup.min.css') }}"> 
-		<!-- Flaticon CSS --> 
-		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/flaticon.css') }}">
-		<!-- Meanmenu Min CSS -->
-		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/meanmenu.min.css') }}">
-		<!-- Nice Select Min CSS -->
-		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/nice-select.min.css') }}">
-		<!-- Odometer Min CSS-->
-		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/odometer.min.css') }}">
-		<!-- Date Picker CSS-->
-		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/date-picker.min.css') }}">
-		<!-- Muli Fonts Min CSS-->
-		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/muli-fonts.css') }}">
-		<!-- Style CSS -->
-		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/style.css') }}">
-		<!-- Responsive CSS -->
-		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/responsive.css') }}">
-		
-		<!-- Favicon -->
-		<link rel="icon" type="image/png" href="assets/images/favicon.png">
-		<!-- Title -->
-		<title>Beijing Fupeng Business Travel Services Co., Ltd.</title>
-    </head>
-
-    <body>
-		<!-- Start Preloader Area -->
-		<div class="preloader">
-			<div class="lds-ripple">
-				<div></div>
-				<div></div>
-			</div>
-		</div>
-		<!-- End Preloader Area -->
-		
-		{% include "/heng.html" %}
-
-		<!-- Start Banner Area -->
-		<section class="banner-area ptb-100">
-			<div class="d-table">
-				<div class="d-table-cell">
-					<div class="container-fluid">
-						<div class="row align-items-center">
-							<div class="col-lg-7">
-								<div class="banner-content">
-									<h1>Find Your Career to Make a Better Life</h1>
-									<p>Search Over 10,000 Jobs Today!</p>
-
-									<form class="search-job" method="GET" action="{{ url_for('job_listing') }}">
-										<div class="row">
-											<div class="col-lg-5 col-sm-6">
-												<div class="form-group">
-													<input type="text" class="form-control" id="job-title" placeholder="Job title, skills, or company" value="{{ current_search }}">
-												</div>
-											</div>
-
-											<div class="col-lg-4 col-sm-6">
-												<div class="form-group">
-													<input type="text" class="form-control" id="job-title-2" placeholder="City, State, or zip" value="{{ current_location }}">
-												</div>
-											</div>
-
-											<div class="col-lg-3 col-sm-6 offset-sm-3 offset-lg-0">
-												<button type="submit" class="default-btn">
-													<i class="bx bx-search"></i>
-													Search Jobs
-												</button>
-											</div>
-										</div>
-										<!-- 隐藏字段用于保持其他筛选参数 -->
-										{% if current_job_type %}
-										<input type="hidden" name="job_type" value="{{ current_job_type }}">
-										{% endif %}
-									</form>
-
-									<div class="total-job-count">
-										<div class="row">
-											<div class="col-lg-4 col-sm-6 col-md-4">
-												<div class="job-count">
-													<h3><span>Live Jobs: </span>9,492</h3>
-												</div>
-											</div>
-
-											<div class="col-lg-4 col-sm-6 col-md-4">
-												<div class="job-count">
-													<h3><span>Companies: </span>12,5582</h3>
-												</div>
-											</div>
-
-											<div class="col-lg-4 col-sm-6 col-md-4 offset-sm-3 offset-lg-0 offset-md-0">
-												<div class="job-count">
-													<h3><span>New Jobs: </span>6,436</h3>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-
-							<div class="col-lg-5">
-								<div class="banner-img">
-									<img src="{{ url_for('static', filename='assets/images/banner/banner-img.png') }}" alt="Image">
-
-									<div class="video-content">
-
-
-										</a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- End Banner Area -->
-
-		<!-- Start Working Area -->
-		<section class="working-area bg-color pt-100 pb-70">
-			<div class="container">
-				<div class="section-title">
-					<span>Working Process</span>
-					<h2>How Jubi Works For You</h2>
-				</div>
-
-				<div class="row">
-					<div class="col-lg-3 col-sm-6">
-						<div class="single-working">
-							<i class="flaticon-find-my-friend"></i>
-							<h3>Find The Right Job</h3>
-						</div>
-					</div>
-
-					<div class="col-lg-3 col-sm-6">
-						<div class="single-working">
-							<i class="flaticon-company"></i>
-							<h3>Research Companies</h3>
-						</div>
-					</div>
-
-					<div class="col-lg-3 col-sm-6">
-						<div class="single-working">
-							<i class="flaticon-salary"></i>
-							<h3>Compare Salaries</h3>
-						</div>
-					</div>
-
-					<div class="col-lg-3 col-sm-6">
-						<div class="single-working">
-							<i class="flaticon-submit"></i>
-							<h3>Quick Apply</h3>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- End Working Area -->
-		
-		<!-- Start Partner Area -->
-		<div class="partner-area bg-color">
-			<div class="container">
-				<div class="section-title">
-					<span>Popular Jobs</span>
-					<h2>Top Hiring Company</h2>
-				</div>
-
-				<div class="partner-bg">
-					<div class="row">
-						<div class="partner-slider owl-carousel owl-theme">
-							<div class="partner-item">
-								<a href="#">
-									<img src="{{ url_for('static', filename='assets/images/partner/partner-1.png') }}" alt="Image">
-								</a>
-							</div>
-	
-							<div class="partner-item">
-								<a href="#">
-									<img src="{{ url_for('static', filename='assets/images/partner/partner-2.png') }}" alt="Image">
-								</a>
-							</div>
-	
-							<div class="partner-item">
-								<a href="#">
-									<img src="{{ url_for('static', filename='assets/images/partner/partner-3.png') }}" alt="Image">
-								</a>
-							</div>
-	
-							<div class="partner-item">
-								<a href="#">
-									<img src="{{ url_for('static', filename='assets/images/partner/partner-4.png') }}" alt="Image">
-								</a>
-							</div>
-	
-							<div class="partner-item">
-								<a href="#">
-									<img src="{{ url_for('static', filename='assets/images/partner/partner-5.png') }}" alt="Image">
-								</a>
-							</div>
-
-							<div class="partner-item">
-								<a href="#">
-									<img src="{{ url_for('static', filename='assets/images/partner/partner-3.png') }}" alt="Image">
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- End Partner Area -->
-
-		<!-- Start Live Jobs Area -->
-		<section class="live-jobs-area bg-color ptb-100">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-8">
-						<div class="section-title">
-							<span>Jobs Live Today</span>
-							<h2>Browse Category</h2>
-						</div>
-
-						<div class="live-jobs-item">
-							<div class="row">
-								<div class="col-lg-2 col-sm-6">
-									<div class="single-live-job">
-										<i class="flaticon-calculations"></i>
-										<a href="job-listing.html">
-											Accounting (25)
-										</a>
-									</div>
-								</div>
-								
-								<div class="col-lg-2 col-sm-6">
-									<div class="single-live-job">
-										<i class="flaticon-architect"></i>
-										<a href="job-listing.html">
-											Architects (15)
-										</a>
-									</div>
-								</div>
-	
-								<div class="col-lg-2 col-sm-6">
-									<div class="single-live-job">
-										<i class="flaticon-bank"></i>
-										<a href="job-listing.html">
-											Bank (14)
-										</a>
-									</div>
-								</div>
-	
-								<div class="col-lg-2 col-sm-6">
-									<div class="single-live-job">
-										<i class="flaticon-submit"></i>
-										<a href="job-listing.html">
-											Design (99)
-										</a>
-									</div>
-								</div>
-	
-								<div class="col-lg-2 col-sm-6">
-									<div class="single-live-job">
-										<i class="flaticon-graduated"></i>
-										<a href="job-listing.html">
-											Education (42)
-										</a>
-									</div>
-								</div>
-	
-								<div class="col-lg-2 col-sm-6">
-									<div class="single-live-job">
-										<i class="flaticon-travel"></i>
-										<a href="job-listing.html">
-											Travel (33)
-										</a>
-									</div>
-								</div>
-	
-								<div class="col-lg-2 col-sm-6">
-									<div class="single-live-job">
-										<i class="flaticon-medical-insurance"></i>
-										<a href="job-listing.html">
-											Medical (19)
-										</a>
-									</div>
-								</div>
-	
-								<div class="col-lg-2 col-sm-6">
-									<div class="single-live-job">
-										<i class="flaticon-submit"></i>
-										<a href="job-listing.html">
-											Marketing (165)
-										</a>
-									</div>
-								</div>
-	
-								<div class="col-lg-2 col-sm-6">
-									<div class="single-live-job">
-										<i class="flaticon-ngo"></i>
-										<a href="job-listing.html">
-											NGO (25)
-										</a>
-									</div>
-								</div>
-
-								<div class="col-lg-2 col-sm-6">
-									<div class="single-live-job">
-										<i class="flaticon-calculations"></i>
-										<a href="job-listing.html">
-											Accounting (25)
-										</a>
-									</div>
-								</div>
-								
-								<div class="col-lg-2 col-sm-6">
-									<div class="single-live-job">
-										<i class="flaticon-architect"></i>
-										<a href="job-listing.html">
-											Architects (15)
-										</a>
-									</div>
-								</div>
-	
-								<div class="col-lg-2 col-sm-6">
-									<div class="single-live-job">
-										<i class="flaticon-bank"></i>
-										<a href="job-listing.html">
-											Bank (14)
-										</a>
-									</div>
-								</div>
-	
-								<div class="col-lg-2 col-sm-6">
-									<div class="single-live-job">
-										<i class="flaticon-submit"></i>
-										<a href="job-listing.html">
-											Design (99)
-										</a>
-									</div>
-								</div>
-	
-								<div class="col-lg-2 col-sm-6">
-									<div class="single-live-job">
-										<i class="flaticon-graduated"></i>
-										<a href="job-listing.html">
-											Education (42)
-										</a>
-									</div>
-								</div>
-	
-								<div class="col-lg-2 col-sm-6">
-									<div class="single-live-job">
-										<i class="flaticon-travel"></i>
-										<a href="job-listing.html">
-											Travel (33)
-										</a>
-									</div>
-								</div>
-	
-								<div class="col-lg-2 col-sm-6">
-									<div class="single-live-job">
-										<i class="flaticon-medical-insurance"></i>
-										<a href="job-listing.html">
-											Medical (19)
-										</a>
-									</div>
-								</div>
-	
-								<div class="col-lg-2 col-sm-6">
-									<div class="single-live-job">
-										<i class="flaticon-submit"></i>
-										<a href="job-listing.html">
-											Marketing (165)
-										</a>
-									</div>
-								</div>
-	
-								<div class="col-lg-2 col-sm-6">
-									<div class="single-live-job">
-										<i class="flaticon-ngo"></i>
-										<a href="job-listing.html">
-											NGO (25)
-										</a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-lg-4">
-						<div class="hiring-list">
-							<h3>Hiring Immediately</h3>
-
-							<ul>
-								<li>
-									<a href="job-details.html" class="hiring-img">
-										<img src="{{ url_for('static', filename='assets/images/hiring/hiring-1.png') }}" alt="Image">
-									</a>
-									<a href="job-details.html" class="link">Service Engineer</a>
-									<span>Beijing Fupeng Business Travel Services Co., Ltd.</span>
-								</li>
-
-								<li>
-									<a href="job-details.html" class="hiring-img">
-										<img src="{{ url_for('static', filename='assets/images/hiring/hiring-2.png') }}" alt="Image">
-									</a>
-									<a href="job-details.html" class="link">Support Executive</a>
-									<span>Beijing Fupeng Business Travel Services Co., Ltd.</span>
-								</li>
-
-								<li>
-									<a href="job-details.html" class="hiring-img">
-										<img src="{{ url_for('static', filename='assets/images/hiring/hiring-3.png') }}" alt="Image">
-									</a>
-									<a href="job-details.html" class="link">Research Assistant</a>
-									<span>Beijing Fupeng Business Travel Services Co., Ltd.</span>
-								</li>
-
-								<li>
-									<a href="job-details.html" class="hiring-img">
-										<img src="{{ url_for('static', filename='assets/images/hiring/hiring-4.png') }}" alt="Image">
-									</a>
-									<a href="job-details.html" class="link">Content Writing</a>
-									<span>Beijing Fupeng Business Travel Services Co., Ltd.</span>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- End Live Jobs Area -->
-
-		<!-- Start Hot Jobs Area -->
-		<section class="hot-jobs-area bg-color pb-70">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-8">
-						<div class="section-title">
-							<span>Hot Jobs</span>
-							<h2>New & Random Jobs</h2>
-						</div>
-
-						<div class="row">
-							<div class="col-lg-6 col-md-6">
-								<select>
-									<option value="1">Full Time</option>
-									<option value="2">Part Time</option>
-									<option value="3">Night</option>
-									<option value="4">Day</option>
-									<option value="5">Evening</option>
-								</select>	
-							</div>
-
-							<div class="col-lg-6 col-md-6">
-								<div class="show-page">
-									<p>Show Per Page</p>
-									<select>
-										<option value="1">05</option>
-										<option value="2">07</option>
-										<option value="3">10</option>
-										<option value="4">15</option>
-										<option value="5">18</option>
-									</select>	
-								</div>
-							</div>
-						</div>
-
-						<div class="hot-jobs-list">
-							<div class="row align-items-center">
-								<div class="col-lg-2">
-									<a href="job-details.html" class="hot-jobs-img">
-										<img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-1.png') }}" alt="Image">
-									</a>
-								</div>
-
-								<div class="col-lg-6">
-									<div class="hot-jobs-content">
-										<h3><a href="job-details.html">Finance & Accounts</a></h3>
-										<span class="sub-title">Finix loans & funding agency</span>
-										<ul>
-											<li><span>Education:</span> BBA / M.A.</li>
-											<li><span>Experience: </span>At Least 1 Year(s)</li>
-											<li><span>Location: </span>New York</li>
-										</ul>
-									</div>
-								</div>
-
-								<div class="col-lg-4">
-									<div class="hot-jobs-btn">
-										<a href="job-details.html" class="default-btn">Browse Job</a>
-										<p><span>Deadline: </span>Dec 30, 2020</p>
-									</div>
-								</div>
-							</div>
-							<span class="featured">Featured</span>
-						</div>
-
-						<div class="hot-jobs-list">
-							<div class="row align-items-center">
-								<div class="col-lg-2">
-									<a href="job-details.html" class="hot-jobs-img">
-										<img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-2.png') }}" alt="Image">
-									</a>
-								</div>
-
-								<div class="col-lg-6">
-									<div class="hot-jobs-content">
-										<h3><a href="job-details.html">Assistant Manager</a></h3>
-										<span class="sub-title">Leve bank ltd</span>
-										<ul>
-											<li><span>Education:</span> BBA / M.A.</li>
-											<li><span>Experience: </span>At Least 2 Year(s)</li>
-											<li><span>Location: </span>Alaska</li>
-										</ul>
-									</div>
-								</div>
-
-								<div class="col-lg-4">
-									<div class="hot-jobs-btn">
-										<a href="job-details.html" class="default-btn">Browse Job</a>
-										<p><span>Deadline: </span>Nov 30, 2020</p>
-									</div>
-								</div>
-							</div>
-							<span class="featured">Featured</span>
-						</div>
-
-						<div class="hot-jobs-list">
-							<div class="row align-items-center">
-								<div class="col-lg-2">
-									<a href="job-details.html" class="hot-jobs-img">
-										<img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-3.png') }}" alt="Image">
-									</a>
-								</div>
-
-								<div class="col-lg-6">
-									<div class="hot-jobs-content">
-										<h3><a href="job-details.html">Mechanical Engineer</a></h3>
-										<span class="sub-title">Conzio construction</span>
-										<ul>
-											<li><span>Education:</span> B.Sc</li>
-											<li><span>Experience: </span>At Least 1 Year(s)</li>
-											<li><span>Location: </span>Washington</li>
-										</ul>
-									</div>
-								</div>
-
-								<div class="col-lg-4">
-									<div class="hot-jobs-btn">
-										<a href="job-details.html" class="default-btn">Browse Job</a>
-										<p><span>Deadline: </span>Dec 30, 2020</p>
-									</div>
-								</div>
-							</div>
-							<span class="featured red">Urgent</span>
-						</div>
-
-						<div class="hot-jobs-list">
-							<div class="row align-items-center">
-								<div class="col-lg-2">
-									<a href="job-details.html" class="hot-jobs-img">
-										<img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-4.png') }}" alt="Image">
-									</a>
-								</div>
-
-								<div class="col-lg-6">
-									<div class="hot-jobs-content">
-										<h3><a href="job-details.html">Teacher - English</a></h3>
-										<span class="sub-title">Eduon education</span>
-										<ul>
-											<li><span>Education:</span> BBA / M.A.</li>
-											<li><span>Experience: </span>At Least 2 Year(s)</li>
-											<li><span>Location: </span>Florida</li>
-										</ul>
-									</div>
-								</div>
-
-								<div class="col-lg-4">
-									<div class="hot-jobs-btn">
-										<a href="job-details.html" class="default-btn">Browse Job</a>
-										<p><span>Deadline: </span>Nov 30, 2020</p>
-									</div>
-								</div>
-							</div>
-							<span class="featured">Featured</span>
-						</div>
-
-						<div class="hot-jobs-list">
-							<div class="row align-items-center">
-								<div class="col-lg-2">
-									<a href="job-details.html" class="hot-jobs-img">
-										<img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-5.png') }}" alt="Image">
-									</a>
-								</div>
-
-								<div class="col-lg-6">
-									<div class="hot-jobs-content">
-										<h3><a href="job-details.html">Sr./ Project Manager</a></h3>
-										<span class="sub-title">Oryx International</span>
-										<ul>
-											<li><span>Education:</span> BBA / M.A.</li>
-											<li><span>Experience: </span>At Least 5 Year(s)</li>
-											<li><span>Location: </span>California</li>
-										</ul>
-									</div>
-								</div>
-
-								<div class="col-lg-4">
-									<div class="hot-jobs-btn">
-										<a href="job-details.html" class="default-btn">Browse Job</a>
-										<p><span>Deadline: </span>Dec 15, 2020</p>
-									</div>
-								</div>
-							</div>
-							<span class="featured">Featured</span>
-						</div>
-
-						<div class="row">
-							<div class="col-lg-12 col-md-12">
-								<div class="pagination-area">
-									<span class="page-numbers current" aria-current="page">1</span>
-									<a href="#" class="page-numbers">2</a>
-									<a href="#" class="page-numbers">3</a>
-									
-									<a href="#" class="next page-numbers">
-										<i class="flaticon-right-arrow"></i>
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-lg-4">
-						<div class="hot-jobs-sidebar">
-							<div class="hot-job-sidebar">
-								<img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-sidebar-img.jpg') }}" alt="Image">
-								
-								<div class="hot-job-sidebar-content">
-									<h3>The Benefits of Using Jobs</h3>
-	
-									<ul>
-										<li>
-											<span>1</span>
-											<a href="#">Helpful Customer Support</a>
-										</li>
-										<li>
-											<span>2</span>
-											<a href="#">Access To Career Coaching</a>
-										</li>
-										<li>
-											<span>3</span>
-											<a href="#">Skills Courses</a>
-										</li>
-										<li>
-											<span>4</span>
-											<a href="#">Top-notch Friendly</a>
-										</li>
-										<li>
-											<span>5</span>
-											<a href="#">Access Exclusive Research</a>
-										</li>
-									</ul>
-								</div>
-							</div>
-	
-							<div class="hot-job-sidebar">
-								<div class="hot-job-sidebar-content quick-link">
-									<h3>Quick Links</h3>
-	
-									<ul>
-										<li>
-											<i class="bx bx-chevrons-right"></i>
-											<a href="#">Employer List </a>
-										</li>
-										<li>
-											<i class="bx bx-chevrons-right"></i>
-											<a href="#">New Jobs (24 hrs)</a>
-										</li>
-										<li>
-											<i class="bx bx-chevrons-right"></i>
-											<a href="#">Deadline Tomorrow </a>
-										</li>
-										<li>
-											<i class="bx bx-chevrons-right"></i>
-											<a href="#">Urgent Jobs</a>
-										</li>
-										<li>
-											<i class="bx bx-chevrons-right"></i>
-											<a href="#">Customer Service</a>
-										</li>
-										<li>
-											<i class="bx bx-chevrons-right"></i>
-											<a href="#">Contractual Jobs </a>
-										</li>
-										<li>
-											<i class="bx bx-chevrons-right"></i>
-											<a href="#">Part-Time Jobs</a>
-										</li>
-										<li>
-											<i class="bx bx-chevrons-right"></i>
-											<a href="#">Now Hiring</a>
-										</li>
-									</ul>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- End Hot Jobs Area -->
-
-		<!-- Start Global Talent Area -->
-		<section class="global-talent-area bg-color pb-100">
-			<div class="container">
-				<div class="row align-items-center">
-					<div class="col-lg-7 col-md-6">
-						<div class="global-talent-content">
-							<span>Global Talent</span>
-							<h2>Grow Your Career, Dream Your Jobs Are Waiting</h2>
-
-							<ul>
-								<li>
-									<img src="{{ url_for('static', filename='assets/images/talent-dot/talent-dot-1.png') }}" alt="Image">
-									Full & Part-Time Jobs
-								</li>
-								
-								<li>
-									<img src="{{ url_for('static', filename='assets/images/talent-dot/talent-dot-2.png') }}" alt="Image">
-									Employee & Freelance
-								</li>
-
-								<li>
-									<img src="{{ url_for('static', filename='assets/images/talent-dot/talent-dot-3.png') }}" alt="Image">
-									Flexible On-Site
-								</li>
-							</ul>
-							
-							<a href="post-job.html" class="default-btn">
-								Post a Job
-							</a>
-						</div>
-					</div>
-
-					<div class="col-lg-5 col-md-6">
-						<div class="jubi-site-status">
-							<h3>Job Status</h3>
-							
-							<div class="site-status">
-								<div class="row">
-									<div class="col-lg-6 col-sm-6">
-										<div class="single-counter">
-											<i class="flaticon-job-seeker"></i>
-	
-											<h2>
-												<span class="odometer" data-count="10523">00</span> 
-											</h2>
-				
-											<p>Jobs Added</p>
-										</div>
-									</div>
-
-									<div class="col-lg-6 col-sm-6">
-										<div class="single-counter">
-											<i class="flaticon-organization"></i>
-	
-											<h2>
-												<span class="odometer" data-count="123843">00</span> 
-											</h2>
-				
-											<p>Companies</p>
-										</div>
-									</div>
-
-									<div class="col-lg-6 col-sm-6">
-										<div class="single-counter">
-											<i class="flaticon-profile"></i>
-	
-											<h2>
-												<span class="odometer" data-count="20537">00</span> 
-											</h2>
-				
-											<p>Resume</p>
-										</div>
-									</div>
-
-									<div class="col-lg-6 col-sm-6">
-										<div class="single-counter">
-											<i class="flaticon-community"></i>
-	
-											<h2>
-												<span class="odometer" data-count="18523">00</span> 
-											</h2>
-				
-											<p>Members</p>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- End Global Talent Area -->
-
-		<!-- Start Testimonials Area -->
-		<section class="testimonials-area bg-color pb-100">
-			<div class="container">
-				<div class="row align-items-center">
-					<div class="col-lg-5">
-						<div class="testimonials-img">
-							<img src="{{ url_for('static', filename='assets/images/testimonials/testimonials-img.png') }}" alt="Image">
-
-							<h3>Testimonials</h3>
-
-							<div class="testimonials-1">
-								<img src="{{ url_for('static', filename='assets/images/testimonials/testimonials-1.jpg') }}" alt="Image">
-							</div>
-
-							<div class="testimonials-2">
-								<img src="{{ url_for('static', filename='assets/images/testimonials/testimonials-2.jpg') }}" alt="Image">
-							</div>
-
-							<div class="testimonials-3">
-								<img src="{{ url_for('static', filename='assets/images/testimonials/testimonials-3.jpg') }}" alt="Image">
-							</div>
-
-							<div class="testimonials-4">
-								<img src="{{ url_for('static', filename='assets/images/testimonials/testimonials-4.jpg') }}" alt="Image">
-							</div>
-						</div>
-					</div>
-
-					<div class="col-lg-7">
-						<div class="testimonials">
-							<div class="testimonials-slider owl-carousel owl-theme">
-								<div class="testimonials-item">
-									<i class="flaticon-quote"></i>
-									<p>“Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Quis ipsum suspendisse ultrices gravida. Risus viverra maecenas accumsan lacus vel facilisis.”</p> 
-		
-									<h3>Allan norris</h3>
-									<span>Software Engineer</span>
-								</div>
-
-								<div class="testimonials-item">
-									<i class="flaticon-quote"></i>
-									<p>“Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Quis ipsum suspendisse ultrices gravida. Risus viverra maecenas accumsan lacus vel facilisis.”</p>
-		
-									<h3>Tammie King</h3>
-									<span>Founder</span>
-								</div>
-								
-								<div class="testimonials-item">
-									<i class="flaticon-quote"></i>
-									<p>“Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. Quis ipsum suspendisse ultrices gravida. Risus viverra maecenas accumsan lacus vel facilisis.”</p>
-		
-									<h3>Juhon Anderson</h3>
-									<span>Manager</span>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- End Testimonials Area -->
-
-
-
-		<!-- Start FAQ Area -->
-		<section class="faq-area bg-color ptb-100">
+<html lang="en">
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Bootstrap Min CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/bootstrap.min.css') }}">
+	<!-- Owl Theme Default Min CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/owl.theme.default.min.css') }}">
+	<!-- Owl Carousel Min CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/owl.carousel.min.css') }}">
+	<!-- Animate Min CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/animate.min.css') }}">
+	<!-- Boxicons Min CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/boxicons.min.css') }}">
+	<!-- Magnific Popup Min CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/magnific-popup.min.css') }}">
+	<!-- Flaticon CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/flaticon.css') }}">
+	<!-- Meanmenu Min CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/meanmenu.min.css') }}">
+	<!-- Nice Select Min CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/nice-select.min.css') }}">
+	<!-- Odometer Min CSS-->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/odometer.min.css') }}">
+	<!-- Date Picker CSS-->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/date-picker.min.css') }}">
+	<!-- Muli Fonts Min CSS-->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/muli-fonts.css') }}">
+	<!-- Style CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/style.css') }}">
+	<!-- Responsive CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/responsive.css') }}">
+
+	<!-- Favicon -->
+	<link rel="icon" type="image/png" href="assets/images/favicon.png">
+	<style>
+		.stats-widget .stats-item {
+			text-align: center;
+			padding: 15px 0;
+			border-bottom: 1px solid #eee;
+		}
+
+		.stats-widget .stats-item:last-child {
+			border-bottom: none;
+		}
+
+		.stats-widget .stats-number {
+			font-size: 24px;
+			font-weight: bold;
+			color: #3f51b5;
+			margin-bottom: 5px;
+		}
+
+		.stats-widget .stats-label {
+			font-size: 14px;
+			color: #666;
+		}
+
+		.quick-link ul li a {
+			color: #333;
+			transition: color 0.3s ease;
+		}
+
+		.quick-link ul li a:hover {
+			color: #3f51b5;
+		}
+	</style>
+	<!-- Title -->
+
+	<title>Beijing Fupeng Business Service Co., Ltd.</title>
+</head>
+
+<body>
+<!-- Start Preloader Area -->
+<div class="preloader">
+	<div class="lds-ripple">
+		<div></div>
+		<div></div>
+	</div>
+</div>
+<!-- End Preloader Area -->
+
+<!-- Start Header Area -->
+{% include '/heng.html' %}
+<!-- End Header Area -->
+
+<!-- Start Banner Area -->
+<section class="banner-area ptb-100">
+	<div class="d-table">
+		<div class="d-table-cell">
 			<div class="container-fluid">
 				<div class="row align-items-center">
-					<div class="col-lg-6">
-						<div class="faq-accordion">
-							<div class="faq-title">
-								<h2>Frequently Asked Questions?</h2>
+					<div class="col-lg-7">
+						<div class="banner-content">
+							<h1>Find Your Career, Create a Better Life</h1>
+							<p>Search over 10,000 jobs today!</p>
+
+							<form class="search-job" method="GET" action="{{ url_for('job_listing') }}">
+								<div class="row">
+									<div class="col-lg-5 col-sm-6">
+										<div class="form-group">
+											<input type="text" class="form-control" name="search" placeholder="Job title, skills, or company" value="{{ current_search }}">
+										</div>
+									</div>
+
+									<div class="col-lg-4 col-sm-6">
+										<div class="form-group">
+											<input type="text" class="form-control" name="location" placeholder="City, state, or zip code" value="{{ current_location }}">
+										</div>
+									</div>
+
+									<div class="col-lg-3 col-sm-6 offset-sm-3 offset-lg-0">
+										<button type="submit" class="default-btn">
+											<i class="bx bx-search"></i>
+											Search Jobs
+										</button>
+									</div>
+								</div>
+
+								<!-- Hidden fields to maintain other filter parameters -->
+								{% if current_job_type %}
+								<input type="hidden" name="job_type" value="{{ current_job_type }}">
+								{% endif %}
+							</form>
+
+							<div class="total-job-count">
+								<div class="row">
+									<div class="col-lg-4 col-sm-6 col-md-4">
+										<div class="job-count">
+											<h3><span>Live Jobs:</span>9,492</h3>
+										</div>
+									</div>
+
+									<div class="col-lg-4 col-sm-6 col-md-4">
+										<div class="job-count">
+											<h3><span>Companies:</span>12,5582</h3>
+										</div>
+									</div>
+
+									<div class="col-lg-4 col-sm-6 col-md-4 offset-sm-3 offset-lg-0 offset-md-0">
+										<div class="job-count">
+											<h3><span>New Jobs:</span>6,436</h3>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-5">
+						<div class="banner-img">
+							<img src="{{ url_for('static', filename='assets/images/banner/banner-img.png') }}" alt="Image">
+
+							<div class="video-content">
+								<!-- Video content -->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- End Banner Area -->
+
+<!-- Start Working Area -->
+<section class="working-area bg-color pt-100 pb-70">
+	<div class="container">
+		<div class="section-title">
+			<span>Working Process</span>
+			<h2>How We Find Jobs For You</h2>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-3 col-sm-6">
+				<div class="single-working">
+					<i class="flaticon-find-my-friend"></i>
+					<h3>Find the Right Job</h3>
+				</div>
+			</div>
+
+			<div class="col-lg-3 col-sm-6">
+				<div class="single-working">
+					<i class="flaticon-company"></i>
+					<h3>Research Companies</h3>
+				</div>
+			</div>
+
+			<div class="col-lg-3 col-sm-6">
+				<div class="single-working">
+					<i class="flaticon-salary"></i>
+					<h3>Compare Salaries</h3>
+				</div>
+			</div>
+
+			<div class="col-lg-3 col-sm-6">
+				<div class="single-working">
+					<i class="flaticon-submit"></i>
+					<h3>Quick Apply</h3>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- End Working Area -->
+
+<!-- Start Partner Area -->
+<div class="partner-area bg-color">
+	<div class="container">
+		<div class="section-title">
+			<span>Hot Jobs</span>
+			<h2>Our Companies</h2>
+		</div>
+
+		<div class="partner-bg">
+			<div class="row">
+				<div class="partner-slider owl-carousel owl-theme">
+					<div class="partner-item">
+						<a href="#">
+							<img src="{{ url_for('static', filename='assets/images/partner/partner-1.png') }}" alt="Image">
+						</a>
+					</div>
+
+					<div class="partner-item">
+						<a href="#">
+							<img src="{{ url_for('static', filename='assets/images/partner/partner-2.png') }}" alt="Image">
+						</a>
+					</div>
+
+					<div class="partner-item">
+						<a href="#">
+							<img src="{{ url_for('static', filename='assets/images/partner/partner-3.png') }}" alt="Image">
+						</a>
+					</div>
+
+					<div class="partner-item">
+						<a href="#">
+							<img src="{{ url_for('static', filename='assets/images/partner/partner-4.png') }}" alt="Image">
+						</a>
+					</div>
+
+					<div class="partner-item">
+						<a href="#">
+							<img src="{{ url_for('static', filename='assets/images/partner/partner-5.png') }}" alt="Image">
+						</a>
+					</div>
+
+					<div class="partner-item">
+						<a href="#">
+							<img src="{{ url_for('static', filename='assets/images/partner/partner-3.png') }}" alt="Image">
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- End Partner Area -->
+
+<!-- Start Live Jobs Area -->
+<section class="live-jobs-area bg-color ptb-100">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8">
+				<div class="section-title">
+					<span>Today's Live Jobs</span>
+					<h2>Browse Categories</h2>
+				</div>
+
+				<div class="live-jobs-item">
+					<div class="row">
+						{% for category, count in categories.items() %}
+						<div class="col-lg-2 col-sm-6">
+							<div class="single-live-job">
+								{% set icons = [
+								'flaticon-calculations', 'flaticon-architect', 'flaticon-bank',
+								'flaticon-submit', 'flaticon-graduated', 'flaticon-travel',
+								'flaticon-medical-insurance', 'flaticon-ngo'
+								] %}
+								<i class="{{ icons[loop.index0 % icons|length] }}"></i>
+								<a href="{{ url_for('job_listing', search=category[:2]) }}">
+									{{ category }} ({{ count }})
+								</a>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-4">
+				<div class="hiring-list">
+					<h3>Urgent Hiring</h3>
+
+					<ul>
+						{% for job in urgent_jobs %}
+						<li>
+							<a href="{{ url_for('job_detail', job_id=job.id) }}" class="hiring-img">
+								<img src="{{ url_for('static', filename='assets/images/hot-jobs/' + job.logo) }}" alt="{{ job.title }}">
+							</a>
+							<a href="{{ url_for('job_detail', job_id=job.id) }}" class="link">{{ job.title }}</a>
+							<span>{{ job.company }}</span>
+							<span class="urgent-badge">Urgent</span>
+						</li>
+						{% else %}
+						<li class="text-center">
+							<p class="text-muted">No urgent hiring positions available</p>
+							<a href="{{ url_for('job_listing') }}" class="default-btn">View All Jobs</a>
+						</li>
+						{% endfor %}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- End Live Jobs Area -->
+
+<!-- Start Hot Jobs Area -->
+<section class="hot-jobs-area bg-color pb-70">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8">
+				<div class="section-title">
+					<span>Hot Jobs</span>
+					<h2>Recommended Jobs & Latest Jobs</h2>
+				</div>
+
+				<div class="row mb-4">
+					<div class="col-lg-6 col-md-6">
+						<select id="jobTypeFilter" onchange="filterHomeJobs()">
+							<option value="">All Types</option>
+							<option value="Full-time">Full-time</option>
+							<option value="Part-time">Part-time</option>
+							<option value="Internship">Internship</option>
+							<option value="Contract">Contract</option>
+						</select>
+					</div>
+
+					<div class="col-lg-6 col-md-6">
+						<div class="show-page">
+							<p>Sort by</p>
+							<select id="sortFilter" onchange="sortHomeJobs()">
+								<option value="featured">Featured First</option>
+								<option value="latest">Latest Posted</option>
+								<option value="urgent">Urgent Jobs</option>
+								<option value="deadline">Deadline</option>
+							</select>
+						</div>
+					</div>
+				</div>
+
+				<!-- Featured Jobs -->
+				<div id="featuredJobs">
+					{% for job in featured_jobs %}
+					<div class="hot-jobs-list">
+						<div class="row align-items-center">
+							<div class="col-lg-2">
+								<a href="{{ url_for('job_detail', job_id=job.id) }}" class="hot-jobs-img">
+									<img src="{{ url_for('static', filename='assets/images/hot-jobs/' + job.logo) }}" alt="{{ job.title }}">
+								</a>
 							</div>
 
-							<ul class="accordion">
-								<li class="accordion-item">
-									<a class="accordion-title active" href="javascript:void(0)">
-										<i class="bx bx-plus"></i>
-										How Do I Post a Job?
-									</a>
-	
-									<div class="accordion-content show">
-										<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam aliquam ut ad debitis maxime alias vitae magnam, accusamus amet pariatur tenetur totam deserunt dolore provident nobis impedit non vel quo? aliquam ut ad debitis maxime alias deserunt dolore provident  dolore provident nobis impedit non vel quo? aliquam ut ad  dolore provident</p>
-									</div>
-								</li>
+							<div class="col-lg-6">
+								<div class="hot-jobs-content">
+									<h3><a href="{{ url_for('job_detail', job_id=job.id) }}">{{ job.title }}</a></h3>
+									<span class="sub-title">{{ job.company }}</span>
+									<ul>
+										<li><span>Education:</span> {{ job.education }}</li>
+										<li><span>Experience:</span> {{ job.experience }}</li>
+										<li><span>Location:</span> {{ job.location }}</li>
+										<li><span>Salary:</span> {{ job.salary }}</li>
+									</ul>
+								</div>
+							</div>
 
-								<li class="accordion-item">
-									<a class="accordion-title" href="javascript:void(0)">
-										<i class="bx bx-plus"></i>
-										How Do I Edit or Remove a Job Posting?
-									</a>
-	
-									<div class="accordion-content">
-										<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam aliquam ut ad debitis maxime alias vitae magnam, accusamus amet pariatur tenetur totam deserunt dolore provident nobis impedit non vel quo? aliquam ut ad debitis maxime alias deserunt dolore provident  dolore provident nobis impedit non vel quo? aliquam ut ad  dolore provident</p>
-									</div>
-								</li>
+							<div class="col-lg-4">
+								<div class="hot-jobs-btn">
+									<a href="{{ url_for('job_detail', job_id=job.id) }}" class="default-btn">Browse Job</a>
+									<p><span>Deadline:</span>{{ job.deadline.strftime('%Y-%m-%d') }}</p>
+								</div>
+							</div>
+						</div>
+						{% if job.is_featured %}
+						<span class="featured">Featured</span>
+						{% endif %}
+						{% if job.is_urgent %}
+						<span class="featured red">Urgent</span>
+						{% endif %}
+					</div>
+					{% else %}
+					<div class="alert alert-info">
+						<p>No featured jobs available, <a href="{{ url_for('job_listing') }}">view all jobs</a></p>
+					</div>
+					{% endfor %}
+				</div>
 
-								<li class="accordion-item">
-									<a class="accordion-title" href="javascript:void(0)">
-										<i class="bx bx-plus"></i>
-										How Long Will My Job Posting be Live?
-									</a>
-	
-									<div class="accordion-content">
-										<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam aliquam ut ad debitis maxime alias vitae magnam, accusamus amet pariatur tenetur totam deserunt dolore provident nobis impedit non vel quo? aliquam ut ad debitis maxime alias deserunt dolore provident  dolore provident nobis impedit non vel quo? aliquam ut ad  dolore provident</p>
-									</div>
-								</li>
+				<!-- Latest Jobs -->
+				<div class="mt-5">
+					<div class="section-title">
+						<h3>Latest Jobs</h3>
+					</div>
 
-								<li class="accordion-item">
-									<a class="accordion-title" href="javascript:void(0)">
-										<i class="bx bx-plus"></i>
-										How Can I Unsubscribe From Your Mailing List?
+					<div id="latestJobs">
+						{% for job in latest_jobs %}
+						<div class="hot-jobs-list">
+							<div class="row align-items-center">
+								<div class="col-lg-2">
+									<a href="{{ url_for('job_detail', job_id=job.id) }}" class="hot-jobs-img">
+										<img src="{{ url_for('static', filename='assets/images/hot-jobs/' + job.logo) }}" alt="{{ job.title }}">
 									</a>
-	
-									<div class="accordion-content">
-										<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam aliquam ut ad debitis maxime alias vitae magnam, accusamus amet pariatur tenetur totam deserunt dolore provident nobis impedit non vel quo? aliquam ut ad debitis maxime alias deserunt dolore provident  dolore provident nobis impedit non vel quo? aliquam ut ad  dolore provident</p>
-									</div>
-								</li>
+								</div>
 
-								<li class="accordion-item">
-									<a class="accordion-title" href="javascript:void(0)">
-										<i class="bx bx-plus"></i>
-										How Can I Change My Password?
-									</a>
-	
-									<div class="accordion-content">
-										<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam aliquam ut ad debitis maxime alias vitae magnam, accusamus amet pariatur tenetur totam deserunt dolore provident nobis impedit non vel quo? aliquam ut ad debitis maxime alias deserunt dolore provident  dolore provident nobis impedit non vel quo? aliquam ut ad  dolore provident</p>
+								<div class="col-lg-6">
+									<div class="hot-jobs-content">
+										<h3><a href="{{ url_for('job_detail', job_id=job.id) }}">{{ job.title }}</a></h3>
+										<span class="sub-title">{{ job.company }}</span>
+										<ul>
+											<li><span>Education:</span> {{ job.education }}</li>
+											<li><span>Experience:</span> {{ job.experience }}</li>
+											<li><span>Location:</span> {{ job.location }}</li>
+											<li><span>Job Type:</span> {{ job.job_type }}</li>
+										</ul>
 									</div>
+								</div>
+
+								<div class="col-lg-4">
+									<div class="hot-jobs-btn">
+										<a href="{{ url_for('job_detail', job_id=job.id) }}" class="default-btn">Browse Job</a>
+										<p><span>Posted:</span>{{ job.created_at.strftime('%Y-%m-%d') }}</p>
+									</div>
+								</div>
+							</div>
+							{% if job.is_featured %}
+							<span class="featured">Featured</span>
+							{% endif %}
+							{% if job.is_urgent %}
+							<span class="featured red">Urgent</span>
+							{% endif %}
+						</div>
+						{% else %}
+						<div class="alert alert-info">
+							<p>No latest jobs available</p>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+
+				<div class="row mt-4">
+					<div class="col-lg-12 col-md-12">
+						<div class="text-center">
+							<a href="{{ url_for('job_listing') }}" class="default-btn">View All Jobs</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-4">
+				<div class="hot-jobs-sidebar">
+					<!-- Company Benefits -->
+					<div class="hot-job-sidebar">
+						<img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-sidebar-img.jpg') }}" alt="Join Us">
+
+						<div class="hot-job-sidebar-content">
+							<h3>Benefits of Joining Us</h3>
+
+							<ul>
+								<li>
+									<span>1</span>
+									<a href="#">Professional Career Development Support</a>
+								</li>
+								<li>
+									<span>2</span>
+									<a href="#">Comprehensive Training System</a>
+								</li>
+								<li>
+									<span>3</span>
+									<a href="#">Skill Enhancement Courses</a>
+								</li>
+								<li>
+									<span>4</span>
+									<a href="#">Friendly Team Environment</a>
+								</li>
+								<li>
+									<span>5</span>
+									<a href="#">Industry-leading Project Experience</a>
 								</li>
 							</ul>
 						</div>
 					</div>
 
-					<div class="col-lg-6">
-						<div class="faq-img">
-							<img src="{{ url_for('static', filename='assets/images/faq-img.png') }}" alt="Image">
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- End FAQ Area -->
-
-
-
-
-		<!-- Start Blog Area -->
-		<section class="blog-area bg-color pb-70">
-			<div class="container">
-				<div class="section-title">
-					<span>Latest News</span>
-					<h2>Quick Career Tips</h2>
-				</div>
-
-				<div class="row">
-					<div class="col-lg-4 col-md-6">
-						<div class="single-blog-post">
-							<div class="blog-img">
-								<a href="blog-details.html">
-									<img src="{{ url_for('static', filename='assets/images/blog/blog-1.jpg') }}" alt="Image">
-								</a>
-
-								<ul>
-									<li>12 Nov</li>
-									<li>2020</li>
-								</ul>
+					<!-- Statistics -->
+					<div class="hot-job-sidebar">
+						<div class="hot-job-sidebar-content stats-widget">
+							<h3>Job Statistics</h3>
+							<div class="stats-item">
+								<div class="stats-number">{{ stats.total_jobs }}</div>
+								<div class="stats-label">Total Jobs</div>
 							</div>
-
-							<div class="blog-content">
-								<ul>
-									<li>
-										<i class="bx bxs-user"></i>
-										<a href="#">Andrew Lawson</a>
-									</li>
-								</ul>
-	
-								<h3>
-									<a href="blog-details.html">
-										The Most Popular Job in The Country
-									</a>
-								</h3>
-
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt...</p>
-	
-								<a href="blog-details.html" class="read-more">
-									Learn More
-									<i class="flaticon-right-arrow"></i>
-								</a>
+							<div class="stats-item">
+								<div class="stats-number">{{ stats.urgent_jobs }}</div>
+								<div class="stats-label">Urgent Jobs</div>
 							</div>
-						</div>
-					</div>
-
-					<div class="col-lg-4 col-md-6">
-						<div class="single-blog-post">
-							<div class="blog-img">
-								<a href="blog-details.html">
-									<img src="{{ url_for('static', filename='assets/images/blog/blog-2.jpg') }}" alt="Image">
-								</a>
-
-								<ul>
-									<li>13 Nov</li>
-									<li>2020</li>
-								</ul>
+							<div class="stats-item">
+								<div class="stats-number">{{ stats.full_time_jobs }}</div>
+								<div class="stats-label">Full-time Jobs</div>
 							</div>
-
-							<div class="blog-content">
-								<ul>
-									<li>
-										<i class="bx bxs-user"></i>
-										<a href="#">Adonay Porras</a>
-									</li>
-								</ul>
-	
-								<h3>
-									<a href="blog-details.html">
-										10 Questions to Ask Before Joining a Company
-									</a>
-								</h3>
-
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt...</p>
-	
-								<a href="blog-details.html" class="read-more">
-									Learn More
-									<i class="flaticon-right-arrow"></i>
-								</a>
+							<div class="stats-item">
+								<div class="stats-number">{{ stats.remote_jobs }}</div>
+								<div class="stats-label">Remote Jobs</div>
 							</div>
-						</div>
-					</div>
-
-					<div class="col-lg-4 col-md-6 offset-md-3 offset-lg-0">
-						<div class="single-blog-post">
-							<div class="blog-img">
-								<a href="blog-details.html">
-									<img src="{{ url_for('static', filename='assets/images/blog/blog-3.jpg') }}" alt="Image">
-								</a>
-
-								<ul>
-									<li>14 Nov</li>
-									<li>2020</li>
-								</ul>
+							<div class="stats-item">
+								<div class="stats-number">{{ stats.featured_jobs_count }}</div>
+								<div class="stats-label">Featured Jobs</div>
 							</div>
-
-							<div class="blog-content">
-								<ul>
-									<li>
-										<i class="bx bxs-user"></i>
-										<a href="#">Espinoza Lara</a>
-									</li>
-								</ul>
-	
-								<h3>
-									<a href="blog-details.html">
-										How to Hire Your First Growth Online Designer
-									</a>
-								</h3>
-
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt...</p>
-	
-								<a href="blog-details.html" class="read-more">
-									Learn More
-									<i class="flaticon-right-arrow"></i>
-								</a>
+							<div class="stats-item">
+								<div class="stats-number">{{ stats.new_today }}</div>
+								<div class="stats-label">New Today</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</section>
-		<!-- End Blog Area -->
-
-		<!-- Start Subscribe Area -->
-		<section class="subscribe-area">
-			<div class="container">
-				<div class="subscribe-bg">
-					<div class="row align-items-center">
-						<div class="col-lg-6">
-							<div class="subscribe-content">
-								<h2>Find Your Next Great Job Opportunity!</h2>
-							</div>
-						</div>
-	
-						<div class="col-lg-6">
-							<form class="newsletter-form" data-toggle="validator">
-								<input type="email" class="form-control" placeholder="Enter email address" name="EMAIL" required autocomplete="off">
-	
-								<button class="default-btn" type="submit">
-									<span>Subscribe</span>
-								</button>
-	
-								<div id="validator-newsletter" class="form-result"></div>
-								<p>Join The Newsletter 10,000 Users Already!</p>
-							</form>	
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- End Subscribe Area -->
-
-		{% include "/footer.html" %}
-
-		<!-- Start Copy Right Area -->
-
-		<!-- End Copy Right Area -->
-		
-		<!-- Start Go Top Area -->
-		<div class="go-top">
-			<i class="bx bx-chevrons-up"></i>
-			<i class="bx bx-chevrons-up"></i>
 		</div>
-		<!-- End Go Top Area -->
-		
+	</div>
+</section>
+<!-- End Hot Jobs Area -->
 
-        <!-- Jquery Min JS -->
-        <script src="{{ url_for('static', filename='assets/js/jquery-1.10.2.js') }}"></script>
-        <!-- Popper Min JS -->
-        <script src="{{ url_for('static', filename='assets/js/popper.min.js') }}"></script>
-        <!-- Bootstrap Min JS -->
-        <script src="{{ url_for('static', filename='assets/js/bootstrap-4.2.1.js') }}"></script>
-        <!-- Meanmenu Min JS -->
-		<script src="{{ url_for('static', filename='assets/js/meanmenu.min.js') }}"></script>
-		<!-- Wow Min JS -->
-        <script src="{{ url_for('static', filename='assets/js/wow.min.js') }}"></script>
-        <!-- Owl Carousel Min JS -->
-		<script src="{{ url_for('static', filename='assets/js/owl.carousel.min.js') }}"></script>
-        <!-- Nice Select Min JS -->
-		<script src="{{ url_for('static', filename='assets/js/nice-select.min.js') }}"></script>
-        <!-- Magnific Popup Min JS -->
-		<script src="{{ url_for('static', filename='assets/js/magnific-popup.min.js') }}"></script>
-		<!-- Mixitup JS --> 
-		<script src="{{ url_for('static', filename='assets/js/jquery.mixitup.min.js') }}"></script>
-		<!-- Appear Min JS --> 
-        <script src="{{ url_for('static', filename='assets/js/appear.min.js') }}"></script>
-		<!-- Odometer Min JS --> 
-		<script src="{{ url_for('static', filename='assets/js/odometer.min.js') }}"></script>
-		<!-- Range Slider Min JS --> 
-		<script src="{{ url_for('static', filename='assets/js/range-slider.min.js') }}"></script>
-		<!-- Datepicker Min JS --> 
-		<script src="{{ url_for('static', filename='assets/js/bootstrap-datepicker.min.js') }}"></script>
-		<!-- Form Validator Min JS -->
-		<script src="{{ url_for('static', filename='assets/js/form-validator.min.js') }}"></script>
-		<!-- Contact JS -->
-		<script src="{{ url_for('static', filename='assets/js/contact-form-script.js') }}"></script>
-		<!-- Ajaxchimp Min JS -->
-		<script src="{{ url_for('static', filename='assets/js/ajaxchimp.min.js') }}"></script>
-        <!-- Custom JS -->
-		<script src="{{ url_for('static', filename='assets/js/custom.js') }}"></script>
+<!-- Start Global Talent Area -->
+<section class="global-talent-area bg-color pb-100">
+	<div class="container">
+		<div class="row align-items-center">
+			<div class="col-lg-7 col-md-6">
+				<div class="global-talent-content">
+					<span>Global Talent</span>
+					<h2>Develop Your Career, Dream Jobs Are Waiting</h2>
+
+					<ul>
+						<li>
+							<img src="{{ url_for('static', filename='assets/images/talent-dot/talent-dot-1.png') }}" alt="Image">
+							Full-time and Part-time Jobs
+						</li>
+
+						<li>
+							<img src="{{ url_for('static', filename='assets/images/talent-dot/talent-dot-2.png') }}" alt="Image">
+							Employees and Freelancers
+						</li>
+
+						<li>
+							<img src="{{ url_for('static', filename='assets/images/talent-dot/talent-dot-3.png') }}" alt="Image">
+							Flexible On-site Work
+						</li>
+					</ul>
+
+					<a href="post-job.html" class="default-btn">
+						Submit Resume
+					</a>
+				</div>
+			</div>
+
+			<div class="col-lg-5 col-md-6">
+				<div class="jubi-site-status">
+					<h3>Recruitment Status</h3>
+
+					<div class="site-status">
+						<div class="row">
+							<div class="col-lg-6 col-sm-6">
+								<div class="single-counter">
+									<i class="flaticon-job-seeker"></i>
+
+									<h2>
+										<span class="odometer" data-count="10523">00</span>
+									</h2>
+
+									<p>New Jobs</p>
+								</div>
+							</div>
+
+							<div class="col-lg-6 col-sm-6">
+								<div class="single-counter">
+									<i class="flaticon-organization"></i>
+
+									<h2>
+										<span class="odometer" data-count="123843">00</span>
+									</h2>
+
+									<p>Companies</p>
+								</div>
+							</div>
+
+							<div class="col-lg-6 col-sm-6">
+								<div class="single-counter">
+									<i class="flaticon-profile"></i>
+
+									<h2>
+										<span class="odometer" data-count="20537">00</span>
+									</h2>
+
+									<p>Resumes</p>
+								</div>
+							</div>
+
+							<div class="col-lg-6 col-sm-6">
+								<div class="single-counter">
+									<i class="flaticon-community"></i>
+
+									<h2>
+										<span class="odometer" data-count="18523">00</span>
+									</h2>
+
+									<p>Members</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- End Global Talent Area -->
+
+<!-- Start Testimonials Area -->
+<section class="testimonials-area bg-color pb-100">
+	<div class="container">
+		<div class="row align-items-center">
+			<div class="col-lg-5">
+				<div class="testimonials-img">
+					<img src="{{ url_for('static', filename='assets/images/testimonials/testimonials-img.png') }}" alt="Image">
+
+					<h3>Client Testimonials</h3>
+
+					<div class="testimonials-1">
+						<img src="{{ url_for('static', filename='assets/images/testimonials/testimonials-1.jpg') }}" alt="Image">
+					</div>
+
+					<div class="testimonials-2">
+						<img src="{{ url_for('static', filename='assets/images/testimonials/testimonials-2.jpg') }}" alt="Image">
+					</div>
+
+					<div class="testimonials-3">
+						<img src="{{ url_for('static', filename='assets/images/testimonials/testimonials-3.jpg') }}" alt="Image">
+					</div>
+
+					<div class="testimonials-4">
+						<img src="{{ url_for('static', filename='assets/images/testimonials/testimonials-4.jpg') }}" alt="Image">
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-7">
+				<div class="testimonials">
+					<div class="testimonials-slider owl-carousel owl-theme">
+						<div class="testimonials-item">
+							<i class="flaticon-quote"></i>
+							<p>"As a long-term researcher focusing on Russian domestic affairs, I deeply admire the research briefings produced by your company. The content is detailed with data, logically rigorous, and always provides first-hand perspectives and unique insights beyond mainstream media. Our think tank has listed your company's analysis as required internal reading material, which greatly benefits inspiring research ideas and maintaining academic acumen."</p>
+
+							<h3>Allan norris</h3>
+							<span>Software Engineer</span>
+						</div>
+
+						<div class="testimonials-item">
+							<i class="flaticon-quote"></i>
+							<p>"For you, this is more than just receiving competitive compensation. It's an opportunity to: · Expand your influence platform: Your insights will reach global high-end readers focusing on policy and economy through our channels, including government, corporate, and think tank institutions, greatly enhancing your personal and viewpoint visibility. · Deepen professional opportunities: Continuous, in-depth writing around core topics is the best way to organize and refine your professional system. Our cooperation will help you build a more authoritative voice in your field. · Connect with a global network: You will become part of our global elite network, with opportunities to exchange ideas with top experts from different countries and backgrounds, expanding your connections and vision. For us, every cooperation with you brings indispensable local perspectives, cutting-edge insights, and professional depth, which together form the foundation of our service to clients. We firmly believe this will be a mutually beneficial and growth-oriented cooperation. We eagerly await your unique voice and are ready to provide you with a platform that fully demonstrates your value. Looking forward to your participation."</p>
+
+							<h3>Juhon Anderson</h3>
+							<span>Manager</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- End Testimonials Area -->
+
+<!-- Start Blog Area -->
+<section class="blog-area bg-color pb-70">
+	<div class="container">
+		<div class="section-title">
+			<span>Latest News</span>
+			<h2>Quick Career Advice</h2>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-4 col-md-6">
+				<div class="single-blog-post">
+					<div class="blog-img">
+						<a href="blog-details.html">
+							<img src="{{ url_for('static', filename='assets/images/blog/blog-1.jpg') }}" alt="Image">
+						</a>
+
+						<ul>
+							<li>Nov 12</li>
+							<li>2025</li>
+						</ul>
+					</div>
+
+					<div class="blog-content">
+						<ul>
+							<li>
+								<i class="bx bxs-user"></i>
+								<a href="#">Andrew Lawson</a>
+							</li>
+						</ul>
+
+						<h3>
+							<a href="blog-details.html">
+								Most Popular Jobs in the Country
+							</a>
+						</h3>
+
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt...</p>
+
+						<a href="blog-details.html" class="read-more">
+							Read More
+							<i class="flaticon-right-arrow"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-4 col-md-6">
+				<div class="single-blog-post">
+					<div class="blog-img">
+						<a href="blog-details.html">
+							<img src="{{ url_for('static', filename='assets/images/blog/blog-2.jpg') }}" alt="Image">
+						</a>
+
+						<ul>
+							<li>Nov 13</li>
+							<li>2025</li>
+						</ul>
+					</div>
+
+					<div class="blog-content">
+						<ul>
+							<li>
+								<i class="bx bxs-user"></i>
+								<a href="#">Adonay Porras</a>
+							</li>
+						</ul>
+
+						<h3>
+							<a href="blog-details.html">
+								10 Questions to Ask Before Joining a Company
+							</a>
+						</h3>
+
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt...</p>
+
+						<a href="blog-details.html" class="read-more">
+							Read More
+							<i class="flaticon-right-arrow"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-4 col-md-6 offset-md-3 offset-lg-0">
+				<div class="single-blog-post">
+					<div class="blog-img">
+						<a href="blog-details.html">
+							<img src="{{ url_for('static', filename='assets/images/blog/blog-3.jpg') }}" alt="Image">
+						</a>
+
+						<ul>
+							<li>Nov 14</li>
+							<li>2025</li>
+						</ul>
+					</div>
+
+					<div class="blog-content">
+						<ul>
+							<li>
+								<i class="bx bxs-user"></i>
+								<a href="#">Espinoza Lara</a>
+							</li>
+						</ul>
+
+						<h3>
+							<a href="blog-details.html">
+								How to Hire Your First Online Growth Designer
+							</a>
+						</h3>
+
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt...</p>
+
+						<a href="blog-details.html" class="read-more">
+							Read More
+							<i class="flaticon-right-arrow"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- End Blog Area -->
+
+<!-- Start Footer Area -->
+<footer class="footer-area pt-100 pb-70">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-3 col-md-6">
+				<div class="single-footer-widget single-bg">
+					<a href="index.html" class="logo">
+						<img src="{{ url_for('static', filename='assets/images/logo.png') }}" alt="Image">
+					</a>
+
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua consectetur.</p>
+
+					<ul class="social-icon">
+						<li>
+							<a href="#">
+								<i class="bx bxl-facebook"></i>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="bx bxl-instagram"></i>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="bx bxl-linkedin-square"></i>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="bx bxl-twitter"></i>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="col-lg-3 col-md-6">
+				<div class="single-footer-widget">
+					<h3>Contact Info</h3>
+
+					<ul class="address">
+						<li>
+							<i class="bx bx-phone-call"></i>
+							<span>Phone:</span>
+							<a href="tel:+86-199-0475-6656">+(86)199-0475-6656</a>
+							<a href="tel:+86-150-2644-9010">+(86)150-2644-9010</a>
+						</li>
+						<li>
+							<i class="bx bx-envelope"></i>
+							<span>Email:</span>
+							<a href="mailto:fupeng888@beijingfup.freeqiye.com">fupeng888@beijingfup.freeqiye.com</a>
+						</li>
+						<li class="location">
+							<i class="bx bx-location-plus"></i>
+							<span>Address:</span>
+							No. 867 Jingzhouyuan, 200m West of Dagao Village Committee, Liyuan Town, Tongzhou District, Beijing
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+<!-- End Footer Area -->
+
+<!-- Start Go Top Area -->
+<div class="go-top">
+	<i class="bx bx-chevrons-up"></i>
+	<i class="bx bx-chevrons-up"></i>
+</div>
+<!-- End Go Top Area -->
+
+<!-- Jquery Min JS -->
+<script src="{{ url_for('static', filename='assets/js/jquery-1.10.2.js') }}"></script>
+<!-- Popper Min JS -->
+<script src="{{ url_for('static', filename='assets/js/popper.min.js') }}"></script>
+<!-- Bootstrap Min JS -->
+<script src="{{ url_for('static', filename='assets/js/bootstrap-4.2.1.js') }}"></script>
+<!-- Meanmenu Min JS -->
+<script src="{{ url_for('static', filename='assets/js/meanmenu.min.js') }}"></script>
+<!-- Wow Min JS -->
+<script src="{{ url_for('static', filename='assets/js/wow.min.js') }}"></script>
+<!-- Owl Carousel Min JS -->
+<script src="{{ url_for('static', filename='assets/js/owl.carousel.min.js') }}"></script>
+<!-- Nice Select Min JS -->
+<script src="{{ url_for('static', filename='assets/js/nice-select.min.js') }}"></script>
+<!-- Magnific Popup Min JS -->
+<script src="{{ url_for('static', filename='assets/js/magnific-popup.min.js') }}"></script>
+<!-- Mixitup JS -->
+<script src="{{ url_for('static', filename='assets/js/jquery.mixitup.min.js') }}"></script>
+<!-- Appear Min JS -->
+<script src="{{ url_for('static', filename='assets/js/appear.min.js') }}"></script>
+<!-- Odometer Min JS -->
+<script src="{{ url_for('static', filename='assets/js/odometer.min.js') }}"></script>
+<!-- Range Slider Min JS -->
+<script src="{{ url_for('static', filename='assets/js/range-slider.min.js') }}"></script>
+<!-- Date Picker Min JS -->
+<script src="{{ url_for('static', filename='assets/js/bootstrap-datepicker.min.js') }}"></script>
+<!-- Form Validator Min JS -->
+<script src="{{ url_for('static', filename='assets/js/form-validator.min.js') }}"></script>
+<!-- Contact JS -->
+<script src="{{ url_for('static', filename='assets/js/contact-form-script.js') }}"></script>
+<!-- Ajaxchimp Min JS -->
+<script src="{{ url_for('static', filename='assets/js/ajaxchimp.min.js') }}"></script>
+<!-- Custom JS -->
+<script src="{{ url_for('static', filename='assets/js/custom.js') }}"></script>
+
+<script>
+	// Home page job filtering functionality
+	function filterHomeJobs() {
+		const jobType = document.getElementById('jobTypeFilter').value;
+		// AJAX filtering or redirect to job listing page can be implemented here
+		if (jobType) {
+			window.location.href = "{{ url_for('job_listing') }}?job_type=" + jobType;
+		}
+	}
+
+	function sortHomeJobs() {
+		const sortBy = document.getElementById('sortFilter').value;
+		// AJAX sorting or redirect to sorted page can be implemented here
+		let url = "{{ url_for('job_listing') }}";
+		if (sortBy === 'featured') {
+			url += "?featured=true";
+		} else if (sortBy === 'latest') {
+			url += "?sort=latest";
+		} else if (sortBy === 'urgent') {
+			url += "?urgent=true";
+		} else if (sortBy === 'deadline') {
+			url += "?sort=deadline";
+		}
+		window.location.href = url;
+	}
+
+	// 页面加载完成后的一些交互效果
+	document.addEventListener('DOMContentLoaded', function() {
+		// 为统计数字添加动画效果
+		const statsNumbers = document.querySelectorAll('.stats-number');
+		statsNumbers.forEach(number => {
+			const target = parseInt(number.textContent);
+			let current = 0;
+			const increment = target / 50;
+
+			const timer = setInterval(() => {
+				current += increment;
+				if (current >= target) {
+					current = target;
+					clearInterval(timer);
+				}
+				number.textContent = Math.floor(current);
+			}, 30);
+		});
+	});
+</script>
+{% include '/chat-zh.html' %}
 
 
-
-		{% include '/chat-zh.html' %}
-	</body>
+</body>
 </html>

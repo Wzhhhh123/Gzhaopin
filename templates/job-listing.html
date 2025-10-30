@@ -1,897 +1,483 @@
 <!doctype html>
-<html lang="zxx">
-    <head>
-		<!-- Required meta tags -->
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<html lang="en">
+<head>
+	<!-- 原有的meta标签和CSS链接 -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/bootstrap.min.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/owl.theme.default.min.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/owl.carousel.min.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/animate.min.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/boxicons.min.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/magnific-popup.min.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/flaticon.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/meanmenu.min.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/nice-select.min.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/odometer.min.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/date-picker.min.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/muli-fonts.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/style.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/responsive.css') }}">
 
-		<!-- Bootstrap Min CSS -->
-		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/bootstrap.min.css') }}">
-		<!-- Owl Theme Default Min CSS --> 
-		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/owl.theme.default.min.css') }}">
-		<!-- Owl Carousel Min CSS --> 
-		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/owl.carousel.min.css') }}">
-		<!-- Animate Min CSS --> 
-		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/animate.min.css') }}">
-		<!-- Boxicons Min CSS --> 
-		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/boxicons.min.css') }}"> 
-		<!-- Magnific Popup Min CSS --> 
-		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/magnific-popup.min.css') }}"> 
-		<!-- Flaticon CSS --> 
-		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/flaticon.css') }}">
-		<!-- Meanmenu Min CSS -->
-		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/meanmenu.min.css') }}">
-		<!-- Nice Select Min CSS -->
-		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/nice-select.min.css') }}">
-		<!-- Odometer Min CSS-->
-		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/odometer.min.css') }}">
-		<!-- Date Picker CSS-->
-		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/date-picker.min.css') }}">
-		<!-- Muli Fonts Min CSS-->
-		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/muli-fonts.css') }}">
-		<!-- Style CSS -->
-		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/style.css') }}">
-		<!-- Responsive CSS -->
-		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/responsive.css') }}">
-		
-		<!-- Favicon -->
-		<link rel="icon" type="image/png" href="assets/images/favicon.png">
-		<!-- Title -->
-		<title>Jubi - Job Board HTML Template</title>
-    </head>
+	<link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/images/favicon.png') }}">
+	<title>Beijing Fupeng Business Service Co., Ltd. - Job Listings</title>
+</head>
 
-    <body>
-		<!-- Start Preloader Area -->
-		<div class="preloader">
-			<div class="lds-ripple">
-				<div></div>
-				<div></div>
+<body>
+<!-- Start Preloader Area -->
+<div class="preloader">
+	<div class="lds-ripple">
+		<div></div>
+		<div></div>
+	</div>
+</div>
+<!-- End Preloader Area -->
+
+{% include "heng.html" %}
+
+<!-- Start Page Title Area -->
+<div class="page-title-area">
+	<div class="container">
+		<div class="page-title-content">
+			<h2>Job Listings</h2>
+			<ul>
+				<li>
+					<a href="{{ url_for('index123') }}">
+						Home
+					</a>
+				</li>
+				<li class="active">Job Listings</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<!-- End Page Title Area -->
+
+<!-- Start Job Listing Area -->
+<section class="job-listing-area ptb-100">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8">
+				<form class="search-job" method="GET" action="{{ url_for('job_listing') }}">
+					<div class="row">
+						<div class="col-lg-5">
+							<div class="form-group">
+								<input type="text" class="form-control" name="search" placeholder="Job title, skills, or company" value="{{ request.args.get('search', '') }}">
+							</div>
+						</div>
+
+						<div class="col-lg-4">
+							<div class="form-group">
+								<input type="text" class="form-control" name="location" placeholder="City, state, or zip code" value="{{ request.args.get('location', '') }}">
+							</div>
+						</div>
+
+						<div class="col-lg-3">
+							<button type="submit" class="default-btn">
+								<i class="bx bx-search"></i>
+								Search Jobs
+							</button>
+						</div>
+					</div>
+				</form>
+
+				<div class="time-and-hour">
+					<div class="row">
+						<div class="col-lg-6">
+							<div class="rated">
+								<p>Filter by</p>
+								<select onchange="filterJobs()" id="jobTypeFilter">
+									<option value="">All Types</option>
+									<option value="Full-time">Full-time</option>
+									<option value="Part-time">Part-time</option>
+									<option value="Internship">Internship</option>
+									<option value="Contract">Contract</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="col-lg-6">
+							<div class="show-page">
+								<p>Sort by</p>
+								<select onchange="sortJobs()" id="sortFilter">
+									<option value="newest">Newest First</option>
+									<option value="deadline">Deadline</option>
+									<option value="featured">Featured Jobs</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- 动态职位列表 -->
+				<div id="jobList">
+					{% for job in jobs %}
+					<div class="hot-jobs-list">
+						<div class="row align-items-center">
+							<div class="col-lg-2">
+								<a href="{{ url_for('job_detail', job_id=job.id) }}" class="hot-jobs-img">
+									<img src="{{ url_for('static', filename='assets/images/hot-jobs/' + job.logo) }}" alt="{{ job.title_en }}">
+								</a>
+							</div>
+
+							<div class="col-lg-6">
+								<div class="hot-jobs-content">
+									<h3><a href="{{ url_for('job_detail', job_id=job.id) }}">{{ job.title_en }}</a></h3>
+									<span class="sub-title">{{ job.company_en }}</span>
+									<ul>
+										<li><span>Education:</span> {{ job.education_en }}</li>
+										<li><span>Experience:</span> {{ job.experience_en }}</li>
+										<li><span>Location:</span> {{ job.location_en }}</li>
+										<li><span>Salary:</span> {{ job.salary_en }}</li>
+									</ul>
+								</div>
+							</div>
+
+							<div class="col-lg-4">
+								<div class="hot-jobs-btn">
+									<a href="{{ url_for('job_detail', job_id=job.id) }}" class="default-btn">View Job</a>
+									<p><span>Deadline:</span>{{ job.deadline.strftime('%Y-%m-%d') }}</p>
+								</div>
+							</div>
+						</div>
+						{% if job.is_featured %}
+						<span class="featured">Featured</span>
+						{% endif %}
+						{% if job.is_urgent %}
+						<span class="featured red">Urgent</span>
+						{% endif %}
+					</div>
+					{% endfor %}
+				</div>
+
+				<!-- 如果没有找到职位 -->
+				{% if not jobs %}
+				<div class="no-jobs-found">
+					<h3>No matching jobs found</h3>
+					<p>Please try adjusting your search criteria or view all jobs</p>
+					<a href="{{ url_for('job_listing') }}" class="default-btn">View All Jobs</a>
+				</div>
+				{% endif %}
+
+				<div class="row">
+					<div class="col-lg-12 col-md-12">
+						<div class="pagination-area">
+							{% if pagination.has_prev %}
+							<a href="{{ url_for('job_listing', page=pagination.prev_num, search=current_search, job_type=current_job_type, location=current_location) }}" class="prev page-numbers">
+								<i class="flaticon-left-arrow"></i>
+							</a>
+							{% endif %}
+
+							{% for page_num in pagination.iter_pages(left_edge=2, left_current=2, right_current=3, right_edge=2) %}
+							{% if page_num %}
+							{% if page_num == pagination.page %}
+							<span class="page-numbers current" aria-current="page">{{ page_num }}</span>
+							{% else %}
+							<a href="{{ url_for('job_listing', page=page_num, search=current_search, job_type=current_job_type, location=current_location) }}" class="page-numbers">{{ page_num }}</a>
+							{% endif %}
+							{% else %}
+							<span class="page-numbers">...</span>
+							{% endif %}
+							{% endfor %}
+
+							{% if pagination.has_next %}
+							<a href="{{ url_for('job_listing', page=pagination.next_num, search=current_search, job_type=current_job_type, location=current_location) }}" class="next page-numbers">
+								<i class="flaticon-right-arrow"></i>
+							</a>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="col-lg-4">
+				<div class="job-listing-sidebar">
+					<!-- 职位类型筛选 -->
+					<div class="job-listing-widget">
+						<ul class="accordion-widget">
+							<li class="accordion-item">
+								<a class="accordion-widget-title active" href="javascript:void(0)">
+									<h3>Job Type</h3>
+									<i class="bx bx-chevron-down"></i>
+								</a>
+
+								<ul class="accordion-widget-content show">
+									<li>
+										<label class="single-check">
+											<a href="{{ url_for('job_listing', search=current_search, location=current_location) }}">
+												All
+											</a>
+											<span class="count">({{ total_jobs }})</span>
+										</label>
+									</li>
+									<li>
+										<label class="single-check">
+											<a href="{{ url_for('job_listing', search=current_search, location=current_location, job_type='Full-time') }}">
+												Full-time
+											</a>
+											<span class="count">({{ job_types_count['Full-time'] }})</span>
+										</label>
+									</li>
+									<li>
+										<label class="single-check">
+											<a href="{{ url_for('job_listing', search=current_search, location=current_location, job_type='Part-time') }}">
+												Part-time
+											</a>
+											<span class="count">({{ job_types_count['Part-time'] }})</span>
+										</label>
+									</li>
+									<li>
+										<label class="single-check">
+											<a href="{{ url_for('job_listing', search=current_search, location=current_location, job_type='Internship') }}">
+												Internship
+											</a>
+											<span class="count">({{ job_types_count['Internship'] }})</span>
+										</label>
+									</li>
+									<li>
+										<label class="single-check">
+											<a href="{{ url_for('job_listing', search=current_search, location=current_location, job_type='Contract') }}">
+												Contract
+											</a>
+											<span class="count">({{ job_types_count['Contract'] }})</span>
+										</label>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+
+					<!-- 工作经验筛选 -->
+					<div class="job-listing-widget">
+						<ul class="accordion-widget">
+							<li class="accordion-item">
+								<a class="accordion-widget-title active" href="javascript:void(0)">
+									<h3>Experience</h3>
+									<i class="bx bx-chevron-down"></i>
+								</a>
+
+								<ul class="accordion-widget-content show">
+									{% set experiences = ['Fresh Graduate', '1-2 years', '3-5 years', '5+ years'] %}
+									{% for exp in experiences %}
+									<li>
+										<label class="single-check">
+											<a href="{{ url_for('job_listing', search=exp, job_type=current_job_type, location=current_location) }}">
+												{{ exp }}
+											</a>
+										</label>
+									</li>
+									{% endfor %}
+								</ul>
+							</li>
+						</ul>
+					</div>
+
+					<!-- 学历要求筛选 -->
+					<div class="job-listing-widget">
+						<ul class="accordion-widget">
+							<li class="accordion-item">
+								<a class="accordion-widget-title active" href="javascript:void(0)">
+									<h3>Education</h3>
+									<i class="bx bx-chevron-down"></i>
+								</a>
+
+								<ul class="accordion-widget-content show">
+									<li>
+										<label class="single-check">
+											<a href="{{ url_for('job_listing') }}">All</a>
+										</label>
+									</li>
+									{% set educations = ['Associate Degree', 'Bachelor\'s Degree', 'Master\'s Degree', 'Doctoral Degree'] %}
+									{% for edu in educations %}
+									<li>
+										<label class="single-check">
+											<a href="{{ url_for('job_listing', search=edu) }}">{{ edu }}</a>
+										</label>
+									</li>
+									{% endfor %}
+								</ul>
+							</li>
+						</ul>
+					</div>
+
+					<!-- 工作地点筛选 -->
+					<div class="job-listing-widget">
+						<ul class="accordion-widget">
+							<li class="accordion-item">
+								<a class="accordion-widget-title active" href="javascript:void(0)">
+									<h3>Location</h3>
+									<i class="bx bx-chevron-down"></i>
+								</a>
+
+								<ul class="accordion-widget-content show">
+									<li>
+										<label class="single-check">
+											<a href="{{ url_for('job_listing') }}">All</a>
+										</label>
+									</li>
+									{% set locations = ['Beijing', 'Shanghai', 'Guangzhou', 'Shenzhen', 'Remote Work'] %}
+									{% for loc in locations %}
+									<li>
+										<label class="single-check">
+											<a href="{{ url_for('job_listing', location=loc) }}">{{ loc }}</a>
+										</label>
+									</li>
+									{% endfor %}
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
 			</div>
 		</div>
-		<!-- End Preloader Area -->
-		
-		{% include "/heng.html" %}
+	</div>
+</section>
+<!-- End Job Listing Area -->
 
-		<!-- Start Page Title Area -->
-		<div class="page-title-area">
-			<div class="container">
-				<div class="page-title-content">
-					<h2>Job Listing</h2>
-					<ul>
+<!-- Start Subscribe Area -->
+<section class="subscribe-area subscribe-area-about-page">
+	<div class="container">
+		<div class="subscribe-bg">
+			<div class="row align-items-center">
+				<div class="col-lg-6">
+					<div class="subscribe-content">
+						<h2>Find Your Next Great Job Opportunity!</h2>
+					</div>
+				</div>
+
+				<div class="col-lg-6">
+					<form class="newsletter-form" data-toggle="validator">
+						<input type="email" class="form-control" placeholder="Enter email address" name="EMAIL" required autocomplete="off">
+
+						<button class="default-btn" type="submit">
+							<span>Subscribe</span>
+						</button>
+
+						<div id="validator-newsletter" class="form-result"></div>
+						<p>Join our newsletter, already 10,000 users subscribed!</p>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- End Subscribe Area -->
+
+<footer class="footer-area pt-100 pb-70">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-3 col-md-6">
+				<div class="single-footer-widget single-bg">
+					<a href="index.html" class="logo">
+						<img src="{{ url_for('static', filename='assets/images/logo.png') }}" alt="图片">
+					</a>
+
+
+					<ul class="social-icon">
 						<li>
-							<a href="index.html">
-								Home 
+							<a href="#">
+								<i class="bx bxl-facebook"></i>
 							</a>
 						</li>
-						<li class="active">Job Listing</li>
+						<li>
+							<a href="#">
+								<i class="bx bxl-instagram"></i>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="bx bxl-linkedin-square"></i>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="bx bxl-twitter"></i>
+							</a>
+						</li>
 					</ul>
 				</div>
 			</div>
-		</div>
-		<!-- End Page Title Area -->
 
-		<!-- Start Job Listing Area -->
-		<section class="job-listing-area ptb-100">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-8">
-						<form class="search-job">
-							<div class="row">
-								<div class="col-lg-5">
-									<div class="form-group">
-										<input type="text" class="form-control" id="job-title" placeholder="Job title, skills, or company">
-									</div>
-								</div>
+			<div class="col-lg-3 col-md-6">
+				<div class="single-footer-widget">
+					<h3>Contact Info</h3>
 
-								<div class="col-lg-4">
-									<div class="form-group">
-										<input type="text" class="form-control" id="job-title-2" placeholder="City, State, or zip">
-									</div>
-								</div>
+					<ul class="address">
+						<li>
+							<i class="bx bx-phone-call"></i>
+							<span>Phone:</span>
+							<a href="tel:+86-130-8712-4870">+(86)130-8712-4870</a>
+							<a href="tel:+86-150-2644-9010">+(86)150-2644-9010</a>
+						</li>
+						<li>
+							<i class="bx bx-envelope"></i>
+							<span>Email:</span>
+							<a href="mailto:fupeng888@beijingfup.freeqiye.com">fupeng888@beijingfup.freeqiye.com</a>
+						</li>
+						<li class="location">
+							<i class="bx bx-location-plus"></i>
+							<span>Address:</span>
+							No. 867 Jingzhouyuan, 200m West of Dagao Village Committee, Liyuan Town, Tongzhou District, Beijing
 
-								<div class="col-lg-3">
-									<button type="submit" class="default-btn">
-										<i class="bx bx-search"></i>
-										Search Jobs
-									</button>
-								</div>
-							</div>
-						</form>
-
-						<div class="time-and-hour">
-							<div class="row">
-								<div class="col-lg-6">
-									<div class="rated">
-										<p>Start By</p>
-										<select>
-											<option value="1">Top Rated</option>
-											<option value="2">Mid Rated</option>
-											<option value="3">Low Rated</option>
-											<option value="3">Per/hour</option>
-											<option value="4">Others</option>
-										</select>
-									</div>	
-								</div>
-	
-								<div class="col-lg-6">
-									<div class="show-page">
-										<p>Show Per Page</p>
-										<select>
-											<option value="1">10</option>
-											<option value="2">20</option>
-											<option value="3">30</option>
-											<option value="4">40</option>
-											<option value="5">50</option>
-										</select>	
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="hot-jobs-list">
-							<div class="row align-items-center">
-								<div class="col-lg-2">
-									<a href="job-details.html" class="hot-jobs-img">
-										<img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-1.png') }}" alt="Image">
-									</a>
-								</div>
-
-								<div class="col-lg-6">
-									<div class="hot-jobs-content">
-										<h3><a href="job-details.html">Finance & Accounts</a></h3>
-										<span class="sub-title">Finix loans & funding agency</span>
-										<ul>
-											<li><span>Education:</span> BBA / M.A.</li>
-											<li><span>Experience: </span>At Least 1 Year(s)</li>
-											<li><span>Location: </span>New York</li>
-										</ul>
-									</div>
-								</div>
-
-								<div class="col-lg-4">
-									<div class="hot-jobs-btn">
-										<a href="job-details.html" class="default-btn">Browse Job</a>
-										<p><span>Deadline: </span>Dec 30, 2020</p>
-									</div>
-								</div>
-							</div>
-							<span class="featured">Featured</span>
-						</div>
-
-						<div class="hot-jobs-list">
-							<div class="row align-items-center">
-								<div class="col-lg-2">
-									<a href="job-details.html" class="hot-jobs-img">
-										<img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-2.png') }}" alt="Image">
-									</a>
-								</div>
-
-								<div class="col-lg-6">
-									<div class="hot-jobs-content">
-										<h3><a href="job-details.html">Assistant Manager</a></h3>
-										<span class="sub-title">Leve bank ltd</span>
-										<ul>
-											<li><span>Education:</span> BBA / M.A.</li>
-											<li><span>Experience: </span>At Least 2 Year(s)</li>
-											<li><span>Location: </span>Alaska</li>
-										</ul>
-									</div>
-								</div>
-
-								<div class="col-lg-4">
-									<div class="hot-jobs-btn">
-										<a href="job-details.html" class="default-btn">Browse Job</a>
-										<p><span>Deadline: </span>Nov 30, 2020</p>
-									</div>
-								</div>
-							</div>
-							<span class="featured">Featured</span>
-						</div>
-
-						<div class="hot-jobs-list">
-							<div class="row align-items-center">
-								<div class="col-lg-2">
-									<a href="job-details.html" class="hot-jobs-img">
-										<img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-3.png') }}" alt="Image">
-									</a>
-								</div>
-
-								<div class="col-lg-6">
-									<div class="hot-jobs-content">
-										<h3><a href="job-details.html">Mechanical Engineer</a></h3>
-										<span class="sub-title">Conzio construction</span>
-										<ul>
-											<li><span>Education:</span> B.Sc</li>
-											<li><span>Experience: </span>At Least 1 Year(s)</li>
-											<li><span>Location: </span>Washington</li>
-										</ul>
-									</div>
-								</div>
-
-								<div class="col-lg-4">
-									<div class="hot-jobs-btn">
-										<a href="job-details.html" class="default-btn">Browse Job</a>
-										<p><span>Deadline: </span>Dec 30, 2020</p>
-									</div>
-								</div>
-							</div>
-							<span class="featured red">Urgent</span>
-						</div>
-
-						<div class="hot-jobs-list">
-							<div class="row align-items-center">
-								<div class="col-lg-2">
-									<a href="job-details.html" class="hot-jobs-img">
-										<img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-4.png') }}" alt="Image">
-									</a>
-								</div>
-
-								<div class="col-lg-6">
-									<div class="hot-jobs-content">
-										<h3><a href="job-details.html">Teacher - English</a></h3>
-										<span class="sub-title">Eduon education</span>
-										<ul>
-											<li><span>Education:</span> BBA / M.A.</li>
-											<li><span>Experience: </span>At Least 2 Year(s)</li>
-											<li><span>Location: </span>Florida</li>
-										</ul>
-									</div>
-								</div>
-
-								<div class="col-lg-4">
-									<div class="hot-jobs-btn">
-										<a href="job-details.html" class="default-btn">Browse Job</a>
-										<p><span>Deadline: </span>Nov 30, 2020</p>
-									</div>
-								</div>
-							</div>
-							<span class="featured">Featured</span>
-						</div>
-
-						<div class="hot-jobs-list">
-							<div class="row align-items-center">
-								<div class="col-lg-2">
-									<a href="job-details.html" class="hot-jobs-img">
-										<img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-5.png') }}" alt="Image">
-									</a>
-								</div>
-
-								<div class="col-lg-6">
-									<div class="hot-jobs-content">
-										<h3><a href="job-details.html">Sr./ Project Manager</a></h3>
-										<span class="sub-title">Oryx International</span>
-										<ul>
-											<li><span>Education:</span> BBA / M.A.</li>
-											<li><span>Experience: </span>At Least 5 Year(s)</li>
-											<li><span>Location: </span>California</li>
-										</ul>
-									</div>
-								</div>
-
-								<div class="col-lg-4">
-									<div class="hot-jobs-btn">
-										<a href="job-details.html" class="default-btn">Browse Job</a>
-										<p><span>Deadline: </span>Dec 15, 2020</p>
-									</div>
-								</div>
-							</div>
-							<span class="featured">Featured</span>
-						</div>
-
-						<div class="hot-jobs-list">
-							<div class="row align-items-center">
-								<div class="col-lg-2">
-									<a href="job-details.html" class="hot-jobs-img">
-										<img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-6.png') }}" alt="Image">
-									</a>
-								</div>
-
-								<div class="col-lg-6">
-									<div class="hot-jobs-content">
-										<h3><a href="job-details.html">Service Engineer</a></h3>
-										<span class="sub-title">Autozon power ltd</span>
-										<ul>
-											<li><span>Education:</span> BBA / M.A.</li>
-											<li><span>Experience: </span>At Least 1 Year(s)</li>
-											<li><span>Location: </span>New York</li>
-										</ul>
-									</div>
-								</div>
-
-								<div class="col-lg-4">
-									<div class="hot-jobs-btn">
-										<a href="job-details.html" class="default-btn">Browse Job</a>
-										<p><span>Deadline: </span>Dec 20, 2020</p>
-									</div>
-								</div>
-							</div>
-							<span class="featured">Featured</span>
-						</div>
-
-						<div class="hot-jobs-list">
-							<div class="row align-items-center">
-								<div class="col-lg-2">
-									<a href="job-details.html" class="hot-jobs-img">
-										<img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-7.png') }}" alt="Image">
-									</a>
-								</div>
-
-								<div class="col-lg-6">
-									<div class="hot-jobs-content">
-										<h3><a href="job-details.html">Support Executive</a></h3>
-										<span class="sub-title">Saspol limited</span>
-										<ul>
-											<li><span>Education:</span> B.A.</li>
-											<li><span>Experience: </span>At Least 2 Year(s)</li>
-											<li><span>Location: </span>Alaska</li>
-										</ul>
-									</div>
-								</div>
-
-								<div class="col-lg-4">
-									<div class="hot-jobs-btn">
-										<a href="job-details.html" class="default-btn">Browse Job</a>
-										<p><span>Deadline: </span>Dec 30, 2020</p>
-									</div>
-								</div>
-							</div>
-							<span class="featured">Featured</span>
-						</div>
-
-						<div class="hot-jobs-list">
-							<div class="row align-items-center">
-								<div class="col-lg-2">
-									<a href="job-details.html" class="hot-jobs-img">
-										<img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-8.png') }}" alt="Image">
-									</a>
-								</div>
-
-								<div class="col-lg-6">
-									<div class="hot-jobs-content">
-										<h3><a href="job-details.html">Research Assistant</a></h3>
-										<span class="sub-title">Medq medical</span>
-										<ul>
-											<li><span>Education:</span> B.Sc</li>
-											<li><span>Experience: </span>At Least 2 Year(s)</li>
-											<li><span>Location: </span>Washington</li>
-										</ul>
-									</div>
-								</div>
-
-								<div class="col-lg-4">
-									<div class="hot-jobs-btn">
-										<a href="job-details.html" class="default-btn">Browse Job</a>
-										<p><span>Deadline: </span>Dec 15, 2020</p>
-									</div>
-								</div>
-							</div>
-							<span class="featured red">Urgent</span>
-						</div>
-
-						<div class="hot-jobs-list">
-							<div class="row align-items-center">
-								<div class="col-lg-2">
-									<a href="job-details.html" class="hot-jobs-img">
-										<img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-10.png') }}" alt="Image">
-									</a>
-								</div>
-
-								<div class="col-lg-6">
-									<div class="hot-jobs-content">
-										<h3><a href="job-details.html">Sr. Manager</a></h3>
-										<span class="sub-title">Seqty power ltd</span>
-										<ul>
-											<li><span>Education:</span> M.A.</li>
-											<li><span>Experience: </span>At Least 5 Year(s)</li>
-											<li><span>Location: </span>California</li>
-										</ul>
-									</div>
-								</div>
-
-								<div class="col-lg-4">
-									<div class="hot-jobs-btn">
-										<a href="job-details.html" class="default-btn">Browse Job</a>
-										<p><span>Deadline: </span>Dec 15, 2020</p>
-									</div>
-								</div>
-							</div>
-							<span class="featured">Featured</span>
-						</div>
-
-						<div class="hot-jobs-list">
-							<div class="row align-items-center">
-								<div class="col-lg-2">
-									<a href="job-details.html" class="hot-jobs-img">
-										<img src="{{ url_for('static', filename='assets/images/hot-jobs/hot-jobs-9.png') }}" alt="Image">
-									</a>
-								</div>
-
-								<div class="col-lg-6">
-									<div class="hot-jobs-content">
-										<h3><a href="job-details.html">Content Writing</a></h3>
-										<span class="sub-title">Depan insider ltd.</span>
-										<ul>
-											<li><span>Education:</span> BBA / M.A.</li>
-											<li><span>Experience: </span>At Least 3 Year(s)</li>
-											<li><span>Location: </span>Florida</li>
-										</ul>
-									</div>
-								</div>
-
-								<div class="col-lg-4">
-									<div class="hot-jobs-btn">
-										<a href="job-details.html" class="default-btn">Browse Job</a>
-										<p><span>Deadline: </span>Nov 30, 2020</p>
-									</div>
-								</div>
-							</div>
-							<span class="featured">Featured</span>
-						</div>
-
-						<div class="row">
-							<div class="col-lg-12 col-md-12">
-								<div class="pagination-area">
-									<span class="page-numbers current" aria-current="page">1</span>
-									<a href="#" class="page-numbers">2</a>
-									<a href="#" class="page-numbers">3</a>
-									
-									<a href="#" class="next page-numbers">
-										<i class="flaticon-right-arrow"></i>
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-lg-4">
-						<div class="job-listing-sidebar">
-							<div class="job-listing-widget">
-								<ul class="accordion-widget">
-									<li class="accordion-item">
-										<a class="accordion-widget-title active" href="javascript:void(0)">
-											<h3>Job Type</h3>
-											<i class="bx bx-chevron-down"></i>
-										</a>
-		
-										<ul class="accordion-widget-content show">
-											<li>
-												<label class="single-check">
-													All
-													<input type="radio" checked="checked" name="radio-1">
-													<span class="checkmark"></span>
-												</label>
-											</li>
-											<li>
-												<label class="single-check">
-													Full-time
-													<input type="radio" checked="checked" name="radio-1">
-													<span class="checkmark"></span>
-													<span class="count">(8954)</span>
-												</label>
-											</li>
-											<li>
-												<label class="single-check">
-													Part-time
-													<input type="radio" checked="checked" name="radio-1">
-													<span class="checkmark"></span>
-													<span class="count">(354)</span>
-												</label>
-											</li>
-											<li>
-												<label class="single-check">
-													Temporary
-													<input type="radio" checked="checked" name="radio-1">
-													<span class="checkmark"></span>
-													<span class="count">(83)</span>
-												</label>
-											</li>
-											<li>
-												<label class="single-check">
-													Contract
-													<input type="radio" checked="checked" name="radio-1">
-													<span class="checkmark"></span>
-													<span class="count">(1291)</span>
-												</label>
-											</li>
-											<li>
-												<label class="single-check">
-													Internship
-													<input type="radio" checked="checked" name="radio-1">
-													<span class="checkmark"></span>
-													<span class="count">(954)</span>
-												</label>
-											</li>
-										</ul>
-									</li>
-								</ul>
-							</div>
-
-							<div class="job-listing-widget">
-								<ul class="accordion-widget">
-									<li class="accordion-item">
-										<a class="accordion-widget-title active" href="javascript:void(0)">
-											<h3>Date Posted</h3>
-											<i class="bx bx-chevron-down"></i>
-										</a>
-		
-										<ul class="accordion-widget-content show">
-											<li>
-												<label class="single-check">
-													All
-													<input type="radio" checked="checked" name="radio-2">
-													<span class="checkmark"></span>
-												</label>
-											</li>
-											<li>
-												<label class="single-check">
-													Last Hour
-													<input type="radio" checked="checked" name="radio-2">
-													<span class="checkmark"></span>
-												</label>
-											</li>
-											<li>
-												<label class="single-check">
-													Last 24 hours
-													<input type="radio" checked="checked" name="radio-2">
-													<span class="checkmark"></span>
-												</label>
-											</li>
-											<li>
-												<label class="single-check">
-													Last 7 days
-													<input type="radio" checked="checked" name="radio-2">
-													<span class="checkmark"></span>
-												</label>
-											</li>
-											<li>
-												<label class="single-check">
-													Last 14 days
-													<input type="radio" checked="checked" name="radio-2">
-													<span class="checkmark"></span>
-												</label>
-											</li>
-											<li>
-												<label class="single-check">
-													Last 30 days
-													<input type="radio" checked="checked" name="radio-2">
-													<span class="checkmark"></span>
-												</label>
-											</li>
-										</ul>
-									</li>
-								</ul>
-							</div>
-
-							<div class="job-listing-widget">
-								<ul class="accordion-widget">
-									<li class="accordion-item">
-										<a class="accordion-widget-title active" href="javascript:void(0)">
-											<h3>Salary</h3>
-											<i class="bx bx-chevron-down"></i>
-										</a>
-		
-										<ul class="accordion-widget-content show">
-											<li>
-												<label class="single-check">
-													All
-													<input type="radio" checked="checked" name="radio-3">
-													<span class="checkmark"></span>
-												</label>
-											</li>
-											<li>
-												<label class="single-check">
-													Monthly
-													<input type="radio" checked="checked" name="radio-3">
-													<span class="checkmark"></span>
-												</label>
-											</li>
-											<li>
-												<label class="single-check">
-													Weekly
-													<input type="radio" checked="checked" name="radio-3">
-													<span class="checkmark"></span>
-												</label>
-											</li>
-											<li>
-												<label class="single-check">
-													Daily
-													<input type="radio" checked="checked" name="radio-3">
-													<span class="checkmark"></span>
-												</label>
-											</li>
-											<li>
-												<label class="single-check">
-													Hourly
-													<input type="radio" checked="checked" name="radio-3">
-													<span class="checkmark"></span>
-												</label>
-											</li>
-											<li>
-												<label class="single-check">
-													Yearly
-													<input type="radio" checked="checked" name="radio-3">
-													<span class="checkmark"></span>
-												</label>
-											</li>
-											<li>
-												<form class="price-range-content">
-													<div class="price-range-bar" id="range-slider"></div>
-													<div class="price-range-filter">
-														<div class="price-range-filter-item">
-															<input type="text" id="price-amount" readonly>
-														</div>
-													</div>
-												</form>
-											</li>
-										</ul>
-									</li>
-								</ul>
-							</div>
-
-							<div class="job-listing-widget">
-								<ul class="accordion-widget">
-									<li class="accordion-item">
-										<a class="accordion-widget-title active" href="javascript:void(0)">
-											<h3>Career Level</h3>
-											<i class="bx bx-chevron-down"></i>
-										</a>
-		
-										<ul class="accordion-widget-content show">
-											<li>
-												<label class="single-check">
-													Manager
-													<input type="radio" checked="checked" name="radio-4">
-													<span class="checkmark"></span>
-												</label>
-											</li>
-											<li>
-												<label class="single-check">
-													Officer
-													<input type="radio" checked="checked" name="radio-4">
-													<span class="checkmark"></span>
-												</label>
-											</li>
-											<li>
-												<label class="single-check">
-													Student
-													<input type="radio" checked="checked" name="radio-4">
-													<span class="checkmark"></span>
-												</label>
-											</li>
-											<li>
-												<label class="single-check">
-													Executive
-													<input type="radio" checked="checked" name="radio-4">
-													<span class="checkmark"></span>
-												</label>
-											</li>
-											<li>
-												<label class="single-check">
-													Others
-													<input type="radio" checked="checked" name="radio-4">
-													<span class="checkmark"></span>
-												</label>
-											</li>
-										</ul>
-									</li>
-								</ul>
-							</div>
-
-							<div class="job-listing-widget">
-								<ul class="accordion-widget">
-									<li class="accordion-item">
-										<a class="accordion-widget-title active" href="javascript:void(0)">
-											<h3>Experience</h3>
-											<i class="bx bx-chevron-down"></i>
-										</a>
-		
-										<ul class="accordion-widget-content show">
-											<li>
-												<label class="single-check">
-													Fresh
-													<input type="radio" checked="checked" name="radio-5">
-													<span class="checkmark"></span>
-												</label>
-											</li>
-											<li>
-												<label class="single-check">
-													1 Year
-													<input type="radio" checked="checked" name="radio-5">
-													<span class="checkmark"></span>
-												</label>
-											</li>
-											<li>
-												<label class="single-check">
-													3 Year
-													<input type="radio" checked="checked" name="radio-5">
-													<span class="checkmark"></span>
-												</label>
-											</li>
-											<li>
-												<label class="single-check">
-													5 Year
-													<input type="radio" checked="checked" name="radio-5">
-													<span class="checkmark"></span>
-												</label>
-											</li>
-											<li>
-												<label class="single-check">
-													7 Year
-													<input type="radio" checked="checked" name="radio-5">
-													<span class="checkmark"></span>
-												</label>
-											</li>
-										</ul>
-									</li>
-								</ul>
-							</div>
-
-							<div class="job-listing-widget">
-								<ul class="accordion-widget">
-									<li class="accordion-item">
-										<a class="accordion-widget-title active" href="javascript:void(0)">
-											<h3>Qualifications</h3>
-											<i class="bx bx-chevron-down"></i>
-										</a>
-		
-										<ul class="accordion-widget-content show">
-											<li>
-												<label class="single-check">
-													Certificate
-													<input type="radio" checked="checked" name="radio-6">
-													<span class="checkmark"></span>
-												</label>
-											</li>
-											<li>
-												<label class="single-check">
-													Diploma
-													<input type="radio" checked="checked" name="radio-6">
-													<span class="checkmark"></span>
-												</label>
-											</li>
-											<li>
-												<label class="single-check">
-													Bachelor Degree
-													<input type="radio" checked="checked" name="radio-6">
-													<span class="checkmark"></span>
-												</label>
-											</li>
-											<li>
-												<label class="single-check">
-													Master’s Degree
-													<input type="radio" checked="checked" name="radio-6">
-													<span class="checkmark"></span>
-												</label>
-											</li>
-											<li>
-												<label class="single-check">
-													Associate
-													<input type="radio" checked="checked" name="radio-6">
-													<span class="checkmark"></span>
-												</label>
-											</li>
-										</ul>
-									</li>
-								</ul>
-							</div>
-
-							<div class="job-listing-widget">
-								<ul class="accordion-widget">
-									<li class="accordion-item">
-										<a class="accordion-widget-title active" href="javascript:void(0)">
-											<h3>Gender</h3>
-											<i class="bx bx-chevron-down"></i>
-										</a>
-		
-										<ul class="accordion-widget-content show">
-											<li>
-												<label class="single-check">
-													Male
-													<input type="radio" checked="checked" name="radio-7">
-													<span class="checkmark"></span>
-												</label>
-											</li>
-											<li>
-												<label class="single-check">
-													Female
-													<input type="radio" checked="checked" name="radio-7">
-													<span class="checkmark"></span>
-												</label>
-											</li>
-										</ul>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
+						</li>
+					</ul>
 				</div>
 			</div>
-		</section>
-		<!-- End Job Listing Area -->
 
-		<!-- Start Subscribe Area -->
-		<section class="subscribe-area subscribe-area-about-page">
-			<div class="container">
-				<div class="subscribe-bg">
-					<div class="row align-items-center">
-						<div class="col-lg-6">
-							<div class="subscribe-content">
-								<h2>Find Your Next Great Job Opportunity!</h2>
-							</div>
-						</div>
-	
-						<div class="col-lg-6">
-							<form class="newsletter-form" data-toggle="validator">
-								<input type="email" class="form-control" placeholder="Enter email address" name="EMAIL" required autocomplete="off">
-	
-								<button class="default-btn" type="submit">
-									<span>Subscribe</span>
-								</button>
-	
-								<div id="validator-newsletter" class="form-result"></div>
-								<p>Join The Newsletter 10,000 Users Already!</p>
-							</form>	
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- End Subscribe Area -->
 
-		{% include "/footer.html" %}
 
-		<!-- Start Copy Right Area -->
-		<div class="copy-right-area">
-			<div class="container">
-				<p>
-					© 2020 Jubi Is Proudly Created By
-					<a href="#">EnvyTheme</a>
-				</p>
-			</div>
+
 		</div>
-		<!-- End Copy Right Area -->
-		
-		<!-- Start Go Top Area -->
-		<div class="go-top">
-			<i class="bx bx-chevrons-up"></i>
-			<i class="bx bx-chevrons-up"></i>
-		</div>
-		<!-- End Go Top Area -->
-		
+	</div>
+</footer>
 
-        <!-- Jquery Min JS -->
-		<script src="{{ url_for('static', filename='assets/js/jquery-1.10.2.js') }}"></script>
-        <!-- Popper Min JS -->
-        <script src="{{ url_for('static', filename='assets/js/popper.min.js') }}"></script>
-        <!-- Bootstrap Min JS -->
-		<script src="{{ url_for('static', filename='assets/js/bootstrap-4.2.1.js') }}"></script>
-        <!-- Meanmenu Min JS -->
-		<script src="{{ url_for('static', filename='assets/js/meanmenu.min.js') }}"></script>
-		<!-- Wow Min JS -->
-        <script src="{{ url_for('static', filename='assets/js/wow.min.js') }}"></script>
-        <!-- Owl Carousel Min JS -->
-		<script src="{{ url_for('static', filename='assets/js/owl.carousel.min.js') }}"></script>
-        <!-- Nice Select Min JS -->
-		<script src="{{ url_for('static', filename='assets/js/nice-select.min.js') }}"></script>
-        <!-- Magnific Popup Min JS -->
-		<script src="{{ url_for('static', filename='assets/js/magnific-popup.min.js') }}"></script>
-		<!-- Mixitup JS --> 
-		<script src="{{ url_for('static', filename='assets/js/jquery.mixitup.min.js') }}"></script>
-		<!-- Appear Min JS --> 
-        <script src="{{ url_for('static', filename='assets/js/appear.min.js') }}"></script>
-		<!-- Odometer Min JS --> 
-		<script src="{{ url_for('static', filename='assets/js/odometer.min.js') }}"></script>
-		<!-- Range Slider Min JS --> 
-		<script src="{{ url_for('static', filename='assets/js/range-slider.min.js') }}"></script>
-		<!-- Datepicker Min JS --> 
-		<script src="{{ url_for('static', filename='assets/js/bootstrap-datepicker.min.js') }}"></script>
-		<!-- Form Validator Min JS -->
-		<script src="{{ url_for('static', filename='assets/js/form-validator.min.js') }}"></script>
-		<!-- Contact JS -->
-		<script src="{{ url_for('static', filename='assets/js/contact-form-script.js') }}"></script>
-		<!-- Ajaxchimp Min JS -->
-		<script src="{{ url_for('static', filename='assets/js/ajaxchimp.min.js') }}"></script>
-        <!-- Custom JS -->
-		<script src="{{ url_for('static', filename='assets/js/custom.js') }}"></script>
-    </body>
+<!-- 原有的JavaScript链接 -->
+<script src="{{ url_for('static', filename='assets/js/jquery-1.10.2.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/js/popper.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/js/bootstrap-4.2.1.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/js/meanmenu.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/js/wow.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/js/owl.carousel.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/js/nice-select.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/js/magnific-popup.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/js/jquery.mixitup.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/js/appear.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/js/odometer.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/js/range-slider.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/js/bootstrap-datepicker.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/js/form-validator.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/js/contact-form-script.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/js/ajaxchimp.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/js/custom.js') }}"></script>
+
+<script>
+	function filterJobs() {
+		const jobType = document.getElementById('jobTypeFilter').value;
+		const currentUrl = new URL(window.location.href);
+
+		if (jobType) {
+			currentUrl.searchParams.set('job_type', jobType);
+		} else {
+			currentUrl.searchParams.delete('job_type');
+		}
+
+		window.location.href = currentUrl.toString();
+	}
+
+	function sortJobs() {
+		const sortBy = document.getElementById('sortFilter').value;
+		// 这里可以实现客户端排序或重新请求服务器
+		alert('Sort function: ' + sortBy);
+	}
+
+	// 实时搜索功能
+	document.addEventListener('DOMContentLoaded', function() {
+		const searchInput = document.querySelector('input[name="search"]');
+		const jobList = document.getElementById('jobList');
+
+		// 可以添加实时搜索的AJAX功能
+	});
+</script>
+</body>
 </html>

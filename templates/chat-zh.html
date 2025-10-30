@@ -1,3 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能招聘聊天机器人</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        #chat-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            text-align: center;
+            line-height: 60px;
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        #chat-icon:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+        }
+
+        #chat-window {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 380px;
+            height: 580px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        #chat-header {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 15px 20px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #chat-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        #chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            font-size: 14px;
+            background-color: #f9f9f9;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            border-radius: 18px;
+            max-width: 85%;
+            word-wrap: break-word;
+            position: relative;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .user-message {
+            background: #007bff;
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+
+        .bot-message {
+            background: white;
+            color: #333;
+            border: 1px solid #e0e0e0;
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+        }
+
+        .message-time {
+            font-size: 10px;
+            opacity: 0.7;
+            margin-top: 5px;
+            text-align: right;
+        }
+
+        #chat-input {
+            display: flex;
+            border-top: 1px solid #e0e0e0;
+            background: white;
+        }
+
+        #message {
+            flex: 1;
+            border: none;
+            padding: 15px;
+            font-size: 14px;
+        }
+
+        #message:focus {
+            outline: none;
+        }
+
+        #send-button {
+            background: #007bff;
+            border: none;
+            color: white;
+            padding: 0 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        #send-button:hover {
+            background: #0056b3;
+        }
+
+        #preset-questions {
+            padding: 15px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .preset-title {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .preset-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .preset-button {
+            background: #f0f5ff;
+            border: 1px solid #d0dfff;
+            border-radius: 16px;
+            padding: 6px 12px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .preset-button:hover {
+            background: #e1ebff;
+            transform: translateY(-2px);
+        }
+
+        .typing-indicator {
+            display: inline-block;
+            padding: 10px 15px;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 18px;
+            border-bottom-left-radius: 5px;
+            margin-bottom: 15px;
+            margin-right: auto;
+            max-width: 85%;
+        }
+
+        .typing-dots {
+            display: flex;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #999;
+            border-radius: 50%;
+            margin: 0 2px;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
+        .suggestion {
+            font-size: 12px;
+            color: #007bff;
+            margin-top: 5px;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .suggestion:hover {
+            color: #0056b3;
+        }
+
+        .action-link {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 6px 12px;
+            background: #007bff;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 12px;
+            transition: background 0.3s;
+        }
+
+        .action-link:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
 <!-- 聊天按钮 -->
 <div id="chat-icon" onclick="toggleChat()">
     💬
@@ -5,112 +253,274 @@
 
 <!-- 聊天窗口 -->
 <div id="chat-window">
-    <div id="chat-header">招聘聊天框</div>
-    <div id="chat-messages"></div>
+    <div id="chat-header">
+        <span>智能招聘助手</span>
+        <button id="chat-close" onclick="toggleChat()">×</button>
+    </div>
+    <div id="chat-messages">
+        <div class="message bot-message">
+            您好！我是智能招聘助手，很高兴为您服务。请问您想了解关于招聘的哪些信息？
+            <div class="message-time" id="initial-time"></div>
+        </div>
+    </div>
     <div id="chat-input">
-        <input type="text" id="message" placeholder="请输入您的问题..." />
-        <button onclick="sendMessage()">发送</button>
+        <input type="text" id="message" placeholder="请输入您的问题..." onkeypress="handleKeyPress(event)" />
+        <button id="send-button" onclick="sendMessage()">发送</button>
     </div>
     <div id="preset-questions">
-        <button onclick="sendPredefinedResponse('公司位置')">公司位置</button>
-        <button onclick="sendPredefinedResponse('统一社会信用代码')">统一社会信用代码</button>
-        <button onclick="sendPredefinedResponse('电话')">电话</button>
-        <button onclick="sendPredefinedResponse('法定代表人')">法定代表人</button>
-        <button onclick="sendPredefinedResponse('注册资本')">注册资本</button>
-        <button onclick="sendPredefinedResponse('企业邮箱')">我怎么投简历</button>
-        <button onclick="sendPredefinedResponse('目前需要什么岗位')">目前需要什么岗位</button>
+        <div class="preset-title">快捷提问：</div>
+        <div class="preset-buttons">
+            <button class="preset-button" onclick="sendPredefinedResponse('公司位置')">公司位置</button>
+            <button class="preset-button" onclick="sendPredefinedResponse('统一社会信用代码')">统一社会信用代码</button>
+            <button class="preset-button" onclick="sendPredefinedResponse('电话')">联系方式</button>
+            <button class="preset-button" onclick="sendPredefinedResponse('法定代表人')">法定代表人</button>
+            <button class="preset-button" onclick="sendPredefinedResponse('注册资本')">注册资本</button>
+            <button class="preset-button" onclick="sendPredefinedResponse('投简历')">如何投简历</button>
+            <button class="preset-button" onclick="sendPredefinedResponse('岗位')">招聘岗位</button>
+            <button class="preset-button" onclick="sendPredefinedResponse('薪资')">薪资待遇</button>
+        </div>
     </div>
 </div>
 
-<style>
-    #chat-icon {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background: #007bff;
-        color: white;
-        border-radius: 50%;
-        width: 52px;
-        height: 52px;
-        text-align: center;
-        line-height: 52px;
-        font-size: 24px;
-        cursor: pointer;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-
-    #chat-window {
-        position: fixed;
-        bottom: 80px;
-        right: 20px;
-        width: 300px;
-        height: 600px;
-        background: white;
-        border: 1px solid #ccc;
-        display: none;
-        flex-direction: column;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-        border-radius: 10px;
-        overflow: hidden;
-        z-index: 999;
-    }
-
-    #chat-header {
-        background: #007bff;
-        color: white;
-        padding: 10px;
-        font-weight: bold;
-    }
-
-    #chat-messages {
-        flex: 1;
-        padding: 10px;
-        overflow-y: auto;
-        font-size: 14px;
-    }
-
-    #chat-input {
-        display: flex;
-        border-top: 1px solid #ddd;
-    }
-
-    #chat-input input {
-        flex: 1;
-        border: none;
-        padding: 10px;
-    }
-
-    #chat-input button {
-        background: #007bff;
-        border: none;
-        color: white;
-        padding: 10px 15px;
-        cursor: pointer;
-    }
-
-    #chat-input input:focus {
-        outline: none;
-    }
-
-    #preset-questions {
-        display: flex;
-        flex-direction: column;
-        padding: 10px;
-    }
-
-    #preset-questions button {
-        margin: 5px 0;
-        background: #f0f0f0;
-        border: none;
-        padding: 8px;
-        cursor: pointer;
-    }
-</style>
-
 <script>
+    // 智能应答系统
+    const intelligentResponseSystem = {
+        // 关键词权重设置
+        keywordWeights: {
+            // 工作相关
+            '工作': 5, '岗位': 5, '职位': 5, '招聘': 5, '应聘': 5, '申请': 4,
+            '职责': 4, '内容': 4, '任务': 3, '做什么': 4, '职业': 4, '机会': 3,
+            '空缺': 3, '开放': 3, '招人': 4, '招新': 3, '招贤': 3, '纳士': 3,
+            '招兵': 3, '招工': 3, '招才': 3, '招揽': 3, '招徕': 3,
+
+            // 薪资相关
+            '薪资': 10, '工资': 10, '薪酬': 10, '报酬': 8, '待遇': 8, '多少钱': 7,
+            '收入': 7, '福利': 6, '补助': 5, '津贴': 5, '薪水': 9, '月薪': 9,
+            '年薪': 8, '奖金': 7, '提成': 6, '绩效': 6, '五险一金': 7, '社保': 6,
+            '公积金': 6, '年终奖': 6, '分红': 5, '期权': 5,
+
+            // 工作方式
+            '远程': 8, '坐班': 8, '办公': 6, '地点': 6, '位置': 6, '在家': 5,
+            '线上': 5, '线下': 5, '通勤': 4, '灵活': 5, '弹性': 5, '在家办公': 7,
+            '居家办公': 7, '远程办公': 8, '线上办公': 6, '移动办公': 5, '分布式': 4,
+            '异地': 4, '跨地域': 4, '跨区域': 4,
+
+            // 申请流程
+            '申请': 6, '投递': 6, '简历': 7, '流程': 5, '步骤': 5, '面试': 7,
+            '录用': 5, '入职': 5, '要求': 6, '条件': 6, '投简历': 8, '发简历': 7,
+            '寄简历': 6, '递简历': 6, '交简历': 6, '提交简历': 7, '发送简历': 7,
+            '上传简历': 6, '简历投递': 7, '简历提交': 6, '简历发送': 6,
+            '应聘流程': 6, '招聘流程': 6, '面试流程': 6, '录用流程': 5,
+
+            // 敏感词
+            '立场': 15, '政治': 15, '观点': 12, '限制': 12, '审查': 15,
+            '敏感': 12, '言论': 10, '自由': 10, '审核': 10, '倾向': 10,
+            '意识形态': 15, '立场倾向': 15, '政治立场': 15, '观点倾向': 12,
+
+            // 模糊问题关键词
+            '怎么样': 8, '如何': 7, '好吗': 6, '情况': 5, '了解': 5,
+            '介绍': 5, '说明': 5, '详细': 4, '好不好': 6, '行不行': 5,
+            '可不可以': 5, '能否': 5, '是否': 5, '有什么': 5, '哪些': 5,
+            '什么样': 5, '怎么': 6, '怎样': 6, '咋样': 5, '如何样': 5
+        },
+
+        // 应答模板
+        responseTemplates: {
+            // 模糊问题
+            'work_general': "感谢您的兴趣！我们的特约研究员岗位提供有竞争力的稿酬、完全远程的工作方式，以及与国际高端读者分享见解的机会。您想了解薪资、工作内容还是申请流程的具体信息呢？",
+
+            // 复杂多问题
+            'multiple_questions': "我来为您逐一解答：\n1. 根据岗位评定\n2. 工作方式：完全远程，无需坐班\n3. 内容方向：俄罗斯及中亚政策分析等\n\n您还有其他具体问题吗？",
+
+            // 敏感政治问题
+            'sensitive_political': "我们鼓励基于事实和专业分析的独立观点。所有内容需要客观严谨，并符合专业操守及相关法律法规要求。",
+
+            // 具体问题
+            'salary': "根据岗位评定。优秀员工还有额外奖励。",
+            'remote_work': "工作方式为完全远程，无需坐班，您可以在任何地方完成工作。",
+            'content_direction': "主要研究方向为俄罗斯及中亚政策分析、国际关系等领域，需要具备相关专业知识。",
+            'application_process': "申请流程：发送简历和作品样例至指定邮箱 -> 初步审核 -> 测试任务 -> 面试 -> 录用",
+            'position_requirements': "岗位要求：相关领域硕士以上学历，出色的研究和写作能力，英语熟练者优先。",
+
+            // 公司信息
+            'company_location': "公司地址：北京市通州区梨园镇大稿村民委员会西200米京洲苑867号",
+            'company_code': "统一社会信用代码：91110105MA00E7JN1X",
+            'company_phone': "赵文普：公共安全及信息咨询顾问 13087124870（可能近期再换），李乘风：部门总监15026449010",
+            'legal_representative': "法定代表人：张鹏",
+            'registered_capital': "注册资本：30万(元)",
+            'company_email': "简历投递邮箱：fupeng888@beijingfup.freeqiye.com",
+            'recruitment_positions': "目前招聘岗位：社会经济咨询服务、公共安全管理咨询服务、俄罗斯信息咨询服务、中亚国家信息咨询服务"
+        },
+
+        // 上下文记忆
+        context: {
+            lastTopic: null,
+            mentionedTopics: []
+        },
+
+        // 分析问题并生成智能回复
+        analyzeAndRespond: function(input) {
+            // 预处理输入
+            const processedInput = input.toLowerCase().trim();
+
+            // 计算关键词权重
+            let topicScores = {};
+            for (const [keyword, weight] of Object.entries(this.keywordWeights)) {
+                if (processedInput.includes(keyword.toLowerCase())) {
+                    topicScores[keyword] = weight;
+                }
+            }
+
+            // 场景1: 模糊问题检测
+            if (this.isVagueQuestion(processedInput, topicScores)) {
+                this.context.lastTopic = 'vague';
+                return this.responseTemplates.work_general;
+            }
+
+            // 场景2: 复杂多问题检测
+            if (this.isMultipleQuestions(processedInput)) {
+                this.context.lastTopic = 'multiple';
+                return this.responseTemplates.multiple_questions;
+            }
+
+            // 场景3: 敏感政治问题检测
+            if (this.isSensitiveQuestion(topicScores)) {
+                this.context.lastTopic = 'sensitive';
+                return this.responseTemplates.sensitive_political;
+            }
+
+            // 具体问题匹配
+            return this.matchSpecificQuestion(topicScores, processedInput);
+        },
+
+        // 判断是否为模糊问题
+        isVagueQuestion: function(input, scores) {
+            const vagueKeywords = ['怎么样', '如何', '好吗', '情况', '了解', '介绍', '说明'];
+            const hasVagueKeyword = vagueKeywords.some(keyword => input.includes(keyword));
+
+            // 如果包含模糊关键词且没有具体的工作相关关键词
+            const workKeywords = ['薪资', '工资', '内容', '职责', '申请', '流程', '远程', '坐班'];
+            const hasSpecificKeyword = workKeywords.some(keyword => input.includes(keyword));
+
+            return hasVagueKeyword && !hasSpecificKeyword;
+        },
+
+        // 判断是否为复杂多问题
+        isMultipleQuestions: function(input) {
+            // 检测是否包含多个问题关键词
+            const questionIndicators = ['吗？', '？', '多少', '什么', '如何', '怎样', '有没有'];
+            let count = 0;
+
+            for (const indicator of questionIndicators) {
+                if (input.includes(indicator)) {
+                    count++;
+                }
+            }
+
+            return count >= 2;
+        },
+
+        // 判断是否为敏感问题
+        isSensitiveQuestion: function(scores) {
+            const sensitiveKeywords = ['立场', '政治', '观点', '限制', '审查', '敏感', '言论', '自由', '审核'];
+            let sensitiveScore = 0;
+
+            for (const keyword of sensitiveKeywords) {
+                if (scores[keyword]) {
+                    sensitiveScore += scores[keyword];
+                }
+            }
+
+            return sensitiveScore >= 15;
+        },
+
+        // 匹配具体问题
+        matchSpecificQuestion: function(scores, input) {
+            // 按权重排序关键词
+            const sortedKeywords = Object.keys(scores).sort((a, b) => scores[b] - scores[a]);
+
+            if (sortedKeywords.length === 0) {
+                return "抱歉，我没有理解您的问题。您可以尝试点击下方的快捷问题，或更具体地描述您想了解的内容。";
+            }
+
+            // 根据最高权重关键词返回相应回答
+            const topKeyword = sortedKeywords[0];
+
+            if (topKeyword.includes('薪资') || topKeyword.includes('工资') || topKeyword.includes('薪酬')) {
+                this.context.lastTopic = 'salary';
+                return this.responseTemplates.salary;
+            } else if (topKeyword.includes('远程') || topKeyword.includes('坐班') || topKeyword.includes('办公')) {
+                this.context.lastTopic = 'remote_work';
+                return this.responseTemplates.remote_work;
+            } else if (topKeyword.includes('内容') || topKeyword.includes('方向') || topKeyword.includes('研究')) {
+                this.context.lastTopic = 'content_direction';
+                return this.responseTemplates.content_direction;
+            } else if (topKeyword.includes('申请') || topKeyword.includes('流程') || topKeyword.includes('简历')) {
+                this.context.lastTopic = 'application_process';
+                return this.responseTemplates.application_process;
+            } else if (topKeyword.includes('要求') || topKeyword.includes('条件') || topKeyword.includes('资格')) {
+                this.context.lastTopic = 'position_requirements';
+                return this.responseTemplates.position_requirements;
+            } else {
+                // 如果没有精确匹配，返回通用回答
+                this.context.lastTopic = 'general';
+                return "感谢您的提问！我们的招聘岗位提供有竞争力的待遇和灵活的工作方式。如果您有更具体的问题，请随时告诉我。";
+            }
+        },
+
+        // 检查是否需要跳转链接
+        checkForActionLinks: function(input) {
+            const processedInput = input.toLowerCase().trim();
+
+            // 职位相关关键词
+            const positionKeywords = ['工作', '岗位', '职位', '招聘', '应聘', '职业', '机会', '空缺'];
+            const hasPositionKeyword = positionKeywords.some(keyword => processedInput.includes(keyword));
+
+            // 简历投递相关关键词
+            const resumeKeywords = ['投简历', '发简历', '寄简历', '递简历', '交简历', '提交简历', '发送简历', '上传简历'];
+            const hasResumeKeyword = resumeKeywords.some(keyword => processedInput.includes(keyword));
+
+            let links = [];
+
+            if (hasPositionKeyword) {
+                links.push({
+                    text: '查看所有职位',
+                    url: '/job-listing.html'
+                });
+            }
+
+            if (hasResumeKeyword) {
+                links.push({
+                    text: '立即投递简历',
+                    url: '/post-resume.html'
+                });
+            }
+
+            return links;
+        },
+
+        // 获取当前时间
+        getCurrentTime: function() {
+            const now = new Date();
+            return `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+        }
+    };
+
+    // DOM操作函数
     function toggleChat() {
         const chatWindow = document.getElementById("chat-window");
         chatWindow.style.display = chatWindow.style.display === "none" ? "flex" : "none";
+
+        // 设置初始消息时间
+        if (document.getElementById("initial-time")) {
+            document.getElementById("initial-time").textContent = intelligentResponseSystem.getCurrentTime();
+        }
+    }
+
+    function handleKeyPress(event) {
+        if (event.key === "Enter") {
+            sendMessage();
+        }
     }
 
     function sendMessage() {
@@ -119,56 +529,229 @@
         if (!message) return;
 
         const chat = document.getElementById("chat-messages");
+
+        // 添加用户消息
         const userMsgDiv = document.createElement("div");
-        userMsgDiv.textContent = "您：" + message;
-        userMsgDiv.style.marginBottom = "8px";
+        userMsgDiv.className = "message user-message";
+        userMsgDiv.textContent = message;
+
+        const timeDiv = document.createElement("div");
+        timeDiv.className = "message-time";
+        timeDiv.textContent = intelligentResponseSystem.getCurrentTime();
+
+        userMsgDiv.appendChild(timeDiv);
         chat.appendChild(userMsgDiv);
 
         // 清空输入框
         input.value = "";
         chat.scrollTop = chat.scrollHeight;
 
-        // 回复固定消息
-        const replyDiv = document.createElement("div");
-        replyDiv.textContent = "客服：感谢您的咨询，您可以点击以下问题获取更多信息：";
-        chat.appendChild(replyDiv);
+        // 显示"正在输入"指示器
+        const typingIndicator = document.createElement("div");
+        typingIndicator.className = "typing-indicator";
+        typingIndicator.innerHTML = `
+                <div class="typing-dots">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            `;
+        chat.appendChild(typingIndicator);
         chat.scrollTop = chat.scrollHeight;
+
+        // 模拟AI思考时间后回复
+        setTimeout(() => {
+            // 移除"正在输入"指示器
+            chat.removeChild(typingIndicator);
+
+            // 生成智能回复
+            const response = intelligentResponseSystem.analyzeAndRespond(message);
+
+            // 添加机器人回复
+            const replyDiv = document.createElement("div");
+            replyDiv.className = "message bot-message";
+            replyDiv.textContent = response;
+
+            const replyTimeDiv = document.createElement("div");
+            replyTimeDiv.className = "message-time";
+            replyTimeDiv.textContent = intelligentResponseSystem.getCurrentTime();
+
+            replyDiv.appendChild(replyTimeDiv);
+
+            // 检查是否需要添加跳转链接
+            const actionLinks = intelligentResponseSystem.checkForActionLinks(message);
+            if (actionLinks.length > 0) {
+                actionLinks.forEach(link => {
+                    const linkElement = document.createElement("a");
+                    linkElement.className = "action-link";
+                    linkElement.href = link.url;
+                    linkElement.textContent = link.text;
+                    linkElement.target = "_blank";
+                    replyDiv.appendChild(linkElement);
+                });
+            }
+
+            // 添加上下文建议
+            if (intelligentResponseSystem.context.lastTopic === 'vague') {
+                const suggestionDiv = document.createElement("div");
+                suggestionDiv.className = "suggestion";
+                suggestionDiv.textContent = "点击了解：薪资待遇 | 工作内容 | 申请流程";
+                suggestionDiv.onclick = function() {
+                    sendPredefinedResponse('薪资');
+                };
+                replyDiv.appendChild(suggestionDiv);
+            }
+
+            chat.appendChild(replyDiv);
+            chat.scrollTop = chat.scrollHeight;
+        }, 1000 + Math.random() * 1000); // 随机延迟1-2秒，模拟思考过程
     }
 
     function sendPredefinedResponse(topic) {
         const chat = document.getElementById("chat-messages");
 
-        let response = "";
+        // 添加用户消息（模拟点击预设问题）
+        const userMsgDiv = document.createElement("div");
+        userMsgDiv.className = "message user-message";
+
+        let userQuestion = "";
         switch (topic) {
             case "公司位置":
-                response = "客服：公司地址：北京市通州区梨园镇大稿村民委员会西200米京洲苑867号";
+                userQuestion = "公司地址在哪里？";
                 break;
             case "统一社会信用代码":
-                response = "客服：统一社会信用代码：91110105MA00E7JN1X";
+                userQuestion = "公司的统一社会信用代码是多少？";
                 break;
             case "电话":
-                response = "客服：赵文普：公共安全及信息咨询顾问 13087124870（可能近期再换），李乘风：部门总监15026449010";
+                userQuestion = "公司的联系方式是什么？";
                 break;
             case "法定代表人":
-                response = "客服：法定代表人：张鹏";
+                userQuestion = "公司的法定代表人是谁？";
                 break;
             case "注册资本":
-                response = "客服：注册资本：30万(元)";
+                userQuestion = "公司的注册资本是多少？";
                 break;
-            case "企业邮箱":
-                response = "客服：发送至fupeng888@beijingfup.freeqiye.com";
+            case "投简历":
+                userQuestion = "如何投简历？";
                 break;
-            case "目前需要什么岗位":
-                response = "客服：社会经济咨询服务、公共安全管理咨询服务、俄罗斯信息咨询服务、中亚国家信息咨询服务";
+            case "岗位":
+                userQuestion = "目前招聘哪些岗位？";
+                break;
+            case "薪资":
+                userQuestion = "薪资待遇怎么样？";
                 break;
             default:
-                response = "客服：请点击上方问题获取相关信息";
+                userQuestion = topic;
         }
 
-        const replyDiv = document.createElement("div");
-        replyDiv.textContent = response;
-        replyDiv.style.color = "green";
-        chat.appendChild(replyDiv);
+        userMsgDiv.textContent = userQuestion;
+
+        const timeDiv = document.createElement("div");
+        timeDiv.className = "message-time";
+        timeDiv.textContent = intelligentResponseSystem.getCurrentTime();
+
+        userMsgDiv.appendChild(timeDiv);
+        chat.appendChild(userMsgDiv);
+
+        // 显示"正在输入"指示器
+        const typingIndicator = document.createElement("div");
+        typingIndicator.className = "typing-indicator";
+        typingIndicator.innerHTML = `
+                <div class="typing-dots">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            `;
+        chat.appendChild(typingIndicator);
         chat.scrollTop = chat.scrollHeight;
+
+        // 模拟AI思考时间后回复
+        setTimeout(() => {
+            // 移除"正在输入"指示器
+            chat.removeChild(typingIndicator);
+
+            let response = "";
+            switch (topic) {
+                case "公司位置":
+                    response = intelligentResponseSystem.responseTemplates.company_location;
+                    break;
+                case "统一社会信用代码":
+                    response = intelligentResponseSystem.responseTemplates.company_code;
+                    break;
+                case "电话":
+                    response = intelligentResponseSystem.responseTemplates.company_phone;
+                    break;
+                case "法定代表人":
+                    response = intelligentResponseSystem.responseTemplates.legal_representative;
+                    break;
+                case "注册资本":
+                    response = intelligentResponseSystem.responseTemplates.registered_capital;
+                    break;
+                case "投简历":
+                    response = intelligentResponseSystem.responseTemplates.company_email;
+                    // 添加简历投递跳转链接
+                    const resumeLink = document.createElement("a");
+                    resumeLink.className = "action-link";
+                    resumeLink.href = "/post-resume.html";
+                    resumeLink.textContent = "立即投递简历";
+                    resumeLink.target = "_blank";
+                    break;
+                case "岗位":
+                    response = intelligentResponseSystem.responseTemplates.recruitment_positions;
+                    // 添加职位查看跳转链接
+                    const jobLink = document.createElement("a");
+                    jobLink.className = "action-link";
+                    jobLink.href = "/job-listing.html";
+                    jobLink.textContent = "查看所有职位";
+                    jobLink.target = "_blank";
+                    break;
+                case "薪资":
+                    response = intelligentResponseSystem.responseTemplates.salary;
+                    break;
+                default:
+                    response = "请点击上方问题获取相关信息";
+            }
+
+            const replyDiv = document.createElement("div");
+            replyDiv.className = "message bot-message";
+            replyDiv.textContent = response;
+
+            const replyTimeDiv = document.createElement("div");
+            replyTimeDiv.className = "message-time";
+            replyTimeDiv.textContent = intelligentResponseSystem.getCurrentTime();
+
+            replyDiv.appendChild(replyTimeDiv);
+
+            // 为特定主题添加跳转链接
+            if (topic === "投简历") {
+                const resumeLink = document.createElement("a");
+                resumeLink.className = "action-link";
+                resumeLink.href = "/post-resume.html";
+                resumeLink.textContent = "立即投递简历";
+                resumeLink.target = "_blank";
+                replyDiv.appendChild(resumeLink);
+            } else if (topic === "岗位") {
+                const jobLink = document.createElement("a");
+                jobLink.className = "action-link";
+                jobLink.href = "/job-listing.html";
+                jobLink.textContent = "查看所有职位";
+                jobLink.target = "_blank";
+                replyDiv.appendChild(jobLink);
+            }
+
+            chat.appendChild(replyDiv);
+            chat.scrollTop = chat.scrollHeight;
+        }, 800);
     }
+
+    // 初始化
+    document.addEventListener('DOMContentLoaded', function() {
+        // 设置初始消息时间
+        if (document.getElementById("initial-time")) {
+            document.getElementById("initial-time").textContent = intelligentResponseSystem.getCurrentTime();
+        }
+    });
 </script>
+</body>
+</html>

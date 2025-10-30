@@ -106,9 +106,9 @@
 					<div class="list-group list-group-flush">
 						{% for job in jobs %}
 						<a href="#" class="list-group-item list-group-item-action job-item {% if selected_job_id == job.id %}active{% endif %}"
-						   data-job-id="{{ job.id }}" data-job-title="{{ job.title }}">
+						   data-job-id="{{ job.id }}" data-job-title="{{ job.title_en }}">
 							<div class="d-flex w-100 justify-content-between">
-								<h6 class="mb-1">{{ job.title }}</h6>
+								<h6 class="mb-1">{{ job.title_en }}</h6>
 								{% if job.is_featured %}
 								<small class="text-warning">Featured</small>
 								{% endif %}
@@ -116,10 +116,10 @@
 								<small class="text-danger">Urgent</small>
 								{% endif %}
 							</div>
-							<p class="mb-1 small">{{ job.company }}</p>
+							<p class="mb-1 small">{{ job.company_en }}</p>
 							<div class="d-flex justify-content-between">
-								<small>{{ job.location }}</small>
-								<small>{{ job.salary }}</small>
+								<small>{{ job.location_en }}</small>
+								<small>{{ job.salary_en }}</small>
 							</div>
 							<small class="text-muted">Deadline: {{ job.deadline.strftime('%m-%d') }}</small>
 						</a>

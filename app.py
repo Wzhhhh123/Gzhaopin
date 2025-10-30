@@ -96,6 +96,8 @@ class Job(db.Model):
     __tablename__ = 'jobs'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+
+    # 原有中文字段
     title = db.Column(db.String(100), nullable=False)
     company = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text, nullable=False)
@@ -111,6 +113,18 @@ class Job(db.Model):
     is_featured = db.Column(db.Boolean, default=False)
     is_urgent = db.Column(db.Boolean, default=False)
     logo = db.Column(db.String(100), default='hot-jobs-1.png')
+
+    # 新增英文字段
+    title_en = db.Column(db.String(100), nullable=False, default='')
+    company_en = db.Column(db.String(100), nullable=False, default='')
+    description_en = db.Column(db.Text, nullable=False, default='')
+    requirements_en = db.Column(db.Text, nullable=False, default='')
+    education_en = db.Column(db.String(100), nullable=False, default='')
+    experience_en = db.Column(db.String(100), nullable=False, default='')
+    location_en = db.Column(db.String(100), nullable=False, default='')
+    salary_en = db.Column(db.String(100), default='')
+    job_type_en = db.Column(db.String(50), nullable=False, default='')
+    level_en = db.Column(db.String(50), default='')
 # 简历申请模型
 # 简历申请模型
 class JobApplication(db.Model):
@@ -132,6 +146,8 @@ class JobApplication(db.Model):
     # 关系
     job = db.relationship('Job', backref=db.backref('applications', lazy=True))
 # 生成示例数据
+# 生成示例数据
+# 生成示例数据
 def create_sample_data():
     # 检查是否已有数据
     if Job.query.count() > 0:
@@ -140,14 +156,20 @@ def create_sample_data():
 
     print("开始生成示例数据...")
 
-    # 公司列表
-    companies = [
+    # 公司列表 - 中英文
+    companies_zh = [
         "北京富鹏商务服务有限公司", "富鹏翻译服务中心", "富鹏技术咨询有限公司",
         "富鹏国际交流中心", "富鹏会展服务有限公司", "富鹏文化艺术交流中心"
     ]
 
-    # 职位列表基于业务范围 - 确保覆盖所有分类
-    job_titles = [
+    companies_en = [
+        "Beijing Fupeng Business Service Co., Ltd.", "Fupeng Translation Service Center",
+        "Fupeng Technical Consulting Co., Ltd.", "Fupeng International Exchange Center",
+        "Fupeng Exhibition Service Co., Ltd.", "Fupeng Cultural Arts Exchange Center"
+    ]
+
+    # 职位列表基于业务范围 - 中英文对照
+    job_titles_zh = [
         # 翻译服务类
         "翻译服务专员", "高级翻译项目经理", "多语言翻译专员", "俄语翻译", "英语翻译",
 
@@ -192,8 +214,60 @@ def create_sample_data():
         "中亚国家信息咨询顾问", "中亚市场分析师", "中亚商务专员"
     ]
 
-    # 详细的职位描述
-    descriptions = {
+    job_titles_en = [
+        # Translation Services
+        "Translation Service Specialist", "Senior Translation Project Manager", "Multilingual Translation Specialist",
+        "Russian Translator", "English Translator",
+
+        # Technical Development
+        "Technical Development Engineer", "Software Engineer", "Frontend Development Engineer",
+        "Backend Development Engineer", "Data Analyst", "System Architect", "Java Development Engineer",
+        "Python Development Engineer",
+
+        # Technical Consulting
+        "Technical Consulting Advisor", "Technical Solutions Consultant", "IT Consulting Advisor",
+        "Business Consulting Advisor",
+
+        # Technical Exchange
+        "International Exchange Coordinator", "Technical Exchange Specialist", "International Cooperation Specialist",
+
+        # Technology Transfer
+        "Technology Transfer Consultant", "Intellectual Property Consultant",
+
+        # Technology Promotion
+        "Technology Promotion Specialist", "Product Promotion Specialist",
+
+        # Conference & Exhibition Services
+        "Exhibition Event Planner", "Conference Service Specialist", "Exhibition Planner", "Event Executive",
+
+        # Cultural Exchange
+        "Cultural Exchange Specialist", "Cultural Activity Planner", "Art Project Coordinator",
+
+        # Socio-economic Consulting
+        "Business Consulting Advisor", "Economic Analyst", "Investment Advisor", "Business Strategist",
+
+        # Public Security Consulting
+        "Public Security Management Consultant", "Security Advisor", "Risk Management Specialist",
+
+        # Education Consulting
+        "Education Consulting Advisor", "Study Abroad Consultant", "Training Consultant",
+
+        # Marketing
+        "Marketing Planner", "Market Promotion Specialist", "Brand Strategist", "Digital Marketing Specialist",
+
+        # Russia Information Services
+        "Russia Information Consulting Advisor", "Russian Business Consultant", "Russia Market Analyst",
+
+        # Central Asia Information Services
+        "Central Asia Information Consulting Advisor", "Central Asia Market Analyst", "Central Asia Business Specialist"
+    ]
+
+    # 创建职位标题映射
+    title_mapping = dict(zip(job_titles_zh, job_titles_en))
+    company_mapping = dict(zip(companies_zh, companies_en))
+
+    # 详细的职位描述 - 中英文
+    descriptions_zh = {
         "翻译服务专员": "负责中俄/中亚语言翻译工作，提供专业的笔译和口译服务，协助客户进行商务沟通和技术文档翻译。要求熟练掌握至少一门外语，具备优秀的语言表达能力和跨文化沟通能力。",
         "技术开发工程师": "负责公司技术开发项目，包括网站开发、系统集成和技术解决方案的实施。熟练掌握Python、Java等编程语言，有丰富的项目开发经验。",
         "技术咨询顾问": "为客户提供专业的技术咨询服务，包括技术方案设计、技术问题解决和技术培训。具备扎实的技术背景和良好的客户沟通能力。",
@@ -210,7 +284,6 @@ def create_sample_data():
         "技术转让顾问": "协助客户进行技术转让交易，包括技术评估、合同谈判和项目实施。具备技术背景和法律知识。",
         "高级翻译项目经理": "管理翻译项目团队，协调项目进度，确保翻译质量和交付时间。具备项目管理经验和团队领导能力。",
         "多语言翻译专员": "负责多种语言的翻译工作，包括文档翻译、现场口译和本地化服务。精通至少两种外语。",
-        # 新增职位的描述
         "软件工程师": "负责软件系统的设计、开发和维护工作，参与产品需求分析和技术方案制定。",
         "数据分析师": "负责业务数据的收集、分析和可视化，为决策提供数据支持。",
         "系统架构师": "设计系统架构方案，确保系统的可扩展性、安全性和高性能。",
@@ -235,23 +308,132 @@ def create_sample_data():
         "中亚商务专员": "负责中亚地区的商务拓展和客户关系维护。"
     }
 
+    descriptions_en = {
+        "翻译服务专员": "Responsible for Chinese-Russian/Central Asian language translation work, providing professional translation and interpretation services, assisting clients with business communication and technical document translation. Requires proficiency in at least one foreign language, excellent language expression skills, and cross-cultural communication abilities.",
+        "技术开发工程师": "Responsible for company technical development projects, including website development, system integration, and technical solution implementation. Proficient in programming languages such as Python, Java, with extensive project development experience.",
+        "技术咨询顾问": "Provide professional technical consulting services to clients, including technical solution design, technical problem-solving, and technical training. Possess solid technical background and excellent customer communication skills.",
+        "国际交流协调员": "Organize and manage international exchange activities, coordinate cooperation matters between Chinese and foreign parties, promote cultural exchange and business cooperation. Possess excellent organizational coordination skills and foreign language proficiency.",
+        "会展活动策划": "Plan and execute various conference and exhibition activities, including event planning, on-site management, and customer service. Possess creative planning skills and project management experience.",
+        "文化艺术交流专员": "Organize cultural and artistic exchange activities, promote cultural and artistic exchanges and cooperation between China and other countries. Have in-depth understanding of culture and arts, possess excellent event organization skills.",
+        "商务咨询顾问": "Provide business consulting services to clients, including market analysis, business planning, and investment consulting. Possess rich business knowledge and analytical skills.",
+        "市场营销策划": "Develop and execute marketing strategies, conduct market research and brand promotion activities. Possess creative planning skills and market sensitivity.",
+        "俄罗斯信息咨询顾问": "Provide Russian market information consulting services, including policy regulations, market environment, and business opportunity analysis. Proficient in Russian, familiar with Russian market environment.",
+        "中亚国家信息咨询顾问": "Provide Central Asian countries market information consulting services, assist clients in exploring Central Asian markets. Familiar with Central Asian countries' political and economic environment, possess regional research background.",
+        "公共安全管理咨询师": "Provide public security management consulting services, including security assessment and emergency plan development. Possess security management related knowledge and practical experience.",
+        "教育咨询顾问": "Provide education consulting services, including study abroad consulting, education training, and academic exchange. Familiar with education system and study abroad policies.",
+        "技术推广专员": "Responsible for technology promotion work, including technology demonstration, promotion activities, and customer training. Possess good presentation skills and technical understanding.",
+        "技术转让顾问": "Assist clients with technology transfer transactions, including technology evaluation, contract negotiation, and project implementation. Possess technical background and legal knowledge.",
+        "高级翻译项目经理": "Manage translation project teams, coordinate project progress, ensure translation quality and delivery time. Possess project management experience and team leadership skills.",
+        "多语言翻译专员": "Responsible for multilingual translation work, including document translation, on-site interpretation, and localization services. Proficient in at least two foreign languages.",
+        "软件工程师": "Responsible for software system design, development, and maintenance, participate in product requirement analysis and technical solution development.",
+        "数据分析师": "Responsible for business data collection, analysis, and visualization, providing data support for decision-making.",
+        "系统架构师": "Design system architecture solutions, ensure system scalability, security, and high performance.",
+        "俄语翻译": "Responsible for Chinese-Russian bilingual translation work, including business document translation and on-site interpretation services.",
+        "英语翻译": "Responsible for Chinese-English bilingual translation work, ensuring translation quality and professionalism.",
+        "IT咨询顾问": "Provide IT strategic planning, system selection, and digital transformation consulting services to clients.",
+        "国际合作专员": "Responsible for coordination and management of international projects, promoting cross-border cooperation and exchange.",
+        "知识产权顾问": "Provide intellectual property related consulting services, including patents, trademarks, and technology transfer.",
+        "产品推广专员": "Responsible for market promotion of company products and services, develop and execute promotion strategies.",
+        "展览策划": "Plan and organize various exhibition activities, including booth design, exhibitor coordination, and on-site management.",
+        "活动执行": "Responsible for on-site execution of events, ensuring smooth event operation.",
+        "艺术项目协调员": "Coordinate implementation of art projects, manage project progress and resource allocation.",
+        "经济分析师": "Conduct market research and economic analysis, provide investment advice to clients.",
+        "风险管理师": "Identify and assess business risks, develop risk management strategies and emergency plans.",
+        "留学顾问": "Provide study abroad consulting and application services, assist students with study abroad planning.",
+        "培训顾问": "Design and implement training programs, enhance employee professional skills and comprehensive qualities.",
+        "品牌策划": "Responsible for brand strategy planning and brand image building, enhance brand value.",
+        "数字营销专员": "Execute digital marketing strategies, including social media marketing, search engine optimization, etc.",
+        "俄语商务顾问": "Provide business consulting and language support services for Russian-related business.",
+        "俄罗斯市场分析师": "Analyze Russian market dynamics and business opportunities, provide market entry strategies.",
+        "中亚市场分析师": "Research Central Asian countries market environment, provide decision support for business expansion.",
+        "中亚商务专员": "Responsible for business development and customer relationship maintenance in Central Asia region."
+    }
+
+    # 其他字段的英文映射
+    education_mapping = {
+        "大专": "Associate Degree",
+        "本科": "Bachelor's Degree",
+        "硕士": "Master's Degree",
+        "博士": "Doctoral Degree"
+    }
+
+    experience_mapping = {
+        "应届毕业生": "Fresh Graduate",
+        "1-2年": "1-2 years",
+        "3-5年": "3-5 years",
+        "5年以上": "5+ years"
+    }
+
+    location_mapping = {
+        "北京": "Beijing",
+        "上海": "Shanghai",
+        "广州": "Guangzhou",
+        "深圳": "Shenzhen",
+        "杭州": "Hangzhou",
+        "成都": "Chengdu",
+        "远程工作": "Remote Work"
+    }
+
+    job_type_mapping = {
+        "全职": "Full-time",
+        "兼职": "Part-time",
+        "实习": "Internship",
+        "合同制": "Contract"
+    }
+
+    level_mapping = {
+        "初级": "Junior",
+        "中级": "Mid-level",
+        "高级": "Senior",
+        "经理": "Manager",
+        "总监": "Director"
+    }
+
     # 生成80个示例职位
     jobs_to_create = []
     for i in range(80):
-        title = random.choice(job_titles)
-        company = random.choice(companies)
+        title_zh = random.choice(job_titles_zh)
+        company_zh = random.choice(companies_zh)
+
+        # 获取对应的英文数据
+        title_en = title_mapping.get(title_zh, title_zh)
+        company_en = company_mapping.get(company_zh, company_zh)
+        description_en = descriptions_en.get(title_zh, "Excellent career development opportunities, competitive compensation package and good working environment. Welcome to join our team!")
+
+        # 获取其他字段的英文版本
+        education_zh = random.choice(["大专", "本科", "硕士", "博士"])
+        experience_zh = random.choice(["应届毕业生", "1-2年", "3-5年", "5年以上"])
+        location_zh = random.choice(["北京", "上海", "广州", "深圳", "杭州", "成都", "远程工作"])
+        job_type_zh = random.choice(["全职", "兼职", "实习", "合同制"])
+        level_zh = random.choice(["初级", "中级", "高级", "经理", "总监"])
+        salary_zh = random.choice(["面议", "8-15K", "15-25K", "25-40K", "40K以上"])
 
         job = Job(
-            title=title,
-            company=company,
-            description=descriptions.get(title, "优秀的职业发展机会，具有竞争力的薪酬待遇和良好的工作环境，欢迎加入我们的团队！"),
+            # 中文字段
+            title=title_zh,
+            company=company_zh,
+            description=descriptions_zh.get(title_zh, "优秀的职业发展机会，具有竞争力的薪酬待遇和良好的工作环境，欢迎加入我们的团队！"),
             requirements="具有良好的沟通能力和团队合作精神，具备相关领域的工作经验，能够适应快节奏的工作环境。",
-            education=random.choice(["大专", "本科", "硕士", "博士"]),
-            experience=random.choice(["应届毕业生", "1-2年", "3-5年", "5年以上"]),
-            location=random.choice(["北京", "上海", "广州", "深圳", "杭州", "成都", "远程工作"]),
-            salary=random.choice(["面议", "8-15K", "15-25K", "25-40K", "40K以上"]),
-            job_type=random.choice(["全职", "兼职", "实习", "合同制"]),
-            level=random.choice(["初级", "中级", "高级", "经理", "总监"]),
+            education=education_zh,
+            experience=experience_zh,
+            location=location_zh,
+            salary=salary_zh,
+            job_type=job_type_zh,
+            level=level_zh,
+
+            # 英文字段
+            title_en=title_en,
+            company_en=company_en,
+            description_en=description_en,
+            requirements_en="Good communication skills and team spirit, relevant work experience in related fields, able to adapt to fast-paced work environment.",
+            education_en=education_mapping.get(education_zh, education_zh),
+            experience_en=experience_mapping.get(experience_zh, experience_zh),
+            location_en=location_mapping.get(location_zh, location_zh),
+            salary_en="Negotiable" if salary_zh == "面议" else salary_zh.replace("以上", "+"),
+            job_type_en=job_type_mapping.get(job_type_zh, job_type_zh),
+            level_en=level_mapping.get(level_zh, level_zh),
+
+            # 其他字段
             deadline=datetime.utcnow() + timedelta(days=random.randint(1, 90)),
             is_featured=random.choice([True, False, False]),
             is_urgent=random.choice([True, False, False, False]),
@@ -264,7 +446,7 @@ def create_sample_data():
     db.session.bulk_save_objects(jobs_to_create)
     db.session.commit()
 
-    print(f"成功生成 {len(jobs_to_create)} 个示例职位")
+    print(f"成功生成 {len(jobs_to_create)} 个示例职位（包含中英文字段）")
 def init_database():
     with app.app_context():
         db.create_all()
@@ -297,73 +479,66 @@ def set_language():
     if 'language' not in session:
         session['language'] = 'en'  # 默认英文
 # 首页路由
+# 首页路由
 @app.route('/')
 def index123():
     """首页 - 显示分类统计和紧急招聘"""
-    # 获取职位分类统计（基础数据查询不变）
-    category_queries = {
-        '翻译服务': Job.query.filter(
-            Job.title.contains('翻译') | Job.title.contains('语言')
-        ).count(),
-        '技术开发': Job.query.filter(
-            Job.title.contains('开发') | Job.title.contains('工程') |
-            Job.title.contains('软件') | Job.title.contains('架构') |
-            Job.title.contains('数据')
-        ).count(),
-        '技术咨询': Job.query.filter(
-            Job.title.contains('咨询') | Job.title.contains('顾问')
-        ).count(),
-        '技术交流': Job.query.filter(
-            Job.title.contains('交流') | Job.title.contains('国际') |
-            Job.title.contains('协调')
-        ).count(),
-        '技术转让': Job.query.filter(Job.title.contains('转让')).count(),
-        '技术推广': Job.query.filter(Job.title.contains('推广')).count(),
-        '会议及展览服务': Job.query.filter(
-            Job.title.contains('会议') | Job.title.contains('会展') |
-            Job.title.contains('展览')
-        ).count(),
-        '组织文化艺术交流活动': Job.query.filter(
-            Job.title.contains('文化') | Job.title.contains('艺术')
-        ).count(),
-        '社会经济咨询服务': Job.query.filter(
-            Job.title.contains('商务') | Job.title.contains('经济')
-        ).count(),
-        '公共安全管理咨询服务': Job.query.filter(
-            Job.title.contains('安全') | Job.title.contains('管理')
-        ).count(),
-        '教育咨询服务': Job.query.filter(Job.title.contains('教育')).count(),
-        '市场营销策划': Job.query.filter(
-            Job.title.contains('市场') | Job.title.contains('营销')
-        ).count(),
-        '俄罗斯信息咨询服务': Job.query.filter(Job.title.contains('俄罗斯')).count(),
-        '中亚国家信息咨询服务': Job.query.filter(Job.title.contains('中亚')).count()
-    }
-
-    # 根据语言选择分类标签
+    # 获取语言设置
     language = session.get('language', 'zh')
 
-    if language == 'en':
-        # 英文分类标签
-        categories = {
-            'Translation Services': category_queries['翻译服务'],
-            'Technical Development': category_queries['技术开发'],
-            'Technical Consulting': category_queries['技术咨询'],
-            'Technical Exchange': category_queries['技术交流'],
-            'Technology Transfer': category_queries['技术转让'],
-            'Technology Promotion': category_queries['技术推广'],
-            'Conference & Exhibition Services': category_queries['会议及展览服务'],
-            'Cultural Exchange Activities': category_queries['组织文化艺术交流活动'],
-            'Socio-economic Consulting': category_queries['社会经济咨询服务'],
-            'Public Security Consulting': category_queries['公共安全管理咨询服务'],
-            'Education Consulting': category_queries['教育咨询服务'],
-            'Marketing Planning': category_queries['市场营销策划'],
-            'Russia Information Services': category_queries['俄罗斯信息咨询服务'],
-            'Central Asia Information Services': category_queries['中亚国家信息咨询服务']
+    # 分类查询条件映射
+    category_conditions = {
+        'zh': {
+            '翻译服务': ['翻译', '语言'],
+            '技术开发': ['开发', '工程', '软件', '架构', '数据'],
+            '技术咨询': ['咨询', '顾问'],
+            '技术交流': ['交流', '国际', '协调'],
+            '技术转让': ['转让'],
+            '技术推广': ['推广'],
+            '会议及展览服务': ['会议', '会展', '展览'],
+            '组织文化艺术交流活动': ['文化', '艺术'],
+            '社会经济咨询服务': ['商务', '经济'],
+            '公共安全管理咨询服务': ['安全', '管理'],
+            '教育咨询服务': ['教育'],
+            '市场营销策划': ['市场', '营销'],
+            '俄罗斯信息咨询服务': ['俄罗斯'],
+            '中亚国家信息咨询服务': ['中亚']
+        },
+        'en': {
+            'Translation Services': ['Translation', 'Language'],
+            'Technical Development': ['Development', 'Engineer', 'Software', 'Architect', 'Data'],
+            'Technical Consulting': ['Consulting', 'Advisor', 'Consultant'],
+            'Technical Exchange': ['Exchange', 'International', 'Coordination'],
+            'Technology Transfer': ['Transfer'],
+            'Technology Promotion': ['Promotion'],
+            'Conference & Exhibition Services': ['Conference', 'Exhibition', 'Event'],
+            'Cultural Exchange Activities': ['Cultural', 'Art'],
+            'Socio-economic Consulting': ['Business', 'Economic'],
+            'Public Security Consulting': ['Security', 'Management'],
+            'Education Consulting': ['Education'],
+            'Marketing Planning': ['Marketing', 'Promotion'],
+            'Russia Information Services': ['Russia'],
+            'Central Asia Information Services': ['Central Asia']
         }
-    else:
-        # 中文分类标签（保持原样）
-        categories = category_queries
+    }
+
+    # 根据语言构建分类统计
+    conditions = category_conditions[language]
+    categories = {}
+
+    for category_name, keywords in conditions.items():
+        query = Job.query
+        field = Job.title_en if language == 'en' else Job.title
+
+        # 构建OR查询条件
+        or_conditions = []
+        for keyword in keywords:
+            or_conditions.append(field.contains(keyword))
+
+        if or_conditions:
+            query = query.filter(db.or_(*or_conditions))
+
+        categories[category_name] = query.count()
 
     # 获取紧急招聘职位
     urgent_jobs = Job.query.filter_by(is_urgent=True).order_by(Job.created_at.desc()).limit(4).all()
@@ -374,12 +549,25 @@ def index123():
     # 获取最新职位
     latest_jobs = Job.query.order_by(Job.created_at.desc()).limit(6).all()
 
-    # 获取统计数据
+    # 统计数据查询条件映射
+    stats_conditions = {
+        'zh': {
+            'full_time': ('job_type', '全职'),
+            'remote': ('location', '远程工作')
+        },
+        'en': {
+            'full_time': ('job_type_en', 'Full-time'),
+            'remote': ('location_en', 'Remote Work')
+        }
+    }
+
+    conditions = stats_conditions[language]
+
     stats = {
         'total_jobs': Job.query.count(),
         'urgent_jobs': Job.query.filter_by(is_urgent=True).count(),
-        'full_time_jobs': Job.query.filter_by(job_type='全职').count(),
-        'remote_jobs': Job.query.filter_by(location='远程工作').count(),
+        'full_time_jobs': Job.query.filter_by(**{conditions['full_time'][0]: conditions['full_time'][1]}).count(),
+        'remote_jobs': Job.query.filter_by(**{conditions['remote'][0]: conditions['remote'][1]}).count(),
         'featured_jobs_count': Job.query.filter_by(is_featured=True).count(),
         'new_today': Job.query.filter(Job.created_at >= datetime.utcnow().date()).count()
     }
@@ -477,7 +665,7 @@ def employers_details():
 # 常见问题
 @app.route('/faq.html')
 def faq():
-    return render_template('faq.html')
+    return render_template('blog-details.html')
 
 # 自由职业者
 @app.route('/freelancer.html')
@@ -487,14 +675,10 @@ def freelancer():
 # 工作相关
 @app.route('/job-listing.html')
 def job_listing():
-#     if session['language']=="en":
-#         return render_template('job-listing.html')
-#     if session['language']=="zh":
-#         return render_template('job-listing-zh.html')
-# 获取查询参数
-# 获取查询参数
+    # 获取语言设置
+    language = session.get('language', 'zh')
+
     # 获取查询参数
-    # 获取所有查询参数
     search = request.args.get('search', '')
     job_type = request.args.get('job_type', '')
     location = request.args.get('location', '')
@@ -504,25 +688,47 @@ def job_listing():
     # 构建基础查询
     base_query = Job.query
 
-    # 应用筛选条件
-    if search:
-        base_query = base_query.filter(
-            db.or_(
-                Job.title.contains(search),
-                Job.description.contains(search),
-                Job.company.contains(search),
-                Job.requirements.contains(search)
+    # 根据语言选择查询字段
+    if language == 'en':
+        # 英文查询 - 使用英文字段
+        if search:
+            base_query = base_query.filter(
+                db.or_(
+                    Job.title_en.contains(search),
+                    Job.description_en.contains(search),
+                    Job.company_en.contains(search),
+                    Job.requirements_en.contains(search)
+                )
             )
-        )
-    if job_type:
-        base_query = base_query.filter(Job.job_type == job_type)
-    if location:
-        base_query = base_query.filter(
-            db.or_(
-                Job.location.contains(location),
-                Job.location.like(f'%{location}%')
+        if job_type:
+            base_query = base_query.filter(Job.job_type_en == job_type)
+        if location:
+            base_query = base_query.filter(
+                db.or_(
+                    Job.location_en.contains(location),
+                    Job.location_en.like(f'%{location}%')
+                )
             )
-        )
+    else:
+        # 中文查询 - 使用中文字段
+        if search:
+            base_query = base_query.filter(
+                db.or_(
+                    Job.title.contains(search),
+                    Job.description.contains(search),
+                    Job.company.contains(search),
+                    Job.requirements.contains(search)
+                )
+            )
+        if job_type:
+            base_query = base_query.filter(Job.job_type == job_type)
+        if location:
+            base_query = base_query.filter(
+                db.or_(
+                    Job.location.contains(location),
+                    Job.location.like(f'%{location}%')
+                )
+            )
 
     # 分页
     pagination = base_query.order_by(Job.created_at.desc()).paginate(
@@ -531,29 +737,55 @@ def job_listing():
 
     # 获取统计信息（用于侧边栏计数）
     stats_query = Job.query
-    if search:
-        stats_query = stats_query.filter(
-            db.or_(
-                Job.title.contains(search),
-                Job.description.contains(search),
-                Job.company.contains(search),
-                Job.requirements.contains(search)
-            )
-        )
-    if location:
-        stats_query = stats_query.filter(Job.location.contains(location))
 
-    # 计算各种类型的职位数量
-    job_types_count = {
-        '全职': stats_query.filter(Job.job_type == '全职').count(),
-        '兼职': stats_query.filter(Job.job_type == '兼职').count(),
-        '实习': stats_query.filter(Job.job_type == '实习').count(),
-        '合同制': stats_query.filter(Job.job_type == '合同制').count()
-    }
+    # 根据语言构建统计查询
+    if language == 'en':
+        if search:
+            stats_query = stats_query.filter(
+                db.or_(
+                    Job.title_en.contains(search),
+                    Job.description_en.contains(search),
+                    Job.company_en.contains(search),
+                    Job.requirements_en.contains(search)
+                )
+            )
+        if location:
+            stats_query = stats_query.filter(Job.location_en.contains(location))
+
+        # 计算各种类型的职位数量（英文）
+        job_types_count = {
+            'Full-time': stats_query.filter(Job.job_type_en == 'Full-time').count(),
+            'Part-time': stats_query.filter(Job.job_type_en == 'Part-time').count(),
+            'Internship': stats_query.filter(Job.job_type_en == 'Internship').count(),
+            'Contract': stats_query.filter(Job.job_type_en == 'Contract').count()
+        }
+    else:
+        if search:
+            stats_query = stats_query.filter(
+                db.or_(
+                    Job.title.contains(search),
+                    Job.description.contains(search),
+                    Job.company.contains(search),
+                    Job.requirements.contains(search)
+                )
+            )
+        if location:
+            stats_query = stats_query.filter(Job.location.contains(location))
+
+        # 计算各种类型的职位数量（中文）
+        job_types_count = {
+            '全职': stats_query.filter(Job.job_type == '全职').count(),
+            '兼职': stats_query.filter(Job.job_type == '兼职').count(),
+            '实习': stats_query.filter(Job.job_type == '实习').count(),
+            '合同制': stats_query.filter(Job.job_type == '合同制').count()
+        }
 
     total_jobs = stats_query.count()
 
-    return render_template('job-listing-zh.html',
+    # 根据语言选择模板
+    template_name = 'job-listing.html' if language == 'en' else 'job-listing-zh.html'
+
+    return render_template(template_name,
                          jobs=pagination.items,
                          pagination=pagination,
                          total_jobs=total_jobs,
@@ -565,19 +797,51 @@ def job_listing():
 
 @app.route('/job/<int:job_id>', methods=['GET', 'POST'])
 def job_detail(job_id):
+    # 获取语言设置
+    language = session.get('language', 'zh')
+
     job = Job.query.get_or_404(job_id)
     similar_jobs = Job.query.filter(
-        Job.job_type == job.job_type,
+        (Job.job_type == job.job_type) if language == 'zh' else (Job.job_type_en == job.job_type_en),
         Job.id != job.id
     ).limit(3).all()
 
-    def render_job_detail(msg=None, success=False):
+    def get_message(msg_key, success=False):
+        """根据语言获取消息"""
+        messages = {
+            'zh': {
+                'required_fields': '请填写所有必填字段并同意隐私政策。',
+                'upload_resume': '请上传简历文件。',
+                'file_format': '不支持的文件格式，请上传 PDF、DOC、DOCX、JPG 或 PNG。',
+                'empty_file': '文件为空，请重新选择文件。',
+                'file_size': '文件大小不能超过5MB。',
+                'save_failed': '文件保存失败，请重试。',
+                'system_error': '系统错误，请稍后重试。',
+                'success': '申请提交成功！我们会尽快审核并与您联系。'
+            },
+            'en': {
+                'required_fields': 'Please fill in all required fields and agree to the privacy policy.',
+                'upload_resume': 'Please upload a resume file.',
+                'file_format': 'Unsupported file format. Please upload PDF, DOC, DOCX, JPG, or PNG.',
+                'empty_file': 'The file is empty. Please select a new file.',
+                'file_size': 'File size cannot exceed 5MB.',
+                'save_failed': 'File save failed. Please try again.',
+                'system_error': 'System error, please try again later.',
+                'success': 'Application submitted successfully! We will review it and contact you as soon as possible.'
+            }
+        }
+        return messages[language][msg_key]
+
+    def render_job_detail(msg_key=None, success=False):
         """统一渲染模板，减少重复"""
+        template_name = 'job-details.html' if language == 'en' else 'job-details-zh.html'
+        msg = get_message(msg_key) if msg_key else None
+
         return render_template(
-            'job-details.html',
+            template_name,
             job=job,
             similar_jobs=similar_jobs,
-            **({'success_message': msg} if success else {'error_message': msg}) if msg else {}
+            **({'success_message': msg} if success else {'error_message': msg}) if msg_key else {}
         )
 
     if request.method == 'POST':
@@ -590,22 +854,22 @@ def job_detail(job_id):
 
             # 基本验证
             if not all([form['name'], form['phone'], form['email'], agree_terms]):
-                return render_job_detail('请填写所有必填字段并同意隐私政策。')
+                return render_job_detail('required_fields')
 
             if not resume_file or resume_file.filename == '':
-                return render_job_detail('请上传简历文件。')
+                return render_job_detail('upload_resume')
 
             if not allowed_file(resume_file.filename):
-                return render_job_detail('不支持的文件格式，请上传 PDF、DOC、DOCX、JPG 或 PNG。')
+                return render_job_detail('file_format')
 
             # 检查文件大小
             resume_file.seek(0, os.SEEK_END)
             size = resume_file.tell()
             resume_file.seek(0)
             if size == 0:
-                return render_job_detail('文件为空，请重新选择文件。')
+                return render_job_detail('empty_file')
             if size > MAX_FILE_SIZE:
-                return render_job_detail('文件大小不能超过5MB。')
+                return render_job_detail('file_size')
 
             # 保存文件
             unique_filename = get_safe_filename(resume_file.filename)
@@ -614,7 +878,7 @@ def job_detail(job_id):
             resume_file.save(resume_path)
 
             if not os.path.exists(resume_path):
-                return render_job_detail('文件保存失败，请重试。')
+                return render_job_detail('save_failed')
 
             # 保存数据库
             db.session.add(JobApplication(
@@ -625,19 +889,22 @@ def job_detail(job_id):
             ))
             db.session.commit()
 
-            return render_job_detail('申请提交成功！我们会尽快审核并与您联系。', success=True)
+            return render_job_detail('success', success=True)
 
         except Exception as e:
             db.session.rollback()
             if 'resume_path' in locals() and os.path.exists(resume_path):
                 os.remove(resume_path)
             print(f"Error in job_detail: {e}")
-            return render_job_detail('系统错误，请稍后重试。')
+            return render_job_detail('system_error')
 
     return render_job_detail()
 
 @app.route('/api/jobs')
 def api_jobs():
+    # 获取语言设置
+    language = session.get('language', 'zh')
+
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 20, type=int)
 
@@ -645,19 +912,34 @@ def api_jobs():
 
     jobs_data = []
     for job in jobs.items:
-        jobs_data.append({
-            'id': job.id,
-            'title': job.title,
-            'company': job.company,
-            'location': job.location,
-            'salary': job.salary,
-            'job_type': job.job_type,
-            'education': job.education,
-            'experience': job.experience,
-            'deadline': job.deadline.strftime('%Y年%m月%d日'),
-            'is_featured': job.is_featured,
-            'is_urgent': job.is_urgent
-        })
+        if language == 'en':
+            jobs_data.append({
+                'id': job.id,
+                'title': job.title_en,
+                'company': job.company_en,
+                'location': job.location_en,
+                'salary': job.salary_en,
+                'job_type': job.job_type_en,
+                'education': job.education_en,
+                'experience': job.experience_en,
+                'deadline': job.deadline.strftime('%Y-%m-%d'),
+                'is_featured': job.is_featured,
+                'is_urgent': job.is_urgent
+            })
+        else:
+            jobs_data.append({
+                'id': job.id,
+                'title': job.title,
+                'company': job.company,
+                'location': job.location,
+                'salary': job.salary,
+                'job_type': job.job_type,
+                'education': job.education,
+                'experience': job.experience,
+                'deadline': job.deadline.strftime('%Y年%m月%d日'),
+                'is_featured': job.is_featured,
+                'is_urgent': job.is_urgent
+            })
 
     return jsonify({
         'jobs': jobs_data,
@@ -669,28 +951,43 @@ def api_jobs():
 @app.route('/api/job-stats')
 def job_stats():
     """获取职位统计信息"""
+    # 获取语言设置
+    language = session.get('language', 'zh')
+
     total_jobs = Job.query.count()
     featured_jobs = Job.query.filter_by(is_featured=True).count()
     urgent_jobs = Job.query.filter_by(is_urgent=True).count()
 
-    # 按类型统计
-    type_stats = db.session.query(
-        Job.job_type,
-        db.func.count(Job.id)
-    ).group_by(Job.job_type).all()
+    # 按类型统计 - 根据语言选择字段
+    if language == 'en':
+        type_stats_query = db.session.query(
+            Job.job_type_en,
+            db.func.count(Job.id)
+        ).group_by(Job.job_type_en).all()
+    else:
+        type_stats_query = db.session.query(
+            Job.job_type,
+            db.func.count(Job.id)
+        ).group_by(Job.job_type).all()
 
-    # 按地点统计
-    location_stats = db.session.query(
-        Job.location,
-        db.func.count(Job.id)
-    ).group_by(Job.location).all()
+    # 按地点统计 - 根据语言选择字段
+    if language == 'en':
+        location_stats_query = db.session.query(
+            Job.location_en,
+            db.func.count(Job.id)
+        ).group_by(Job.location_en).all()
+    else:
+        location_stats_query = db.session.query(
+            Job.location,
+            db.func.count(Job.id)
+        ).group_by(Job.location).all()
 
     return jsonify({
         'total_jobs': total_jobs,
         'featured_jobs': featured_jobs,
         'urgent_jobs': urgent_jobs,
-        'type_stats': dict(type_stats),
-        'location_stats': dict(location_stats)
+        'type_stats': dict(type_stats_query),
+        'location_stats': dict(location_stats_query)
     })
 
 

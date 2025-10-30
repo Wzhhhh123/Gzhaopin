@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
 	<!-- Required meta tags -->
 	<meta charset="utf-8">
@@ -37,7 +37,7 @@
 	<!-- Favicon -->
 	<link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/images/favicon.png') }}">
 	<!-- Title -->
-	<title>{{ job.title_en }} - Beijing Fupeng Business Service Co., Ltd.</title>
+	<title>{{ job.title }} - 北京富鹏商务服务有限公司</title>
 </head>
 
 <body>
@@ -50,25 +50,25 @@
 </div>
 <!-- End Preloader Area -->
 
-{% include "heng.html" %}
+{% include "heng-zh.html" %}
 
 <!-- Start Page Title Area -->
 <div class="page-title-area">
 	<div class="container">
 		<div class="page-title-content">
-			<h2>Job Details</h2>
+			<h2>职位详情</h2>
 			<ul>
 				<li>
 					<a href="{{ url_for('index') }}">
-						Home
+						主页
 					</a>
 				</li>
 				<li>
 					<a href="{{ url_for('job_listing') }}">
-						Job Listings
+						职位列表
 					</a>
 				</li>
-				<li class="active">{{ job.title_en }}</li>
+				<li class="active">{{ job.title }}</li>
 			</ul>
 		</div>
 	</div>
@@ -84,31 +84,31 @@
 					<div class="row align-items-center">
 						<div class="col-lg-2">
 							<div class="hot-jobs-img">
-								<img src="{{ url_for('static', filename='assets/images/hot-jobs/' + job.logo) }}" alt="{{ job.title_en }}">
+								<img src="{{ url_for('static', filename='assets/images/hot-jobs/' + job.logo) }}" alt="{{ job.title }}">
 							</div>
 						</div>
 
 						<div class="col-lg-6">
 							<div class="hot-jobs-content">
-								<h3>{{ job.title_en }}</h3>
-								<span class="sub-title">{{ job.company_en }}</span>
+								<h3>{{ job.title }}</h3>
+								<span class="sub-title">{{ job.company }}</span>
 								<ul>
-									<li><span>Vacancies:</span> Multiple</li>
-									<li><span>Job Type:</span> {{ job.job_type_en }}</li>
-									<li><span>Location:</span> {{ job.location_en }}</li>
+									<li><span>招聘人数:</span> 若干</li>
+									<li><span>职位类型:</span> {{ job.job_type }}</li>
+									<li><span>工作地点:</span> {{ job.location }}</li>
 								</ul>
 							</div>
 						</div>
 
 						<div class="col-lg-4">
 							<div class="hot-jobs-btn">
-								<a href="#apply-job" class="default-btn">Apply Now</a>
-								<p><span>Deadline: </span>{{ job.deadline.strftime('%Y-%m-%d') }}</p>
+								<a href="#apply-job" class="default-btn">立即申请</a>
+								<p><span>截止日期: </span>{{ job.deadline.strftime('%Y年%m月%d日') }}</p>
 								{% if job.is_featured %}
-								<span class="featured">Featured</span>
+								<span class="featured">推荐</span>
 								{% endif %}
 								{% if job.is_urgent %}
-								<span class="featured red">Urgent</span>
+								<span class="featured red">紧急</span>
 								{% endif %}
 							</div>
 						</div>
@@ -116,115 +116,120 @@
 				</div>
 
 				<div class="job-details-content">
-					<h3>Job Description</h3>
-					<p>{{ job.description_en }}</p>
+					<h3>职位描述</h3>
+					<p>{{ job.description }}</p>
 
-					<h4>Responsibilities:</h4>
+					<h4>职位职责:</h4>
 					<ul>
-						<li>Responsible for {{ job.title_en }} related work, complete tasks assigned by the department</li>
-						<li>Collaborate with team members to ensure smooth project progress</li>
-						<li>Participate in technical support and problem-solving for related business</li>
-						<li>Continuously learn and master the latest industry technologies and development trends</li>
-						<li>Complete other related tasks assigned by superiors</li>
+						<li>负责{{ job.title }}相关工作，完成部门安排的任务</li>
+						<li>与团队成员协作，确保项目顺利推进</li>
+						<li>参与相关业务的技术支持和问题解决</li>
+						<li>持续学习和掌握行业最新技术和发展趋势</li>
+						<li>完成上级交办的其他相关工作</li>
 					</ul>
 
-					<h4>Requirements:</h4>
+					<h4>任职要求:</h4>
 					<ul>
-						<li>Education: {{ job.education_en }}</li>
-						<li>Experience: {{ job.experience_en }}</li>
-						<li>Good communication skills and team spirit</li>
-						<li>Strong learning ability and problem-solving skills</li>
-						<li>Ability to adapt to fast-paced work environment</li>
-						<li>Relevant industry experience preferred</li>
+						<li>学历要求: {{ job.education }}</li>
+						<li>工作经验: {{ job.experience }}</li>
+						<li>具备良好的沟通能力和团队合作精神</li>
+						<li>具有较强的学习能力和解决问题的能力</li>
+						<li>能够适应快节奏的工作环境</li>
+						<li>有相关行业经验者优先考虑</li>
 					</ul>
 
-					<h4>Professional Skills:</h4>
+					<h4>专业技能:</h4>
 					<ul>
-						<li>Proficient in professional knowledge and skills in related fields</li>
-						<li>Good analytical and problem-solving abilities</li>
-						<li>Ability to complete work tasks independently</li>
-						<li>Basic project management skills</li>
-						<li>Familiar with industry-related regulations and standards</li>
+						<li>熟练掌握相关领域的专业知识和技能</li>
+						<li>具备良好的分析和解决问题的能力</li>
+						<li>能够独立完成工作任务</li>
+						<li>具备一定的项目管理能力</li>
+						<li>熟悉行业相关法规和标准</li>
 					</ul>
 
-					<h4>We Offer:</h4>
+					<h4>我们提供:</h4>
 					<ul>
-						<li>Competitive salary package: {{ job.salary_en }}</li>
-						<li>Comprehensive career development path and training system</li>
-						<li>Good working environment and team atmosphere</li>
-						<li>Social insurance and supplementary commercial insurance</li>
-						<li>Paid annual leave and holiday benefits</li>
-						<li>Regular health checkups and team building activities</li>
+						<li>具有竞争力的薪酬待遇：{{ job.salary }}</li>
+						<li>完善的职业发展通道和培训体系</li>
+						<li>良好的工作环境和团队氛围</li>
+						<li>五险一金和补充商业保险</li>
+						<li>带薪年假和节日福利</li>
+						<li>定期体检和团队建设活动</li>
 					</ul>
+
+					<!-- 申请职位表单 -->
+
+					<!-- 申请职位表单 -->
+
 				</div>
 				<div class="job-details-content">
 					<div id="apply-job" class="job-apply-form">
-						<h3>Apply for this Position</h3>
+						<h3>申请职位</h3>
 						<form class="apply-form" method="POST" action="{{ url_for('job_detail', job_id=job.id) }}" enctype="multipart/form-data">
 							<div class="row">
 								<div class="col-lg-6">
 									<div class="form-group">
-										<label>Full Name *</label>
+										<label>姓名 *</label>
 										<input type="text" name="name" class="form-control" required maxlength="50">
 									</div>
 								</div>
 								<div class="col-lg-6">
 									<div class="form-group">
-										<label>Phone Number *</label>
+										<label>联系电话 *</label>
 										<input type="tel" name="phone" class="form-control" required pattern="[0-9+\-() ]+" maxlength="20">
 									</div>
 								</div>
 								<div class="col-lg-6">
 									<div class="form-group">
-										<label>Email Address *</label>
+										<label>电子邮箱 *</label>
 										<input type="email" name="email" class="form-control" required maxlength="100">
 									</div>
 								</div>
 								<div class="col-lg-6">
 									<div class="form-group">
-										<label>Highest Education</label>
+										<label>最高学历</label>
 										<select name="education" class="form-control">
-											<option value="">Please Select</option>
-											<option value="High School">High School</option>
-											<option value="Associate Degree">Associate Degree</option>
-											<option value="Bachelor's Degree">Bachelor's Degree</option>
-											<option value="Master's Degree">Master's Degree</option>
-											<option value="Doctoral Degree">Doctoral Degree</option>
+											<option value="">请选择</option>
+											<option value="高中">高中</option>
+											<option value="大专">大专</option>
+											<option value="本科">本科</option>
+											<option value="硕士">硕士</option>
+											<option value="博士">博士</option>
 										</select>
 									</div>
 								</div>
 								<div class="col-lg-12">
 									<div class="form-group">
-										<label>Work Experience</label>
-										<textarea name="work_experience" class="form-control" rows="4" placeholder="Please briefly describe your work experience (max 500 characters)" maxlength="500"></textarea>
+										<label>工作经历</label>
+										<textarea name="work_experience" class="form-control" rows="4" placeholder="请简要描述您的工作经历（最多500字）" maxlength="500"></textarea>
 									</div>
 								</div>
 								<div class="col-lg-12">
 									<div class="form-group">
-										<label>Upload Resume *</label>
+										<label>上传简历 *</label>
 										<input type="file" name="resume" class="form-control-file" accept=".pdf,.doc,.docx,.jpg,.png,.jpeg" required>
 										<small class="form-text text-muted">
-											Supported formats: PDF, DOC, DOCX, JPG, PNG<br>
-											Maximum file size: 5MB<br>
+											支持格式：PDF, DOC, DOCX, JPG, PNG<br>
+											文件大小不超过5MB<br>
 										</small>
 									</div>
 								</div>
 								<div class="col-lg-12">
 									<div class="form-group">
-										<label>Additional Information</label>
-										<textarea name="additional_info" class="form-control" rows="3" placeholder="If you have any other information to provide, please write here (max 300 characters)" maxlength="300"></textarea>
+										<label>附加信息</label>
+										<textarea name="additional_info" class="form-control" rows="3" placeholder="如有其他需要说明的信息，请在此填写（最多300字）" maxlength="300"></textarea>
 									</div>
 								</div>
 								<div class="col-lg-12">
 									<div class="form-group">
 										<div class="form-check">
 											<input type="checkbox" class="form-check-input" name="agree_terms" required>
-											<label class="form-check-label">I have read and agree to the <a href="#" data-toggle="modal" data-target="#privacyModal">Privacy Policy</a></label>
+											<label class="form-check-label">我已阅读并同意<a href="#" data-toggle="modal" data-target="#privacyModal">隐私政策</a></label>
 										</div>
 									</div>
 								</div>
 								<div class="col-lg-12">
-									<button type="submit" class="default-btn">Submit Application</button>
+									<button type="submit" class="default-btn">提交申请</button>
 								</div>
 							</div>
 							{% if success_message %}
@@ -248,19 +253,19 @@
 				</div>
 			</div>
 
-			<!-- Privacy Policy Modal -->
+			<!-- 隐私政策模态框 -->
 			<div class="modal fade" id="privacyModal" tabindex="-1" role="dialog">
 				<div class="modal-dialog modal-lg" role="document">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h5 class="modal-title">Privacy Policy</h5>
+							<h5 class="modal-title">隐私政策</h5>
 							<button type="button" class="close" data-dismiss="modal">
 								<span>&times;</span>
 							</button>
 						</div>
 						<div class="modal-body">
-							<p>We are committed to protecting your personal information security. The application information you submit will only be used for recruitment purposes and will not be used for other commercial purposes.</p>
-							<p>We will properly keep your resume and personal information, and process relevant data according to regulations after the recruitment process is completed.</p>
+							<p>我们承诺保护您的个人信息安全。您提交的申请信息仅用于招聘目的，不会被用于其他商业用途。</p>
+							<p>我们会妥善保管您的简历和个人信息，并在招聘流程结束后按规定处理相关数据。</p>
 						</div>
 					</div>
 				</div>
@@ -268,15 +273,15 @@
 			<div class="col-lg-4">
 				<div class="job-details-sidebar">
 					<div class="job-widget">
-						<h3>Share this Job</h3>
+						<h3>分享职位</h3>
 						<ul class="social-icon">
 							<li>
-								<a href="#" title="WeChat">
+								<a href="#" title="微信">
 									<i class="bx bxl-windows"></i>
 								</a>
 							</li>
 							<li>
-								<a href="#" title="Weibo">
+								<a href="#" title="微博">
 									<i class="bx bxl-whatsapp"></i>
 								</a>
 							</li>
@@ -286,7 +291,7 @@
 								</a>
 							</li>
 							<li>
-								<a href="#" title="Copy Link">
+								<a href="#" title="复制链接">
 									<i class="bx bx-link"></i>
 								</a>
 							</li>
@@ -294,81 +299,81 @@
 					</div>
 
 					<div class="job-widget">
-						<h3>Job Overview</h3>
+						<h3>职位概览</h3>
 						<ul class="overview">
 							<li>
-								Posted Date
-								<span>{{ job.created_at.strftime('%Y-%m-%d') }}</span>
+								发布时间
+								<span>{{ job.created_at.strftime('%Y年%m月%d日') }}</span>
 							</li>
 							<li>
-								Job Type
-								<span>{{ job.job_type_en }}</span>
+								职位类型
+								<span>{{ job.job_type }}</span>
 							</li>
 							<li>
-								Experience
-								<span>{{ job.experience_en }}</span>
+								工作经验
+								<span>{{ job.experience }}</span>
 							</li>
 							<li>
-								Location
-								<span>{{ job.location_en }}</span>
+								工作地点
+								<span>{{ job.location }}</span>
 							</li>
 							<li>
-								Education
-								<span>{{ job.education_en }}</span>
+								学历要求
+								<span>{{ job.education }}</span>
 							</li>
 							<li>
-								Salary
-								<span>{{ job.salary_en }}</span>
+								薪资待遇
+								<span>{{ job.salary }}</span>
 							</li>
 							<li>
-								Career Level
-								<span>{{ job.level_en }}</span>
+								职业级别
+								<span>{{ job.level }}</span>
 							</li>
 							<li>
-								Deadline
-								<span>{{ job.deadline.strftime('%Y-%m-%d') }}</span>
+								截止日期
+								<span>{{ job.deadline.strftime('%Y年%m月%d日') }}</span>
 							</li>
 						</ul>
 					</div>
 
 					<div class="job-widget">
-						<h3>Contact Information</h3>
+						<h3>联系信息</h3>
 						<ul class="contact-info">
 							<li>
 								<i class="bx bx-phone"></i>
-								<span>Phone</span>
+								<span>联系电话</span>
 								<a href="tel:+8610000000000">+86 10 0000 0000</a>
 							</li>
 							<li>
 								<i class="bx bx-envelope"></i>
-								<span>Email</span>
+								<span>电子邮箱</span>
 								<a href="mailto:hr@fupeng.com">hr@fupeng.com</a>
 							</li>
 							<li>
 								<i class="bx bx-map"></i>
-								<span>Address</span>
-								Central Business District, Chaoyang District, Beijing
+								<span>公司地址</span>
+								北京市朝阳区商务中心区
 							</li>
 						</ul>
 					</div>
 
 					<div class="job-widget">
-						<h3>Similar Jobs</h3>
+						<h3>相似职位</h3>
 						<div class="similar-jobs">
 							{% if similar_jobs %}
 							{% for similar_job in similar_jobs %}
 							<div class="similar-job-item">
 								<h4>
 									<a href="{{ url_for('job_detail', job_id=similar_job.id) }}">
-										{{ similar_job.title_en }}
+										{{ similar_job.title }}
 									</a>
 								</h4>
-								<p>{{ similar_job.company_en }} · {{ similar_job.location_en }}</p>
-								<span class="salary">{{ similar_job.salary_en }}</span>
+								<p>{{ similar_job.company }} · {{ similar_job.location }}</p>
+								<span class="salary">{{ similar_job.salary }}</span>
 							</div>
 							{% endfor %}
 							{% else %}
-							<p>No similar jobs available</p>
+							<p>暂无相似职位</p>
 							{% endif %}
 						</div>
 					</div>
@@ -386,20 +391,20 @@
 			<div class="row align-items-center">
 				<div class="col-lg-6">
 					<div class="subscribe-content">
-						<h2>Find Your Next Great Job Opportunity!</h2>
+						<h2>找到您的下一个绝佳工作机会！</h2>
 					</div>
 				</div>
 
 				<div class="col-lg-6">
 					<form class="newsletter-form" data-toggle="validator">
-						<input type="email" class="form-control" placeholder="Enter email address" name="EMAIL" required autocomplete="off">
+						<input type="email" class="form-control" placeholder="输入邮箱地址" name="EMAIL" required autocomplete="off">
 
 						<button class="default-btn" type="submit">
-							<span>Subscribe</span>
+							<span>订阅</span>
 						</button>
 
 						<div id="validator-newsletter" class="form-result"></div>
-						<p>Join our newsletter, already 10,000 users subscribed!</p>
+						<p>加入我们的通讯，已有10,000用户订阅！</p>
 					</form>
 				</div>
 			</div>
@@ -414,7 +419,7 @@
 <div class="copy-right-area">
 	<div class="container">
 		<p>
-			© 2024 Beijing Fupeng Business Service Co., Ltd. All Rights Reserved
+			© 2024 北京富鹏商务服务有限公司 版权所有
 		</p>
 	</div>
 </div>
@@ -463,7 +468,7 @@
 <script src="{{ url_for('static', filename='assets/js/custom.js') }}"></script>
 
 <script>
-	// Smooth scroll to application form
+	// 平滑滚动到申请表单
 	document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 		anchor.addEventListener('click', function (e) {
 			e.preventDefault();
@@ -473,12 +478,12 @@
 		});
 	});
 
-	// Copy link functionality
-	document.querySelector('a[title="Copy Link"]').addEventListener('click', function(e) {
+	// 复制链接功能
+	document.querySelector('a[title="复制链接"]').addEventListener('click', function(e) {
 		e.preventDefault();
 		const url = window.location.href;
 		navigator.clipboard.writeText(url).then(function() {
-			alert('Link copied to clipboard!');
+			alert('链接已复制到剪贴板！');
 		});
 	});
 </script>

@@ -38,7 +38,18 @@ def init_db_config():
             return
         except Exception as e:
             print(f"⚠️ 无法连接 {config['name']}（{config['host']}），错误：{e}")
-    raise Exception("❌ 所有数据库配置均无法连接")
+# ********************************删除,修改*************************************
+    # 如果所有配置都无法连接，使用默认配置
+    print("⚠️ 所有数据库配置均无法连接，使用默认配置")
+    _selected_config = {
+        "host": "jq777.cn",
+        "user": "root",
+        "password": "Wzh010310",
+        "database": "zhaopin",
+        "charset": "utf8mb4"
+    }
+    print(f"✅ 使用默认数据库配置：{_selected_config['host']}")
+# ********************************删除,修改*************************************
 
 def connect_db():
     """后续统一调用这个函数获取连接"""

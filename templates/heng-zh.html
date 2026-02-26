@@ -51,7 +51,17 @@
                         {% if 'username' in session %}
                         <ul class="log-in">
                             <li>
+                                <a href="javascript:void(0);" onclick="if(window.toggleChat){window.toggleChat();}else{console.error('Chat widget not loaded');}" id="header-chat-toggle" class="chat-btn">
+                                    <i class="bx bx-chat"></i>
+                                    在线咨询
+                                </a>
+                            </li>
+                            <li>
                                 <a href="/post-resume.html">
+                                    <i class="bx bxs-file"></i>
+                                    投递简历
+                                </a>
+                            </li>
                                     <i class="bx bxs-file"></i>
                                     投递简历
                                 </a>

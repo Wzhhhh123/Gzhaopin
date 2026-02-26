@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/boxicons.min.css') }}">
+    <title>聊天日志 - 后台管理系统</title>
+    <style>
+        body { background-color: #f3f4f6; color: #111827; font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif; height: 100vh; overflow: hidden; }
+        
+        .navbar { background: #fff !important; border-bottom: 1px solid #e5e7eb; height: 60px; }
+        .navbar-brand { font-weight: 600; color: #111827 !important; }
+        .nav-link { color: #6b7280 !important; font-weight: 500; }
+        .nav-link.active { color: #2563eb !important; }
+        
+        .layout-container { display: flex; height: calc(100vh - 60px); }
+        
+        /* 左侧列表 */
+        .log-list-panel { width: 100%; flex: 1; overflow-y: auto; padding: 20px; transition: width 0.3s; }
+        .log-table { width: 100%; background: white; border-radius: 8px; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); border: 1px solid #e5e7eb; border-collapse: separate; border-spacing: 0; }
+        .log-table thead th { background: #f9fafb; padding: 12px 16px; text-align: left; font-size: 12px; font-weight: 600; color: #6b7280; text-transform: uppercase; border-bottom: 1px solid #e5e7eb; }
+        .log-table tbody tr { cursor: pointer; transition: background-color 0.15s; }
+        .log-table tbody tr:hover { background-color: #f9fafb; }
+        .log-table tbody td { padding: 16px; border-bottom: 1px solid #e5e7eb; vertical-align: top; font-size: 14px; }
+        .log-table tbody tr:last-child td { border-bottom: none; }
+        
+        .user-cell { display: flex; align-items: center; gap: 10px; font-weight: 500; color: #374151; position: relative; }
+        .avatar { width: 32px; height: 32px; background: #dbeafe; color: #2563eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; }
+        .status-badge { display: inline-flex; align-items: center; padding: 2px 8px; background: #ecfdf5; color: #059669; font-size: 12px; border-radius: 999px; font-weight: 500; }
+        .status-dot { width: 6px; height: 6px; background: #059669; border-radius: 50%; margin-right: 6px; }
+        
+        .unread-dot {
+            width: 8px; height: 8px; background-color: #22c55e; border-radius: 50%; 
+            position: absolute; top: -2px; left: -2px; border: 1px solid white;
+        }
+        
+        /* 右侧详情抽屉 */
+        .detail-drawer { width: 450px; background: white; border-left: 1px solid #e5e7eb; display: none; flex-direction: column; height: 100%; position: relative; box-shadow: -4px 0 15px rgba(0,0,0,0.05); }
+        .drawer-header { padding: 16px 20px; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center; background: #fff; }
+        .drawer-title { font-size: 16px; font-weight: 600; color: #111827; }
+        .drawer-close { cursor: pointer; color: #9ca3af; font-size: 20px; transition: color 0.2s; }
+        .drawer-close:hover { color: #4b5563; }
+        
+        .chat-history { flex: 1; overflow-y: auto; padding: 20px; background: #f9fafb; display: flex; flex-direction: column; gap: 16px; }
+        
+        .chat-bubble { max-width: 85%; padding: 12px 16px; border-radius: 12px; font-size: 14px; line-height: 1.5; position: relative; }
+        .chat-bubble.user { align-self: flex-end; background: #eff6ff; color: #1e40af; border-bottom-right-radius: 2px; }
+        .chat-bubble.bot { align-self: flex-start; background: white; color: #374151; border: 1px solid #e5e7eb; border-bottom-left-radius: 2px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        .bubble-meta { font-size: 11px; margin-top: 4px; opacity: 0.6; display: flex; justify-content: flex-end; }
+        .chat-bubble.bot .bubble-meta { justify-content: flex-start; }
+        
+        /* 当抽屉打开时，缩小列表区域 */
+        .layout-container.drawer-open .log-list-panel { width: calc(100% - 450px); }
+        .layout-container.drawer-open .detail-drawer { display: flex; }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid px-4">
+        <a class="navbar-brand" href="#">
+            <i class='bx bx-cube-alt'></i> 招聘管理后台
+        </a>
+        <div class="navbar-nav ml-auto">
+            <a class="nav-link" href="{{ url_for('admin_resumes') }}">简历管理</a>
+            <a class="nav-link" href="#">职位管理</a>
+            <a class="nav-link active" href="{{ url_for('admin_chat_logs') }}">聊天记录</a>
+            <a class="nav-link" href="/">返回主站</a>
+        </div>
+    </div>
+</nav>
+
+<div class="layout-container" id="layoutContainer">
+    <!-- 左侧日志列表 -->
+    <div class="log-list-panel">
+        <div class="mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="mb-0 font-weight-bold" style="font-size: 18px;">日志</h4>
+            </div>
+            
+            <div class="filter-bar d-flex align-items-center bg-white p-3 rounded shadow-sm border" style="gap: 15px;">
+                <!-- Time Filter -->
+                <div class="position-relative">
+                    <i class='bx bx-calendar position-absolute text-muted' style="left: 10px; top: 9px; z-index: 1;"></i>
+                    <select class="form-control form-control-sm pl-4 border-0 bg-light" style="width: 140px; cursor: pointer;" id="dateFilter" onchange="applyFilters()">
+                        <option value="today">今天</option>
+                        <option value="7" selected>过去 7 天</option>
+                        <option value="30">过去 30 天</option>
+                        <option value="all">全部</option>
+                    </select>
+                </div>
+                
+                <!-- Status Filter (Simulated) -->
+                <select class="form-control form-control-sm border-0 bg-light" style="width: 100px; cursor: pointer;" id="statusFilter" onchange="applyFilters()">
+                    <option value="all">全部状态</option>
+                    <option value="unread">未读</option>
+                </select>
+
+                <!-- Search -->
+                <div class="flex-grow-1 position-relative">
+                    <i class='bx bx-search position-absolute text-muted' style="left: 10px; top: 9px;"></i>
+                    <input type="text" class="form-control form-control-sm border-0 bg-light pl-4" placeholder="搜索 (支持用户名)" id="searchInput" onkeyup="applyFilters()">
+                </div>
+
+                <!-- Sort -->
+                <div class="d-flex align-items-center text-muted small">
+                    <span class="mr-2">排序:</span>
+                    <select class="form-control form-control-sm border-0 bg-transparent p-0 font-weight-bold text-dark" style="width: auto; cursor: pointer;" id="sortFilter" onchange="applyFilters()">
+                        <option value="updated">更新时间</option>
+                        <option value="created">创建时间</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <table class="log-table" id="logsTable">
+            <thead>
+                <tr>
+                    <th style="width: 180px;">用户</th>
+                    <th>最新消息</th>
+                    <th style="width: 120px;">状态</th>
+                    <th style="width: 100px;">消息数</th>
+                    <th style="width: 100px;">未读数</th>
+                    <th style="width: 180px;">更新时间</th>
+                    <th style="width: 180px;">创建时间</th>
+                </tr>
+            </thead>
+            <tbody id="logsBody">
+                {% for session in logs %}
+                <tr class="log-row" 
+                    onclick="openDrawer('{{ session.username }}'); markAsRead(this);"
+                    data-username="{{ session.username|lower }}"
+                    data-unread="{{ session.unread_count }}"
+                    data-updated="{{ session.updated_at.strftime('%Y-%m-%d %H:%M:%S') }}"
+                    data-created="{{ session.created_at.strftime('%Y-%m-%d %H:%M:%S') }}">
+                    <td>
+                        <div class="user-cell">
+                            {% if session.unread_count > 0 %}
+                            <div class="unread-dot"></div>
+                            {% endif %}
+                            <div class="avatar">{{ session.username[:1].upper() }}</div>
+                            <div class="text-truncate" style="max-width: 120px;">{{ session.username }}</div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="text-truncate" style="max-width: 300px; font-weight: 500; color: #111827;">{{ session.last_message }}</div>
+                    </td>
+                    <td>
+                        <div class="status-badge" style="position: relative;">
+                            <span class="status-dot"></span> SUCCESS
+                        </div>
+                    </td>
+                    <td>
+                        <span class="badge badge-light" style="font-size: 13px; color: #666; background-color: #f1f5f9; padding: 5px 10px;">{{ session.total_count }}</span>
+                    </td>
+                    <td>
+                        {% if session.unread_count > 0 %}
+                        <span class="badge badge-success" style="font-size: 12px; background-color: #22c55e; color: white; padding: 4px 8px; border-radius: 10px;">{{ session.unread_count }}</span>
+                        {% else %}
+                        <span class="text-muted" style="font-size: 13px;">0</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-muted small">
+                        {{ session.updated_at.strftime('%Y-%m-%d %H:%M:%S') }}
+                    </td>
+                    <td class="text-muted small">
+                        {{ session.created_at.strftime('%Y-%m-%d %H:%M:%S') }}
+                    </td>
+                </tr>
+                {% else %}
+                <tr class="no-data">
+                    <td colspan="7" class="text-center py-5 text-muted">暂无日志数据</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 右侧详情抽屉 -->
+    <div class="detail-drawer" id="detailDrawer">
+        <div class="drawer-header">
+            <div class="drawer-title">对话详情</div>
+            <div class="drawer-close" onclick="closeDrawer()">&times;</div>
+        </div>
+        <div class="chat-history" id="chatHistoryContent">
+            <!-- 动态加载内容 -->
+            <div class="text-center text-muted mt-5">正在加载...</div>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='assets/js/jquery-1.10.2.js') }}"></script>
+<script>
+    function openDrawer(username) {
+        $('#layoutContainer').addClass('drawer-open');
+        $('#chatHistoryContent').html('<div class="d-flex justify-content-center mt-5"><div class="spinner-border text-primary" role="status"></div></div>');
+        $('.drawer-title').text('与 ' + username + ' 的对话');
+        
+        // AJAX 获取完整对话
+        $.get('/api/admin/chat_history/' + username, function(data) {
+            var html = '';
+            if(data.logs && data.logs.length > 0) {
+                data.logs.forEach(function(msg) {
+                    var bubbleClass = msg.sender === 'user' ? 'user' : 'bot';
+                    var unreadIndicator = '';
+                    
+                    // User requested green dot for unread messages inside the history view
+                    if (msg.sender === 'user' && !msg.is_read) {
+                        unreadIndicator = '<span class="unread-dot" style="position: absolute; top: 10px; left: -12px; width: 6px; height: 6px; background-color: #22c55e; border-radius: 50%;"></span>';
+                    }
+                    
+                    html += `
+                        <div class="chat-bubble ${bubbleClass}" style="position: relative;">
+                            ${unreadIndicator}
+                            <div>${msg.message}</div>
+                            <div class="bubble-meta">${msg.created_at}</div>
+                        </div>
+                    `;
+                });
+            } else {
+                html = '<div class="text-center text-muted mt-5">暂无详细记录</div>';
+            }
+            $('#chatHistoryContent').html(html);
+            // 滚动到底部
+            var container = document.getElementById('chatHistoryContent');
+            container.scrollTop = container.scrollHeight;
+        });
+    }
+    
+    function markAsRead(element) {
+        // 移除未读红点
+        var dot = $(element).find('.unread-dot');
+        if(dot.length) {
+            dot.remove();
+        }
+    }
+
+    function closeDrawer() {
+        $('#layoutContainer').removeClass('drawer-open');
+    }
+
+    // 筛选和排序逻辑
+    function applyFilters() {
+        var dateVal = document.getElementById('dateFilter').value;
+        var statusVal = document.getElementById('statusFilter').value;
+        var searchVal = document.getElementById('searchInput').value.toLowerCase();
+        var sortVal = document.getElementById('sortFilter').value; // 'updated' or 'created'
+
+        var rows = $('.log-row');
+        var now = new Date();
+        var hasVisible = false;
+
+        // 移除旧的空提示
+        $('.no-data-msg').remove();
+
+        rows.each(function() {
+            var row = $(this);
+            var username = (row.data('username') || '').toString();
+            var unread = parseInt(row.data('unread')) || 0;
+            var updatedStr = row.data('updated');
+            var updatedDate = new Date(updatedStr.replace(/-/g, '/')); 
+            
+            var show = true;
+
+            // 1. 日期筛选 (基于更新时间)
+            if (dateVal !== 'all') {
+                if (dateVal === 'today') {
+                   // 仅显示今天的
+                   if (updatedDate.toDateString() !== now.toDateString()) show = false;
+                } else {
+                    var days = parseInt(dateVal);
+                    var diffTime = now - updatedDate; // 毫秒差
+                    var diffDays = diffTime / (1000 * 60 * 60 * 24); 
+                    if (diffDays > days) show = false;
+                }
+            }
+
+            // 2. 状态筛选
+            if (statusVal === 'unread' && unread === 0) show = false;
+
+            // 3. 搜索筛选
+            if (searchVal && username.indexOf(searchVal) === -1) show = false;
+
+            row.toggle(show);
+            if(show) hasVisible = true;
+        });
+
+        // 排序逻辑 (对显示的行进行重排)
+        var visibleRows = rows.filter(':visible').get();
+        visibleRows.sort(function(a, b) {
+             var key = sortVal; // 'updated' or 'created'
+             var aVal = $(a).data(key);
+             var bVal = $(b).data(key);
+             var aDate = new Date(aVal.replace(/-/g, '/'));
+             var bDate = new Date(bVal.replace(/-/g, '/'));
+             return bDate - aDate; // 降序: 新的在前
+        });
+
+        $.each(visibleRows, function(index, row) {
+            $('#logsBody').append(row); // 重新追加到 DOM 以变更顺序
+        });
+        
+        // 显示暂无数据
+        if (!hasVisible) {
+           $('#logsBody').append('<tr class="no-data-msg"><td colspan="7" class="text-center py-5 text-muted">没有匹配的记录</td></tr>');
+        }
+    }
+</script>
+</body>
+</html>

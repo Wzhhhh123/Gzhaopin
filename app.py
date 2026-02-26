@@ -11,6 +11,7 @@ from datetime import datetime, timedelta
 import random
 import os
 import uuid
+import requests
 from werkzeug.utils import secure_filename
 import mimetypes
 import re
@@ -21,6 +22,10 @@ from functools import wraps
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = '79537d00f4834892986f09a100aa1edf'
+# Dify API Config
+app.config['DIFY_API_KEY'] = 'app-OEyqTnbm80VvYpCe6QM0SZ4y'
+app.config['DIFY_BASE_URL'] = 'https://api.dify.ai/v1'
+
 # 配置文件上传
 # 配置文件上传
 UPLOAD_FOLDER = 'static/uploads/resumes'
@@ -29,14 +34,22 @@ MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB
 
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-init_db_config()
+# ********************************删除,无修改*************************************
 # 配置Babel
 app.config['BABEL_DEFAULT_LOCALE'] = 'en'
 app.config['LANGUAGES'] = {
     'en': 'English',
     'zh': '中文'
 }
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Wzh010310@192.168.1.185/job_db'
+# ********************************删除,修改*************************************
+# 初始化数据库配置
+init_db_config()
+from db import _selected_config
+if _selected_config:
+    app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{_selected_config['user']}:{_selected_config['password']}@{_selected_config['host']}/{_selected_config['database']}"
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Wzh010310@jq777.cn/zhaopin'
+# ********************************删除,修改*************************************
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -145,6 +158,16 @@ class JobApplication(db.Model):
 
     # 关系
     job = db.relationship('Job', backref=db.backref('applications', lazy=True))
+
+class ChatLog(db.Model):
+    __tablename__ = 'chat_logs'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_username = db.Column(db.String(50), nullable=False)
+    message = db.Column(db.Text, nullable=False)
+    sender = db.Column(db.String(20), nullable=False) # 'user' or 'bot'
+    is_read = db.Column(db.Boolean, default=False) # 新增：已读状态
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
 # 生成示例数据
 # 生成示例数据
 # 生成示例数据
@@ -462,14 +485,17 @@ def login_required(f):
             return redirect(url_for('login'))
         return f(*args, **kwargs)
     return decorated_function
-babel = Babel(app)
-@babel.localeselector
+# ********************************删除,无修改*************************************
 def get_locale():
     # 如果用户选择了语言并保存在session中，使用该语言
     if 'language' in session:
         return session['language']
     # 否则使用浏览器默认语言
     return request.accept_languages.best_match(app.config['LANGUAGES'].keys())
+# ********************************删除,修改*************************************
+
+babel = Babel(app, locale_selector=get_locale)
+# ********************************删除,修改*************************************
 @app.route('/set_language/<language>')
 def set_language(language):
     session['language'] = language
@@ -666,6 +692,14 @@ def employers_details():
 @app.route('/faq.html')
 def faq():
     return render_template('blog-details.html')
+
+# 聊天页面
+@app.route('/chat-zh.html')
+def chat_page():
+    #if 'username' not in session:
+    #    flash('请先登录', 'warning')
+    #    return redirect(url_for('login'))
+    return render_template('chat-zh.html')
 
 # 自由职业者
 @app.route('/freelancer.html')
@@ -1479,6 +1513,168 @@ def delete_resume(resume_id):
 
     flash('简历已删除', 'success')
     return redirect(url_for('admin_resumes'))
+
+# -------------------- 聊天机器人 API --------------------
+@app.route('/api/chat/send', methods=['POST'])
+def send_chat_message():
+    if 'username' not in session:
+        return {'error': 'Unauthorized'}, 401
+    
+    data = request.json
+    user_message = data.get('query')
+    conversation_id = data.get('conversation_id', '')
+    
+    if not user_message:
+        return {'error': 'Empty message'}, 400
+
+    username = session['username']
+    
+    # 1. 保存用户消息
+    user_log = ChatLog(user_username=username, message=user_message, sender='user')
+    db.session.add(user_log)
+    db.session.commit()
+    
+    # 2. 调用 Dify API
+    api_key = app.config.get('DIFY_API_KEY')
+    if not api_key or api_key == 'YOUR_DIFY_API_KEY_HERE':
+        app.logger.warning("Dify API Key not configured")
+        # 仅用于测试，返回模拟响应
+        # return {'answer': '请先配置 Dify API Key', 'conversation_id': conversation_id}
+    
+    headers = {
+        'Authorization': f"Bearer {api_key}",
+        'Content-Type': 'application/json'
+    }
+    payload = {
+        "inputs": {},
+        "query": user_message,
+        "response_mode": "blocking",
+        "conversation_id": conversation_id,
+        "user": username
+    }
+    
+    try:
+        dify_url = f"{app.config.get('DIFY_BASE_URL', 'https://api.dify.ai/v1')}/chat-messages"
+        response = requests.post(
+            dify_url,
+            headers=headers,
+            json=payload,
+            timeout=30
+        )
+        
+        # 处理会话不存在的情况 (404/400)，尝试重置会话
+        if response.status_code in [404, 400] and conversation_id:
+            app.logger.warning(f"Dify conversation {conversation_id} invalid, retrying with new session.")
+            payload['conversation_id'] = ''
+            response = requests.post(
+                dify_url,
+                headers=headers,
+                json=payload,
+                timeout=30
+            )
+
+        if response.status_code != 200:
+            error_msg = response.json().get('message', 'Unknown Error')
+            return {'error': f"Dify API Error ({response.status_code}): {error_msg}"}, response.status_code
+
+        response_data = response.json()
+        
+        # 3. 处理 Dify 响应
+        bot_message = response_data.get('answer', '')
+        new_conversation_id = response_data.get('conversation_id', '')
+        
+        # 4. 保存机器人回复
+        if bot_message:
+            bot_log = ChatLog(user_username=username, message=bot_message, sender='bot')
+            db.session.add(bot_log)
+            db.session.commit()
+            
+        return {
+            'answer': bot_message,
+            'conversation_id': new_conversation_id
+        }
+        
+    except Exception as e:
+        app.logger.error(f"Dify API Error: {str(e)}")
+        return {'error': 'Chat service unavailable', 'details': str(e)}, 500
+
+@app.route('/admin/chat_logs')
+@admin_required
+def admin_chat_logs():
+    # 1. 获取所有有聊天记录的用户列表
+    users_query = db.session.query(ChatLog.user_username).distinct()
+    all_users = [u[0] for u in users_query]
+    
+    # 2. 获取每个用户最后一次发言 (Turn) 
+    
+    chat_sessions = []
+    
+    for user in all_users:
+        # 1. 获取该用户最后一条 **用户发送的** 消息 (用于列表展示的问题)
+        last_user_msg = ChatLog.query.filter_by(user_username=user, sender='user').order_by(ChatLog.created_at.desc()).first()
+        
+        # 2. 获取最后一条任意消息 (用于排序和时间显示)
+        last_any_msg = ChatLog.query.filter_by(user_username=user).order_by(ChatLog.created_at.desc()).first()
+
+        # 3. 获取消息总数 (仅计算用户提问)
+        user_msg_count = ChatLog.query.filter_by(user_username=user, sender='user').count()
+
+        # 4. 获取未读数 (仅计算用户发的消息且未读的)
+        unread_count = ChatLog.query.filter_by(user_username=user, sender='user', is_read=False).count()
+        
+        # 5. 获取首次对话时间
+        first_msg = ChatLog.query.filter_by(user_username=user).order_by(ChatLog.created_at.asc()).first()
+
+        if last_any_msg:
+            # 如果没有用户消息（只有机器人消息，罕见但可能），则降级显示最后一条
+            display_msg = last_user_msg.message if last_user_msg else last_any_msg.message
+            
+            # UTC 转 UTC+8 (北京时间)
+            updated_at_bj = last_any_msg.created_at + timedelta(hours=8)
+            created_at_bj = (first_msg.created_at if first_msg else last_any_msg.created_at) + timedelta(hours=8)
+            
+            chat_sessions.append({
+                'username': user,
+                'last_message': display_msg,
+                'updated_at': updated_at_bj,
+                'created_at': created_at_bj,
+                'unread_count': unread_count,
+                'total_count': user_msg_count
+            })
+            
+    # 按更新时间倒序排列会话
+    chat_sessions.sort(key=lambda x: x['updated_at'], reverse=True)
+        
+    return render_template('admin-chat-logs.html', logs=chat_sessions)
+
+from sqlalchemy import case
+
+@app.route('/api/admin/chat_history/<username>')
+@admin_required
+def get_user_chat_history(username):
+    """获取指定用户的完整聊天记录（用于右侧详情页）"""
+    # 获取记录
+    logs = ChatLog.query.filter_by(user_username=username).order_by(ChatLog.created_at).all()
+    
+    # 构建返回数据，保留原始的 is_read 状态给前端显示
+    response_data = {
+        'logs': [
+            {
+                'id': log.id,
+                'message': log.message,
+                'sender': log.sender,
+                'is_read': log.is_read, # 返回读取状态
+                'created_at': (log.created_at + timedelta(hours=8)).strftime('%Y-%m-%d %H:%M:%S') # UTC+8
+            } for log in logs
+        ]
+    }
+
+    # 标记该用户的所有未读消息为已读 (在返回数据构建完成之后进行，避免影响本次显示)
+    # 仅标记 sender='user' 的消息，或者所有未读消息
+    ChatLog.query.filter_by(user_username=username, is_read=False).update({'is_read': True})
+    db.session.commit()
+    
+    return response_data
 if __name__ == "__main__":
     try:
         with app.app_context():

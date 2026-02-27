@@ -1534,13 +1534,10 @@ def send_chat_message():
     db.session.add(user_log)
     db.session.commit()
     
-    # 2. 调用 Dify API
+    # 2. 调用 Dify API (增加重试机制和反代理干扰)
     api_key = app.config.get('DIFY_API_KEY')
-    if not api_key or api_key == 'YOUR_DIFY_API_KEY_HERE':
-        app.logger.warning("Dify API Key not configured")
-        # 仅用于测试，返回模拟响应
-        # return {'answer': '请先配置 Dify API Key', 'conversation_id': conversation_id}
-    
+    dify_url = f"{app.config.get('DIFY_BASE_URL', 'https://api.dify.ai/v1')}/chat-messages"
+
     headers = {
         'Authorization': f"Bearer {api_key}",
         'Content-Type': 'application/json'
@@ -1553,50 +1550,53 @@ def send_chat_message():
         "user": username
     }
     
-    try:
-        dify_url = f"{app.config.get('DIFY_BASE_URL', 'https://api.dify.ai/v1')}/chat-messages"
-        response = requests.post(
-            dify_url,
-            headers=headers,
-            json=payload,
-            timeout=30
-        )
-        
-        # 处理会话不存在的情况 (404/400)，尝试重置会话
-        if response.status_code in [404, 400] and conversation_id:
-            app.logger.warning(f"Dify conversation {conversation_id} invalid, retrying with new session.")
-            payload['conversation_id'] = ''
+    # 重试 3 次
+    max_retries = 3
+    for attempt in range(max_retries):
+        try:
+            # proxies={} 强制不使用系统代理，防止 VPN 干扰
             response = requests.post(
                 dify_url,
                 headers=headers,
                 json=payload,
-                timeout=30
+                timeout=30,
+                proxies={} 
             )
-
-        if response.status_code != 200:
-            error_msg = response.json().get('message', 'Unknown Error')
-            return {'error': f"Dify API Error ({response.status_code}): {error_msg}"}, response.status_code
-
-        response_data = response.json()
-        
-        # 3. 处理 Dify 响应
-        bot_message = response_data.get('answer', '')
-        new_conversation_id = response_data.get('conversation_id', '')
-        
-        # 4. 保存机器人回复
-        if bot_message:
-            bot_log = ChatLog(user_username=username, message=bot_message, sender='bot')
-            db.session.add(bot_log)
-            db.session.commit()
             
-        return {
-            'answer': bot_message,
-            'conversation_id': new_conversation_id
-        }
-        
-    except Exception as e:
-        app.logger.error(f"Dify API Error: {str(e)}")
-        return {'error': 'Chat service unavailable', 'details': str(e)}, 500
+            # 处理会话不存在的情况 (404/400)，尝试重置会话
+            if response.status_code in [404, 400] and conversation_id:
+                app.logger.warning(f"Dify conversation {conversation_id} invalid, retrying with new session.")
+                payload['conversation_id'] = ''
+                continue # 重新发起请求（因为清空了 conversation_id）
+
+            if response.status_code != 200:
+                error_msg = response.json().get('message', 'Unknown Error')
+                app.logger.error(f"Dify API Error ({response.status_code}): {error_msg}")
+                # 如果不是 200，不要立即重试以免刷屏，除非是特定错误。这里选择直接返回错误。
+                return {'error': f"Dify API Error: {error_msg}"}, response.status_code
+
+            response_data = response.json()
+            
+            # 3. 处理 Dify 响应
+            bot_message = response_data.get('answer', '')
+            new_conversation_id = response_data.get('conversation_id', '')
+            
+            # 4. 保存机器人回复
+            if bot_message:
+                bot_log = ChatLog(user_username=username, message=bot_message, sender='bot')
+                db.session.add(bot_log)
+                db.session.commit()
+                
+            return {
+                'answer': bot_message,
+                'conversation_id': new_conversation_id
+            }
+            
+        except Exception as e:
+            app.logger.error(f"Attempt {attempt+1}/{max_retries} failed: {str(e)}")
+            if attempt == max_retries - 1: # 最后一次尝试也失败
+                return {'error': 'Chat service unavailable (Network Error)', 'details': str(e)}, 500
+            # 否则继续下一次循环重试
 
 @app.route('/admin/chat_logs')
 @admin_required

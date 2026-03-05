@@ -116,8 +116,8 @@
         <table class="log-table" id="logsTable">
             <thead>
                 <tr>
-                    <th style="width: 180px;">用户</th>
-                    <th>最新消息</th>
+                    <th style="width: 260px;">用户</th>
+                    <th style="padding-left: 20px;">最新消息</th>
                     <th style="width: 120px;">状态</th>
                     <th style="width: 100px;">消息数</th>
                     <th style="width: 100px;">未读数</th>
@@ -139,10 +139,10 @@
                             <div class="unread-dot"></div>
                             {% endif %}
                             <div class="avatar">{{ session.username[:1].upper() }}</div>
-                            <div class="text-truncate" style="max-width: 120px;">{{ session.username }}</div>
+                            <div class="text-truncate" style="max-width: 200px;" title="{{ session.username }}">{{ session.username }}</div>
                         </div>
                     </td>
-                    <td>
+                    <td style="padding-left: 20px;">
                         <div class="text-truncate" style="max-width: 300px; font-weight: 500; color: #111827;">{{ session.last_message }}</div>
                     </td>
                     <td>

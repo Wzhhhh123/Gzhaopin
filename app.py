@@ -1517,8 +1517,13 @@ def delete_resume(resume_id):
 # -------------------- 聊天机器人 API --------------------
 @app.route('/api/chat/send', methods=['POST'])
 def send_chat_message():
-    if 'username' not in session:
-        return {'error': 'Unauthorized'}, 401
+    # 允许游客访问，根据登录状态决定用户名
+    if 'username' in session:
+        username = session['username']
+    else:
+        # 生成游客用户名：当前日期 + "游客（未登录）"
+        # 使用 UTC+8 (北京时间) 以确保跨天正确
+        username = (datetime.utcnow() + timedelta(hours=8)).strftime('%Y-%m-%d') + "游客（未登录）"
     
     data = request.json
     user_message = data.get('query')
@@ -1527,9 +1532,10 @@ def send_chat_message():
     if not user_message:
         return {'error': 'Empty message'}, 400
 
-    username = session['username']
+    # username 已在上面确定，无需 session['username']
     
     # 1. 保存用户消息
+
     user_log = ChatLog(user_username=username, message=user_message, sender='user')
     db.session.add(user_log)
     db.session.commit()
